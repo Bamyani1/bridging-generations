@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +40,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# spec docs live one level above site/ — defense-in-depth so they never enter the repo
+_specs/
+_research/
+_archive/
+
+# claude code harness — never committed
+.claude/
+.claude-code/
+CLAUDE.md
+AGENTS.md
