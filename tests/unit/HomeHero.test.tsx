@@ -1,29 +1,33 @@
 import { render, screen } from "@testing-library/react";
+import type { ComponentProps, ReactNode } from "react";
+import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { mockMatchMediaAdd, mockRevert, mockSet, mockTimelineTo, mockTimeline } = vi.hoisted(() => {
-  const to = vi.fn();
-  to.mockReturnThis();
-  const timeline = vi.fn(() => ({ to }));
+const { mockUseReducedMotion } = vi.hoisted(() => ({
+  mockUseReducedMotion: vi.fn(() => false),
+}));
+
+vi.mock("motion/react", () => {
+  type AnyProps = { children?: ReactNode } & Record<string, unknown>;
+  const stripMotion = ({
+    initial: _initial,
+    animate: _animate,
+    exit: _exit,
+    transition: _transition,
+    layout: _layout,
+    ...rest
+  }: AnyProps) => rest;
+  const factory = (tag: string) => (props: AnyProps) => createElement(tag, stripMotion(props));
   return {
-    mockMatchMediaAdd: vi.fn(),
-    mockRevert: vi.fn(),
-    mockSet: vi.fn(),
-    mockTimelineTo: to,
-    mockTimeline: timeline,
+    motion: new Proxy({} as Record<string, ReturnType<typeof factory>>, {
+      get: (_target, prop: string) => factory(prop),
+    }),
+    useReducedMotion: () => mockUseReducedMotion(),
   };
 });
 
-vi.mock("gsap", () => ({
-  gsap: {
-    matchMedia: () => ({ add: mockMatchMediaAdd, revert: mockRevert }),
-    set: mockSet,
-    timeline: mockTimeline,
-  },
-}));
-
 vi.mock("next/image", () => ({
-  default: ({ alt, src }: { alt: string; src: string }) => (
+  default: ({ alt, src }: ComponentProps<"img">) => (
     // biome-ignore lint/performance/noImgElement: next/image is stubbed to a plain img for jsdom tests
     <img alt={alt} src={typeof src === "string" ? src : ""} />
   ),
@@ -46,11 +50,8 @@ const ein = "00-0000000";
 
 describe("HomeHero", () => {
   beforeEach(() => {
-    mockMatchMediaAdd.mockClear();
-    mockRevert.mockClear();
-    mockSet.mockClear();
-    mockTimelineTo.mockClear();
-    mockTimeline.mockClear();
+    mockUseReducedMotion.mockReset();
+    mockUseReducedMotion.mockReturnValue(false);
   });
 
   it("renders each headline line", () => {
@@ -103,33 +104,10 @@ describe("HomeHero", () => {
     expect(img).toBeInTheDocument();
   });
 
-  it("registers a gsap.matchMedia branch for reduced and full motion", () => {
+  it("renders correctly when reduced motion is preferred", () => {
+    mockUseReducedMotion.mockReturnValue(true);
     render(<HomeHero stats={stats} ein={ein} />);
-    expect(mockMatchMediaAdd).toHaveBeenCalledTimes(1);
-    const [mediaQueries] = mockMatchMediaAdd.mock.calls[0];
-    expect(mediaQueries).toEqual({
-      reduceMotion: "(prefers-reduced-motion: reduce)",
-      fullMotion: "(prefers-reduced-motion: no-preference)",
-    });
-  });
-
-  it("runs the entrance timeline when reduceMotion is false", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
-    const callback = mockMatchMediaAdd.mock.calls[0][1] as (ctx: {
-      conditions: { reduceMotion: boolean; fullMotion: boolean };
-    }) => void;
-    callback({ conditions: { reduceMotion: false, fullMotion: true } });
-    expect(mockSet).toHaveBeenCalled();
-    expect(mockTimeline).toHaveBeenCalledTimes(1);
-  });
-
-  it("skips the entrance timeline when reduceMotion is true", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
-    const callback = mockMatchMediaAdd.mock.calls[0][1] as (ctx: {
-      conditions: { reduceMotion: boolean; fullMotion: boolean };
-    }) => void;
-    callback({ conditions: { reduceMotion: true, fullMotion: false } });
-    expect(mockSet).not.toHaveBeenCalled();
-    expect(mockTimeline).not.toHaveBeenCalled();
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
+    expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
   });
 });

@@ -1,3 +1,4 @@
+import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
 // Report-only until Phase 10.6 flips this to an enforcing `Content-Security-Policy`.
@@ -39,4 +40,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const analyze = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "1",
+  openAnalyzer: false,
+});
+
+export default analyze(nextConfig);
