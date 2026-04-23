@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { SectionShell } from "@/app/design/_components/SectionShell";
+import { SectionShell } from "@/app/(site)/design/_components/SectionShell";
 
 describe("SectionShell", () => {
   it("renders its section id for fragment navigation", () => {

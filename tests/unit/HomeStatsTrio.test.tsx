@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { HomeStatsTrio } from "@/app/_components/HomeStatsTrio";
+import { HomeStatsTrio } from "@/app/(site)/_components/HomeStatsTrio";
 import { statsSnapshot } from "@/content/fixtures/statsSnapshot";
 
 describe("HomeStatsTrio", () => {

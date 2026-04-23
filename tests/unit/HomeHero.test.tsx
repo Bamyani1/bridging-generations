@@ -29,7 +29,7 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-import { HomeHero } from "@/app/_components/HomeHero";
+import { HomeHero } from "@/app/(site)/_components/HomeHero";
 import { siteSettings } from "@/content/fixtures/siteSettings";
 import { statsSnapshot } from "@/content/fixtures/statsSnapshot";
 

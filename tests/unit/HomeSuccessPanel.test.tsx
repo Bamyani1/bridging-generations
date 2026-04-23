@@ -8,7 +8,7 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-import { HomeSuccessPanel } from "@/app/_components/HomeSuccessPanel";
+import { HomeSuccessPanel } from "@/app/(site)/_components/HomeSuccessPanel";
 import { getFeaturedSuccessStory } from "@/content/fixtures/successStories";
 
 describe("HomeSuccessPanel", () => {
