@@ -16,3 +16,28 @@ export async function getFeaturedProjects(limit = 2): Promise<Project[]> {
   const active = ranked.filter((p) => p.status !== "paused");
   return active.slice(0, limit);
 }
+
+export type ProjectStatus = Project["status"];
+
+export type ProjectsByStatus = {
+  active: Project[];
+  paused: Project[];
+  funded: Project[];
+};
+
+function byOrder(a: Project, b: Project) {
+  return (a.order ?? 0) - (b.order ?? 0);
+}
+
+export function splitProjectsByStatus(projects: Project[]): ProjectsByStatus {
+  const sorted = [...projects].sort(byOrder);
+  return {
+    active: sorted.filter((p) => p.status === "active"),
+    paused: sorted.filter((p) => p.status === "paused"),
+    funded: sorted.filter((p) => p.status === "funded"),
+  };
+}
+
+export async function getProjectsByStatus(): Promise<ProjectsByStatus> {
+  return splitProjectsByStatus(await getAllProjects());
+}
