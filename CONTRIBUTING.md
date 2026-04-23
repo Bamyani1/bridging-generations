@@ -11,7 +11,7 @@ Developers edit code in GitHub; editors edit content in Keystatic. The two never
 
 ## How to open the admin
 
-1. Go to the site's preview URL: `[CONFIRM: preview URL, e.g. https://bridginggenerations-preview.vercel.app]/keystatic`.
+1. Go to your Vercel preview URL for this project: `https://<your-project>.vercel.app/keystatic`.
 2. Sign in with your GitHub account. You only need to do this once per browser.
 3. You'll see the admin sidebar with two groups:
    - **Collections** — records that come in batches: schools, students, projects, activities, blog posts, success stories, testimonials, gallery images, board members.
@@ -111,3 +111,16 @@ If in doubt, edit a value, save, and look at the preview URL.
 - **The admin won't load.** Refresh. If still broken, try a different browser. If still broken, ping the site admin.
 - **My change isn't showing on the site.** Wait 2 minutes, then reload the preview URL. If it's still not there after 5 minutes, ping the site admin — a build may have failed.
 - **I made a mistake.** Every edit is a git commit; nothing is unrecoverable. Ask the admin to roll back and don't panic.
+
+## Pre-launch content checklist
+
+Before the site flips from preview to production, these Site settings fields must have real values — the public routes render defensive fallbacks when any of them is still a `[CONFIRM:]` stub, but the fallbacks are there for safety, not for launch.
+
+- [ ] `ein` — the organization's real 9-digit EIN (replaces the `00-0000000` placeholder).
+- [ ] `mailingAddress` — a real address or an explicit "we operate remotely" note.
+- [ ] `form990Url` — link to the most recent Form 990 PDF (or leave blank; /about renders a neutral "filings appear here as soon as available" paragraph when empty).
+- [ ] `candidProfileUrl` — GuideStar/Candid profile URL (same empty-is-fine rule).
+- [ ] `socialLinks.{instagram, facebook, linkedin, youtube}` — fill in whichever the org actually uses; empty strings hide those links.
+- [ ] Real board portraits for every `boardMember` if the currently-loaded placeholders aren't the board's final choice.
+- [ ] Real gallery photos for `gallery/*` if any of the 11 CC0 samples should be replaced with the board's own images.
+
