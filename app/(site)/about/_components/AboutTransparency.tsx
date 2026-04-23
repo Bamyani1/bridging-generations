@@ -1,0 +1,110 @@
+import { Eyebrow } from "@/components/ui/Eyebrow";
+
+type AboutTransparencyProps = {
+  orgName: string;
+  foundingYear: number;
+  ein: string;
+  form990Url: string | null;
+  candidProfileUrl: string | null;
+  mailingAddress: string;
+  contactEmail: string;
+};
+
+export function AboutTransparency({
+  orgName,
+  foundingYear,
+  ein,
+  form990Url,
+  candidProfileUrl,
+  mailingAddress,
+  contactEmail,
+}: AboutTransparencyProps) {
+  const hasAnyFinancialLink = Boolean(form990Url) || Boolean(candidProfileUrl);
+
+  return (
+    <section
+      aria-labelledby="about-transparency-title"
+      className="bg-ground-2 px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
+    >
+      <div className="mx-auto flex max-w-[1280px] flex-col gap-10 lg:gap-14">
+        <div className="flex flex-col gap-4">
+          <Eyebrow>Transparency</Eyebrow>
+          <h2
+            id="about-transparency-title"
+            className="max-w-[24ch] text-balance text-heading-2 text-ink"
+          >
+            Where your donation goes.
+          </h2>
+        </div>
+        <dl className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:gap-14">
+          <div className="flex flex-col gap-3">
+            <dt className="text-eyebrow uppercase text-accent">Legal</dt>
+            <dd className="flex flex-col gap-2 text-body text-ink-2">
+              <span className="text-ink">{orgName}</span>
+              <span>Founded {foundingYear}</span>
+              <span>501(c)(3) nonprofit</span>
+              <span>
+                EIN <span className="tabular-nums">{ein}</span>
+              </span>
+            </dd>
+          </div>
+          <div className="flex flex-col gap-3">
+            <dt className="text-eyebrow uppercase text-accent">Financials</dt>
+            <dd className="flex flex-col gap-3 text-body text-ink-2">
+              {hasAnyFinancialLink ? (
+                <ul className="flex flex-col gap-2">
+                  {form990Url ? (
+                    <li>
+                      <a
+                        href={form990Url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
+                      >
+                        Most recent IRS Form 990
+                      </a>
+                    </li>
+                  ) : null}
+                  {candidProfileUrl ? (
+                    <li>
+                      <a
+                        href={candidProfileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
+                      >
+                        Candid / GuideStar profile
+                      </a>
+                    </li>
+                  ) : null}
+                </ul>
+              ) : (
+                <p>
+                  We publish our IRS Form 990 annually. Links appear here as soon as each year's
+                  filing is available.
+                </p>
+              )}
+              <p>
+                Givebutter processes donations and issues automated receipts at the time of each
+                gift.
+              </p>
+            </dd>
+          </div>
+          <div className="flex flex-col gap-3">
+            <dt className="text-eyebrow uppercase text-accent">Governance</dt>
+            <dd className="flex flex-col gap-3 text-body text-ink-2">
+              <address className="whitespace-pre-line not-italic">{mailingAddress}</address>
+              <a
+                href={`mailto:${contactEmail}`}
+                className="text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
+              >
+                {contactEmail}
+              </a>
+              <p>The board is unpaid. 100% of project-designated donations go to program costs.</p>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  );
+}
