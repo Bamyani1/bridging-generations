@@ -1,9 +1,9 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt } from "../fields";
 
 export const schoolCollection = collection({
   label: "Schools",
-  path: "content/schools/*",
+  path: "content/schools/*/",
   slugField: "name",
   columns: ["location"],
   schema: {
@@ -25,6 +25,6 @@ export const schoolCollection = collection({
       label: "Established year",
       validation: { min: 1800, max: 2100 },
     }),
-    heroImage: imageWithAlt({ label: "Hero image", dir: "schools", required: false }),
+    heroImage: optionalImageWithAlt({ label: "Hero image", dir: "schools" }),
   },
 });

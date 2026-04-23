@@ -1,9 +1,9 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { requiredImageWithAlt } from "../fields";
 
 export const galleryImageCollection = collection({
   label: "Gallery images",
-  path: "content/gallery/*",
+  path: "content/gallery/*/",
   slugField: "caption",
   columns: ["takenAt", "location"],
   schema: {
@@ -14,7 +14,7 @@ export const galleryImageCollection = collection({
       },
       slug: { label: "Slug" },
     }),
-    image: imageWithAlt({ label: "Image", dir: "gallery", required: true }),
+    image: requiredImageWithAlt({ label: "Image", dir: "gallery" }),
     takenAt: fields.date({ label: "Taken on" }),
     location: fields.text({ label: "Location" }),
   },

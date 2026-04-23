@@ -1,9 +1,9 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt } from "../fields";
 
 export const boardMemberCollection = collection({
   label: "Board members",
-  path: "content/board/*",
+  path: "content/board/*/",
   slugField: "name",
   columns: ["role", "order"],
   schema: {
@@ -22,7 +22,7 @@ export const boardMemberCollection = collection({
       multiline: true,
       validation: { isRequired: true, length: { min: 1 } },
     }),
-    portrait: imageWithAlt({ label: "Portrait", dir: "board", required: false }),
+    portrait: optionalImageWithAlt({ label: "Portrait", dir: "board" }),
     order: fields.integer({
       label: "Sort order",
       description: "Manual sort on /about; lower = higher in the list.",

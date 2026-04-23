@@ -9,7 +9,7 @@ vi.mock("next/image", () => ({
 }));
 
 import { ActivityCard } from "@/components/domain/ActivityCard";
-import type { Activity } from "@/content/fixtures/activities";
+import type { Activity } from "@/lib/content/activities";
 
 const sample: Activity = {
   id: "demo-activity",
@@ -19,6 +19,7 @@ const sample: Activity = {
   published: true,
   publishedAt: "2026-03-15",
   coverImage: { src: "/demo.jpg", alt: "Demo cover" },
+  relatedProjectId: null,
 };
 
 describe("ActivityCard", () => {
@@ -37,14 +38,8 @@ describe("ActivityCard", () => {
     expect(time).toHaveTextContent("March 15, 2026");
   });
 
-  it("renders as a plain article when no href is set", () => {
+  it("renders as a plain article without wrapping in a Link", () => {
     render(<ActivityCard activity={sample} />);
     expect(screen.queryByRole("link")).toBeNull();
-  });
-
-  it("wraps in a Link when href is set", () => {
-    render(<ActivityCard activity={{ ...sample, href: "/blog/demo" }} />);
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/blog/demo");
   });
 });

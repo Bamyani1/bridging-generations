@@ -1,5 +1,5 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt } from "../fields";
 
 const COMMUNITY_OPTIONS = [
   { label: "Unknown / leave blank", value: "unknown" },
@@ -39,7 +39,7 @@ const SPONSORSHIP_OPTIONS = [
 
 export const studentCollection = collection({
   label: "Students",
-  path: "content/students/*",
+  path: "content/students/*/",
   slugField: "displayName",
   columns: ["grade", "sponsorshipStatus"],
   schema: {
@@ -73,7 +73,7 @@ export const studentCollection = collection({
       label: "Aspiration quote",
       description: 'One-line aspiration shown on the card (e.g. "I want to become a teacher").',
     }),
-    portrait: imageWithAlt({ label: "Portrait", dir: "students", required: false }),
+    portrait: optionalImageWithAlt({ label: "Portrait", dir: "students" }),
     consent: fields.object(
       {
         portraitReleaseStatus: fields.select({

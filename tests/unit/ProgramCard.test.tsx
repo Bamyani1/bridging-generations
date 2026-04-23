@@ -9,16 +9,18 @@ vi.mock("next/image", () => ({
 }));
 
 import { ProgramCard } from "@/components/domain/ProgramCard";
-import type { Project } from "@/content/fixtures/projects";
+import type { Project } from "@/lib/content/projects";
 
 const sample: Project = {
   id: "demo-project",
   title: "Demo project",
   summary: "A short summary for the demo project.",
+  body: "Body text.",
   fundingGoal: 10000,
   fundingRaised: 4200,
   status: "active",
   heroImage: { src: "/demo.jpg", alt: "Demo image" },
+  order: 1,
 };
 
 describe("ProgramCard", () => {

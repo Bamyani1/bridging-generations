@@ -4,14 +4,14 @@ import { gsap } from "gsap";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
-import { siteSettings } from "@/content/fixtures/siteSettings";
 import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
 type HomeHeroProps = {
   stats: StatsSnapshot;
+  ein: string;
 };
 
-export function HomeHero({ stats }: HomeHeroProps) {
+export function HomeHero({ stats, ein }: HomeHeroProps) {
   const imageRef = useRef<HTMLDivElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -99,7 +99,7 @@ export function HomeHero({ stats }: HomeHeroProps) {
             </Button>
           </div>
           <p ref={reassuranceRef} className="text-meta uppercase text-ink-2">
-            501(c)(3) · EIN {siteSettings.ein} · Tax-deductible · No personal-data cookies
+            501(c)(3) · EIN {ein} · Tax-deductible · No personal-data cookies
           </p>
         </div>
       </div>

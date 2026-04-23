@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { StudentCard } from "@/components/domain/StudentCard";
-import type { Student } from "@/content/fixtures/students";
+import type { Student } from "@/lib/content/students";
 
 type StudentSpotlightScrollerProps = {
   students: Student[];

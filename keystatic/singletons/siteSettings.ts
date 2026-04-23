@@ -1,5 +1,5 @@
 import { fields, singleton } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt } from "../fields";
 
 export const siteSettingsSingleton = singleton({
   label: "Site settings",
@@ -77,7 +77,7 @@ export const siteSettingsSingleton = singleton({
           multiline: true,
           validation: { isRequired: true, length: { min: 1 } },
         }),
-        ogImage: imageWithAlt({ label: "Default OG image", dir: "site", required: false }),
+        ogImage: optionalImageWithAlt({ label: "Default OG image", dir: "site" }),
         twitterHandle: fields.text({
           label: "Twitter / X handle",
           description: 'Without the @ — e.g. "BridgingGen".',
