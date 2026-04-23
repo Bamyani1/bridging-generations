@@ -110,6 +110,18 @@
   --shadow-card: 0 4px 16px rgba(30, 30, 30, 0.06);
   --shadow-card-hover: 0 8px 24px rgba(30, 30, 30, 0.09);
   --shadow-cta: 0 4px 16px rgba(231, 111, 81, 0.2);
+
+  /* §9 Motion — duration scale */
+  --motion-xs: 120ms;
+  --motion-sm: 220ms;
+  --motion-md: 400ms;
+  --motion-lg: 700ms;
+  --motion-xl: 1200ms;
+
+  /* §9 Motion — easing (also generates Tailwind ease-* utilities) */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-linear: linear;
 }
 
 :root {
@@ -122,6 +134,28 @@
 
   /* §3 stack: 16 / 24 / 32 / 40 / 56 — pick from Tailwind 4px grid: p-4 p-6 p-8 p-10 p-14 */
   /* §3 inline: 8 / 12 / 16 / 24 — pick from Tailwind 4px grid: gap-2 gap-3 gap-4 gap-6 */
+}
+
+/* §9 Reveal-on-scroll. JS toggles .is-visible (see Reveal component) — opacity-only on reduced motion. */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity var(--motion-lg) var(--ease-smooth),
+    transform var(--motion-lg) var(--ease-smooth);
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    transform: none;
+    transition: opacity var(--motion-md) var(--ease-smooth);
+  }
+  .reveal-on-scroll.is-visible {
+    transform: none;
+  }
 }
 
 /* §2 Typography — mobile size overrides (<768px). Line-height, tracking, weight stay constant. */
