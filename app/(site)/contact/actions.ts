@@ -1,0 +1,132 @@
+"use server";
+
+import { headers } from "next/headers";
+import { Resend } from "resend";
+import { getContactPage } from "@/lib/content/contactPage";
+
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+
+type Bucket = { count: number; resetAt: number };
+const rateBucket = new Map<string, Bucket>();
+
+function takeRateSlot(ip: string): boolean {
+  const now = Date.now();
+  const existing = rateBucket.get(ip);
+  if (!existing || existing.resetAt <= now) {
+    rateBucket.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  if (existing.count >= RATE_LIMIT_MAX) return false;
+  existing.count += 1;
+  return true;
+}
+
+export type ContactActionState = {
+  status: "idle" | "success" | "error";
+  message: string;
+  fieldErrors: Partial<Record<"name" | "email" | "message", string>>;
+};
+
+export const initialContactState: ContactActionState = {
+  status: "idle",
+  message: "",
+  fieldErrors: {},
+};
+
+function isValidEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+export async function submitContactForm(
+  _prev: ContactActionState,
+  formData: FormData,
+): Promise<ContactActionState> {
+  const name = String(formData.get("name") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
+  const message = String(formData.get("message") ?? "").trim();
+  const honeypot = String(formData.get("company") ?? "");
+
+  if (honeypot.length > 0) {
+    return {
+      status: "success",
+      message: "Thank you — your message is on its way.",
+      fieldErrors: {},
+    };
+  }
+
+  const fieldErrors: ContactActionState["fieldErrors"] = {};
+  if (!name) fieldErrors.name = "Please tell us your name.";
+  else if (name.length > 100) fieldErrors.name = "Name must be 100 characters or less.";
+  if (!email) fieldErrors.email = "Please enter an email.";
+  else if (!isValidEmail(email)) fieldErrors.email = "Please enter a valid email.";
+  if (!message) fieldErrors.message = "Please include a message.";
+  else if (message.length > 2000) fieldErrors.message = "Message must be 2000 characters or less.";
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      status: "error",
+      message: "Please fix the errors below and try again.",
+      fieldErrors,
+    };
+  }
+
+  const headerList = await headers();
+  const ip =
+    headerList.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    headerList.get("x-real-ip") ||
+    "unknown";
+
+  if (!takeRateSlot(ip)) {
+    return {
+      status: "error",
+      message: "Too many messages in a short window. Please wait a few minutes and try again.",
+      fieldErrors: {},
+    };
+  }
+
+  const contactPage = await getContactPage();
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromAddress = process.env.RESEND_FROM_EMAIL ?? "contact@bridginggenerations.org";
+
+  if (!apiKey) {
+    console.warn("[contact] RESEND_API_KEY is not set; form submission logged but not sent.");
+    console.info(
+      "[contact] from %s <%s> → %s\n%s",
+      name,
+      email,
+      contactPage.destinationEmail,
+      message,
+    );
+    return {
+      status: "success",
+      message: "Thanks — your message is in. We reply within two business days.",
+      fieldErrors: {},
+    };
+  }
+
+  try {
+    const resend = new Resend(apiKey);
+    await resend.emails.send({
+      from: fromAddress,
+      to: contactPage.destinationEmail,
+      replyTo: email,
+      subject: `Contact form — ${name}`,
+      text: `From: ${name} <${email}>\n\n${message}`,
+    });
+  } catch (err) {
+    console.error("[contact] resend failed", err);
+    return {
+      status: "error",
+      message:
+        "Something went wrong on our end. Please try again, or email info@bridginggenerations.org directly.",
+      fieldErrors: {},
+    };
+  }
+
+  return {
+    status: "success",
+    message: "Thanks — your message is in. We reply within two business days.",
+    fieldErrors: {},
+  };
+}
