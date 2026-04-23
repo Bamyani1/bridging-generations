@@ -5,18 +5,25 @@ import { useEffect } from "react";
 
 export function SmoothScroll() {
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduceMotion.matches) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) return;
 
     const lenis = new Lenis();
-    let raf = 0;
-    const tick = (time: number) => {
+    let raf = requestAnimationFrame(function tick(time) {
       lenis.raf(time);
       raf = requestAnimationFrame(tick);
+    });
+
+    const onPrefChange = () => {
+      if (mq.matches) {
+        cancelAnimationFrame(raf);
+        lenis.destroy();
+      }
     };
-    raf = requestAnimationFrame(tick);
+    mq.addEventListener("change", onPrefChange);
 
     return () => {
+      mq.removeEventListener("change", onPrefChange);
       cancelAnimationFrame(raf);
       lenis.destroy();
     };

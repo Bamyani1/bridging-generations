@@ -17,21 +17,20 @@ export function Nav() {
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const hasOpenedRef = useRef(false);
   const titleId = useId();
 
   useEffect(() => {
-    if (!open) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
-
-  useEffect(() => {
-    if (open) return;
-    hamburgerRef.current?.focus();
+    if (open) {
+      hasOpenedRef.current = true;
+      closeRef.current?.focus();
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setOpen(false);
+      };
+      document.addEventListener("keydown", onKey);
+      return () => document.removeEventListener("keydown", onKey);
+    }
+    if (hasOpenedRef.current) hamburgerRef.current?.focus();
   }, [open]);
 
   useEffect(() => {
@@ -98,7 +97,7 @@ export function Nav() {
             ref={hamburgerRef}
             type="button"
             aria-expanded={open}
-            aria-controls="mobile-menu"
+            aria-controls={open ? "mobile-menu" : undefined}
             aria-label="Open menu"
             onClick={() => setOpen(true)}
             className="flex size-11 items-center justify-center text-white lg:hidden"

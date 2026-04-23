@@ -30,10 +30,10 @@ describe("Nav", () => {
     expect(donate).toHaveAttribute("href", "/donate");
   });
 
-  it("renders a collapsed hamburger button by default", () => {
+  it("renders a collapsed hamburger with aria-controls omitted until menu opens", () => {
     render(<Nav />);
     const hamburger = screen.getByRole("button", { name: /open menu/i });
     expect(hamburger).toHaveAttribute("aria-expanded", "false");
-    expect(hamburger).toHaveAttribute("aria-controls", "mobile-menu");
+    expect(hamburger).not.toHaveAttribute("aria-controls");
   });
 });
