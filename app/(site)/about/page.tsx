@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
+import { StatCard } from "@/components/domain/StatCard";
 import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Reveal } from "@/components/ui/Reveal";
 import { getAllBoardMembers } from "@/lib/content/boardMembers";
+import { getAllSchools } from "@/lib/content/schools";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { getAllTestimonials } from "@/lib/content/testimonials";
 import { breadcrumbList, nonprofitOrganization } from "@/lib/seo/jsonLd";
@@ -19,11 +22,14 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [siteSettings, boardMembers, testimonials] = await Promise.all([
+  const [siteSettings, boardMembers, schools, testimonials] = await Promise.all([
     getSiteSettings(),
     getAllBoardMembers(),
+    getAllSchools(),
     getAllTestimonials(),
   ]);
+
+  const yearsActive = Math.max(1, new Date().getUTCFullYear() - siteSettings.foundingYear);
 
   const partnerQuote = testimonials.find((t) => t.speakerRole === "partner");
   const socialLinks = siteSettings.socialLinks;
@@ -53,6 +59,22 @@ export default async function AboutPage() {
   return (
     <>
       <AboutHero foundingYear={siteSettings.foundingYear} />
+      <section
+        aria-label="Bridging Generations at a glance"
+        className="bg-ground px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
+      >
+        <div className="mx-auto max-w-[1280px] border-t border-hairline pt-12">
+          <Reveal
+            cascade
+            cascadeDelay={150}
+            className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8 lg:gap-16"
+          >
+            <StatCard value={yearsActive} label="Years active" />
+            <StatCard value={boardMembers.length} label="Board members" />
+            <StatCard value={schools.length} label="Partner schools" />
+          </Reveal>
+        </div>
+      </section>
       <AboutMissionVision
         missionFull={siteSettings.missionFull}
         visionFull={siteSettings.visionFull}

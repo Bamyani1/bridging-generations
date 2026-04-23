@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
+import { StatCard } from "@/components/domain/StatCard";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Reveal } from "@/components/ui/Reveal";
 import { getAllSchools } from "@/lib/content/schools";
 import { getStudentsGroupedBySchool } from "@/lib/content/students";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
@@ -31,6 +33,9 @@ export default async function StudentsPage() {
     .filter((entry): entry is Section => entry !== null);
 
   const studentCount = sections.reduce((sum, section) => sum + section.students.length, 0);
+  const allStudents = sections.flatMap((section) => section.students);
+  const sponsoredCount = allStudents.filter((s) => s.sponsorshipStatus === "sponsored").length;
+  const waitingCount = allStudents.filter((s) => s.sponsorshipStatus === "waiting").length;
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
     { name: "Students", url: "/students" },
@@ -46,6 +51,22 @@ export default async function StudentsPage() {
     <>
       <StudentsHero studentCount={studentCount} schoolCount={schools.length} />
       <ConsentStatement />
+      <section
+        aria-label="Student sponsorships at a glance"
+        className="bg-ground-2 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
+      >
+        <div className="mx-auto max-w-[1280px] border-t border-hairline pt-12">
+          <Reveal
+            cascade
+            cascadeDelay={150}
+            className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8 lg:gap-16"
+          >
+            <StatCard value={studentCount} label="Students listed" />
+            <StatCard value={sponsoredCount} label="Sponsored" />
+            <StatCard value={waitingCount} label="Waiting for a sponsor" />
+          </Reveal>
+        </div>
+      </section>
       {sections.map((section, index) => (
         <SchoolSection
           key={section.school.id}
