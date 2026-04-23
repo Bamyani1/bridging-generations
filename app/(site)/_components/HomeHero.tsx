@@ -28,16 +28,7 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
   return (
     <section aria-labelledby="home-hero-title" className="relative bg-ground">
       <div className="mx-auto grid min-h-[90vh] max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:min-h-[600px] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
-        <motion.div
-          className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full"
-          {...(shouldReduceMotion
-            ? {}
-            : {
-                initial: { opacity: 0, scale: 1.04 },
-                animate: { opacity: 1, scale: 1 },
-                transition: { duration: 1.2, ease: SMOOTH },
-              })}
-        >
+        <div className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full">
           <Image
             src="/home-hero.jpg"
             alt="Students in a Bangladesh classroom hold up their drawings beside their teacher"
@@ -47,7 +38,7 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
             className="object-cover"
             style={{ filter: "grayscale(20%) sepia(10%) saturate(1.02)" }}
           />
-        </motion.div>
+        </div>
         <div className="flex flex-col justify-center gap-6 lg:order-2 lg:max-w-[56ch] lg:py-16">
           <motion.p className="text-eyebrow uppercase text-accent" {...slideUp(0.1, 0.6)}>
             {stats.homeHeroEyebrow}

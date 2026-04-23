@@ -30,6 +30,10 @@ export default function SiteLayout({
   return (
     <ViewTransitionRoot>
       <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
+        <head>
+          <link rel="preconnect" href="https://widgets.givebutter.com" crossOrigin="" />
+          <link rel="dns-prefetch" href="https://givebutter.com" />
+        </head>
         <body className="flex min-h-full flex-col bg-ground text-body text-ink">
           <SmoothScroll />
           <SkipLink />
