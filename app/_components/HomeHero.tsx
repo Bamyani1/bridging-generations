@@ -53,21 +53,21 @@ export function HomeHero() {
 
   return (
     <section aria-labelledby="home-hero-title" className="relative bg-ground">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 px-4 py-20 sm:px-6 lg:min-h-[600px] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-28">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:h-[min(80vh,720px)] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
         <div
           ref={imageRef}
-          className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-[4/5]"
+          className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full"
         >
           <Image
-            src="/home-hero.svg"
-            alt="Students in a classroom at a Hill Tracts partner school"
+            src="/home-hero.jpg"
+            alt="Students in a Bangladesh classroom hold up their drawings beside their teacher"
             fill
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col gap-6 lg:order-2 lg:max-w-[56ch]">
+        <div className="flex flex-col justify-center gap-6 lg:order-2 lg:max-w-[56ch] lg:py-16">
           <p ref={eyebrowRef} className="text-eyebrow uppercase text-accent">
             {statsSnapshot.homeHeroEyebrow}
           </p>

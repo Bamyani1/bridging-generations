@@ -79,7 +79,9 @@ describe("HomeHero", () => {
 
   it("gives the hero image a descriptive alt", () => {
     render(<HomeHero />);
-    const img = screen.getByAltText("Students in a classroom at a Hill Tracts partner school");
+    const img = screen.getByAltText(
+      "Students in a Bangladesh classroom hold up their drawings beside their teacher",
+    );
     expect(img).toBeInTheDocument();
   });
 
