@@ -1,20 +1,50 @@
 import type { ReactNode } from "react";
 import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 
-const sections = [
-  { id: "color", label: "Color" },
-  { id: "typography", label: "Typography" },
-  { id: "spacing", label: "Spacing" },
-  { id: "radius", label: "Radius" },
-  { id: "shadow", label: "Shadow" },
-  { id: "buttons", label: "Buttons" },
-  { id: "eyebrow-tagpill", label: "Eyebrow & TagPill" },
-  { id: "progressbar", label: "Progress Bar" },
-  { id: "avatar-divider", label: "Avatar & Divider" },
-  { id: "forms", label: "Forms" },
-  { id: "icons", label: "Icons" },
-  { id: "motion", label: "Motion" },
-  { id: "breakpoint", label: "Breakpoint" },
+type Chapter = {
+  index: string;
+  label: string;
+  sections: { id: string; label: string }[];
+};
+
+const chapters: Chapter[] = [
+  {
+    index: "I",
+    label: "Foundations",
+    sections: [
+      { id: "color", label: "Color" },
+      { id: "typography", label: "Typography" },
+      { id: "spacing", label: "Spacing" },
+      { id: "shape", label: "Shape" },
+      { id: "shadow", label: "Shadow" },
+    ],
+  },
+  {
+    index: "II",
+    label: "Primitives",
+    sections: [
+      { id: "buttons", label: "Buttons" },
+      { id: "eyebrow-tagpill", label: "Eyebrow & TagPill" },
+      { id: "progressbar", label: "Progress Bar" },
+      { id: "avatar-divider", label: "Avatar & Divider" },
+    ],
+  },
+  {
+    index: "III",
+    label: "Surfaces",
+    sections: [
+      { id: "forms", label: "Forms" },
+      { id: "icons", label: "Icons" },
+    ],
+  },
+  {
+    index: "IV",
+    label: "System",
+    sections: [
+      { id: "motion", label: "Motion" },
+      { id: "breakpoint", label: "Breakpoint" },
+    ],
+  },
 ];
 
 export default function DesignLayout({ children }: { children: ReactNode }) {
@@ -22,16 +52,29 @@ export default function DesignLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-[calc(100vh-4rem)]">
       <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-hairline p-8 lg:block">
         <nav aria-label="Design system sections">
-          <p className="text-eyebrow uppercase text-accent">Design</p>
-          <ul className="mt-4 space-y-2 text-body-sm">
-            {sections.map((section) => (
-              <li key={section.id}>
-                <a className="hover:text-accent" href={`#${section.id}`}>
-                  {section.label}
-                </a>
+          <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink-2">Contents</p>
+          <ol className="mt-6 space-y-6">
+            {chapters.map((chapter) => (
+              <li key={chapter.label}>
+                <p className="flex items-baseline gap-2 font-mono text-meta uppercase text-ink">
+                  <span className="text-ink-2">{chapter.index}</span>
+                  <span>{chapter.label}</span>
+                </p>
+                <ul className="mt-2 space-y-1.5 text-body-sm">
+                  {chapter.sections.map((section) => (
+                    <li key={section.id}>
+                      <a
+                        className="text-ink-2 transition hover:text-accent"
+                        href={`#${section.id}`}
+                      >
+                        {section.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
-          </ul>
+          </ol>
         </nav>
       </aside>
       <div className="min-w-0 flex-1 p-8 lg:p-12">{children}</div>
