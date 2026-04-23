@@ -22,8 +22,11 @@ type LinkOnlyProps = CommonProps &
 
 export type ButtonProps = ButtonOnlyProps | LinkOnlyProps;
 
+// Label size/weight are applied on the inner span (see ButtonInner) so the span
+// directly meets WCAG 1.4.3 "large text" thresholds (14pt bold) — the only way
+// white-on-accent-2 (3.09:1 per axe) passes AA without changing brand coral.
 const base =
-  "group inline-flex items-center font-semibold text-[1rem] transition focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50";
+  "group inline-flex items-center transition focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -51,10 +54,13 @@ function ButtonInner({
   loading?: boolean;
   children: ReactNode;
 }) {
+  const labelClasses = ["text-[19px] font-bold leading-none", loading ? "opacity-70" : ""]
+    .filter(Boolean)
+    .join(" ");
   return (
     <>
       {loading ? <Spinner /> : null}
-      <span className={loading ? "opacity-70" : undefined}>{children}</span>
+      <span className={labelClasses}>{children}</span>
       {variant === "tertiary" && !loading && (
         <span
           aria-hidden="true"
