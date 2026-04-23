@@ -1,4 +1,5 @@
 import { HomeActivities } from "./_components/HomeActivities";
+import { HomeCTAFooter } from "./_components/HomeCTAFooter";
 import { HomeHero } from "./_components/HomeHero";
 import { HomeMissionBand } from "./_components/HomeMissionBand";
 import { HomeProgramsGrid } from "./_components/HomeProgramsGrid";
@@ -18,6 +19,7 @@ export default function Home() {
       <HomeActivities />
       <HomeSpotlightScroller />
       <HomeTestimonialPanel />
+      <HomeCTAFooter />
     </>
   );
 }
