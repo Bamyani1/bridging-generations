@@ -9,6 +9,22 @@ vi.mock("next-view-transitions", () => ({
   ViewTransitions: ({ children }: { children: ReactNode }) => children,
 }));
 
+class StubIntersectionObserver {
+  readonly root = null;
+  readonly rootMargin = "";
+  readonly thresholds: readonly number[] = [];
+  readonly scrollMargin = "";
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords() {
+    return [];
+  }
+}
+globalThis.IntersectionObserver =
+  globalThis.IntersectionObserver ??
+  (StubIntersectionObserver as unknown as typeof IntersectionObserver);
+
 afterEach(() => {
   cleanup();
 });

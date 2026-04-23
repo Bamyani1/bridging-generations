@@ -19,6 +19,7 @@ test("activating skip link moves focus to the main landmark", async ({ page }) =
 });
 
 test("home route has zero axe violations at WCAG 2.2 AA", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
