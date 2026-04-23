@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { getContactPage } from "@/lib/content/contactPage";
+import type { ContactActionState } from "./actions.types";
 
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
@@ -21,18 +22,6 @@ function takeRateSlot(ip: string): boolean {
   existing.count += 1;
   return true;
 }
-
-export type ContactActionState = {
-  status: "idle" | "success" | "error";
-  message: string;
-  fieldErrors: Partial<Record<"name" | "email" | "message", string>>;
-};
-
-export const initialContactState: ContactActionState = {
-  status: "idle",
-  message: "",
-  fieldErrors: {},
-};
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

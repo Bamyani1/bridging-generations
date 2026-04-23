@@ -4,7 +4,8 @@ import { useActionState } from "react";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
-import { type ContactActionState, initialContactState, submitContactForm } from "../actions";
+import { submitContactForm } from "../actions";
+import { type ContactActionState, initialContactState } from "../actions.types";
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -12,9 +13,11 @@ function SubmitButton({ pending }: { pending: boolean }) {
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="inline-flex min-h-[44px] items-center justify-center bg-accent-2 px-6 py-3 text-nav-link uppercase text-accent-2-text transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-60"
+      className="inline-flex min-h-[44px] items-center justify-center gap-2 bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50"
     >
-      {pending ? "Sending…" : "Send message"}
+      <span className="text-[19px] font-bold leading-none">
+        {pending ? "Sending…" : "Send message"}
+      </span>
     </button>
   );
 }
