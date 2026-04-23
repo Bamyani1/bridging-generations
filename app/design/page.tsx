@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ButtonSection } from "./_components/ButtonSection";
 import { ColorSection } from "./_components/ColorSection";
+import { EyebrowTagPillSection } from "./_components/EyebrowTagPillSection";
 import { RadiusSection } from "./_components/RadiusSection";
 import { ShadowSection } from "./_components/ShadowSection";
 import { SpacingSection } from "./_components/SpacingSection";
@@ -13,11 +14,6 @@ export const metadata: Metadata = {
 };
 
 const stubSections: Array<{ id: string; title: string; note: string }> = [
-  {
-    id: "eyebrow-tagpill",
-    title: "Eyebrow, TagPill & StatusDot",
-    note: "Primitives ship in PR 2.6.",
-  },
   { id: "progressbar", title: "Progress Bar", note: "Variants ship in PR 2.7." },
   { id: "avatar-divider", title: "Avatar & Divider", note: "Primitives ship in PR 2.8." },
   { id: "forms", title: "Forms", note: "Input, Textarea, Select, Field ship in PR 2.9." },
@@ -43,6 +39,7 @@ export default function DesignPage() {
       <RadiusSection />
       <ShadowSection />
       <ButtonSection />
+      <EyebrowTagPillSection />
       {stubSections.map((section) => (
         <section key={section.id} id={section.id} className="scroll-mt-8">
           <h2 className="text-heading-2">{section.title}</h2>
