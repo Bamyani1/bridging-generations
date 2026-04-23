@@ -36,7 +36,7 @@ export function BlogPostCard({
 
   if (isFeatured) {
     return (
-      <article className="group grid grid-cols-1 gap-8 bg-ground-3 lg:grid-cols-[6fr_4fr] lg:gap-12">
+      <article className="card-hover group grid grid-cols-1 gap-8 bg-ground-3 lg:grid-cols-[6fr_4fr] lg:gap-12">
         <Link
           href={href}
           className="relative block aspect-[3/2] w-full overflow-hidden bg-ground-3 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent lg:aspect-auto"
@@ -51,7 +51,7 @@ export function BlogPostCard({
         </Link>
         <div className="flex flex-col justify-center gap-4 p-8 lg:p-10">
           <p className="text-meta uppercase text-ink-2">Featured post</p>
-          <Heading className="text-balance text-heading-2 text-ink">
+          <Heading className="card-title text-balance text-heading-2 text-ink">
             <Link href={href} className="transition hover:text-accent-2-text">
               {post.title}
             </Link>
@@ -67,7 +67,7 @@ export function BlogPostCard({
   }
 
   return (
-    <article className="group flex h-full flex-col gap-4 bg-ground-2">
+    <article className="card-hover group flex h-full flex-col gap-4 bg-ground-2">
       <Link
         href={href}
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
@@ -83,7 +83,7 @@ export function BlogPostCard({
         </div>
       </Link>
       <div className="flex flex-col gap-3 p-6">
-        <Heading className="text-balance text-heading-4 text-ink">
+        <Heading className="card-title text-balance text-heading-4 text-ink">
           <Link href={href} className="transition hover:text-accent-2-text">
             {post.title}
           </Link>

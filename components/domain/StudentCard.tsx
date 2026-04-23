@@ -16,7 +16,7 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
   const isSpotlight = variant === "spotlight";
 
   return (
-    <article className="flex h-full flex-col gap-4 bg-ground-2">
+    <article className="card-hover flex h-full flex-col gap-4 bg-ground-2">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
         {allowPortrait && portraitSrc ? (
           <Image
@@ -36,7 +36,7 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
       </div>
       <div className="flex flex-col gap-3 p-5">
         <div className="flex items-center justify-between gap-3">
-          <h3 className="text-heading-5 text-ink">{displayName}</h3>
+          <h3 className="card-title text-heading-5 text-ink">{displayName}</h3>
           <TagPill
             variant={sponsorshipStatus === "sponsored" ? "live" : "default"}
             statusVariant={sponsorshipStatus === "sponsored" ? "active" : "pending"}
