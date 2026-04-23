@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AvatarDividerSection } from "./_components/AvatarDividerSection";
+import { BreakpointSection } from "./_components/BreakpointSection";
 import { ButtonSection } from "./_components/ButtonSection";
 import { ColorSection } from "./_components/ColorSection";
 import { EyebrowTagPillSection } from "./_components/EyebrowTagPillSection";
@@ -18,9 +19,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-const stubSections: Array<{ id: string; title: string; note: string }> = [
-  { id: "breakpoint", title: "Breakpoint", note: "Live indicator ships in PR 2.12." },
-];
+const stubSections: Array<{ id: string; title: string; note: string }> = [];
 
 export default function DesignPage() {
   return (
@@ -45,6 +44,7 @@ export default function DesignPage() {
       <FormSection />
       <IconGridSection />
       <MotionLabSection />
+      <BreakpointSection />
       {stubSections.map((section) => (
         <section key={section.id} id={section.id} className="scroll-mt-8">
           <h2 className="text-heading-2">{section.title}</h2>
