@@ -3,7 +3,7 @@ export function BreakpointIndicator() {
     <div
       role="status"
       aria-label="Current breakpoint"
-      className="fixed right-4 bottom-4 z-50 rounded-full bg-ink px-3 py-1 font-mono text-meta text-white shadow-[var(--shadow-card)]"
+      className="fixed right-4 bottom-4 z-50 bg-ink px-3 py-1 font-mono text-meta text-white shadow-[var(--shadow-card)]"
     >
       <span className="sm:hidden">base · &lt;640</span>
       <span className="hidden sm:inline md:hidden">sm · ≥640</span>

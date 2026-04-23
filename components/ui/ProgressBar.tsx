@@ -25,10 +25,10 @@ export function ProgressBar({ percentage, label, tone = "default", className }: 
         aria-valuemax={100}
         aria-valuenow={isFunded ? 100 : clamped}
         aria-label={accessibleLabel}
-        className="relative h-2 w-full rounded-full bg-hairline"
+        className="relative h-2 w-full bg-hairline"
       >
         <div
-          className="absolute top-0 left-0 h-full rounded-full bg-accent"
+          className="absolute top-0 left-0 h-full bg-accent"
           style={{ width: `${isFunded ? 100 : clamped}%` }}
         />
         {!isFunded && clamped > 0 && (

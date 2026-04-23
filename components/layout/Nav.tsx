@@ -88,7 +88,7 @@ export function Nav() {
             <li>
               <Link
                 href={donateCta.href}
-                className="inline-flex items-center rounded-md bg-accent-2 px-4 py-2 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover motion-safe:hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent-3"
+                className="inline-flex items-center bg-accent-2 px-4 py-2 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover motion-safe:hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent-3"
               >
                 {donateCta.label}
               </Link>
@@ -165,7 +165,7 @@ export function Nav() {
                 <Link
                   href={donateCta.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-md bg-accent-2 px-4 py-3 text-center text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)]"
+                  className="block bg-accent-2 px-4 py-3 text-center text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)]"
                 >
                   {donateCta.label}
                 </Link>
