@@ -6,16 +6,23 @@ import type { Student } from "@/lib/content/students";
 
 type StudentSpotlightScrollerProps = {
   students: Student[];
+  ariaLabel?: string;
+  hint?: boolean;
 };
 
 const SESSION_KEY = "bg:spotlight-hint-seen";
 
-export function StudentSpotlightScroller({ students }: StudentSpotlightScrollerProps) {
+export function StudentSpotlightScroller({
+  students,
+  ariaLabel = "Student spotlight — scroll horizontally to browse",
+  hint = true,
+}: StudentSpotlightScrollerProps) {
   const scrollRef = useRef<HTMLElement>(null);
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!hint) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
     let seen = false;
@@ -41,7 +48,7 @@ export function StudentSpotlightScroller({ students }: StudentSpotlightScrollerP
       clearTimeout(timer);
       el?.removeEventListener("scroll", dismiss);
     };
-  }, []);
+  }, [hint]);
 
   return (
     <div className="relative">
@@ -49,7 +56,7 @@ export function StudentSpotlightScroller({ students }: StudentSpotlightScrollerP
         ref={scrollRef}
         // biome-ignore lint/a11y/noNoninteractiveTabindex: scroll region needs keyboard focus so arrow keys scroll horizontally
         tabIndex={0}
-        aria-label="Student spotlight — scroll horizontally to browse"
+        aria-label={ariaLabel}
         className="overflow-x-auto scroll-smooth focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         <ul className="flex snap-x snap-mandatory gap-5 px-4 pb-6 sm:px-6 lg:px-[6%]">
