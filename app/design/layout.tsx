@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 
 const sections = [
   { id: "color", label: "Color" },
@@ -34,6 +35,7 @@ export default function DesignLayout({ children }: { children: ReactNode }) {
         </nav>
       </aside>
       <main className="min-w-0 flex-1 p-8 lg:p-12">{children}</main>
+      <BreakpointIndicator />
     </div>
   );
 }
