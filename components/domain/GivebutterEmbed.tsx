@@ -2,33 +2,41 @@
 
 import Script from "next/script";
 import { createElement, useState } from "react";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type GivebutterEmbedProps = {
+  accountId: string;
   campaignId: string;
 };
 
-export function GivebutterEmbed({ campaignId }: GivebutterEmbedProps) {
+function Fallback() {
+  return (
+    <div className="bg-ground-2 p-6">
+      <p className="text-body text-ink-2">
+        Our donation widget is being set up. In the meantime, email{" "}
+        <a
+          href="mailto:info@bridginggenerations.org"
+          className="text-accent underline underline-offset-[3px]"
+        >
+          info@bridginggenerations.org
+        </a>{" "}
+        and a board member will help you give.
+      </p>
+    </div>
+  );
+}
+
+export function GivebutterEmbed({ accountId, campaignId }: GivebutterEmbedProps) {
   const [loaded, setLoaded] = useState(false);
 
-  if (!campaignId) {
-    return (
-      <div className="bg-ground-2 p-6">
-        <p className="text-body text-ink-2">
-          Our donation widget is being set up. In the meantime, email{" "}
-          <a
-            href="mailto:info@bridginggenerations.org"
-            className="text-accent underline underline-offset-[3px]"
-          >
-            info@bridginggenerations.org
-          </a>{" "}
-          and a board member will help you give.
-        </p>
-      </div>
-    );
+  const accountReady = accountId && !isPlaceholder(accountId);
+  const campaignReady = campaignId && !isPlaceholder(campaignId);
+  if (!accountReady || !campaignReady) {
+    return <Fallback />;
   }
 
   const scriptSrc = `https://widgets.givebutter.com/latest.umd.cjs?acct=${encodeURIComponent(
-    campaignId,
+    accountId,
   )}&p=other`;
 
   return (
