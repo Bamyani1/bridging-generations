@@ -1,5 +1,5 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt } from "../fields";
 
 const SPEAKER_ROLE_OPTIONS = [
   { label: "Parent", value: "parent" },
@@ -14,7 +14,7 @@ const SPEAKER_ROLE_OPTIONS = [
 
 export const testimonialCollection = collection({
   label: "Testimonials",
-  path: "content/testimonials/*",
+  path: "content/testimonials/*/",
   slugField: "speakerName",
   columns: ["speakerRole"],
   schema: {
@@ -32,7 +32,7 @@ export const testimonialCollection = collection({
       label: "Speaker title",
       description: 'Free-form full title — e.g. "Principal, Thanchi High School".',
     }),
-    speakerPhoto: imageWithAlt({ label: "Speaker photo", dir: "testimonials", required: false }),
+    speakerPhoto: optionalImageWithAlt({ label: "Speaker photo", dir: "testimonials" }),
     speakerRole: fields.select({
       label: "Speaker role",
       description: "Locked enum. Drives card badge and filtering.",

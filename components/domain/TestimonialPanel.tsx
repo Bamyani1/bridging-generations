@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import type { Testimonial } from "@/content/fixtures/testimonials";
+import type { Testimonial } from "@/lib/content/testimonials";
 
 type TestimonialPanelProps = {
   testimonial: Testimonial;
@@ -15,7 +15,10 @@ export function TestimonialPanel({
   titleId = "testimonial-title",
 }: TestimonialPanelProps) {
   const { quote, speakerName, speakerTitle, speakerRole } = testimonial;
-  const role = speakerTitle ?? `${speakerRole.charAt(0).toUpperCase()}${speakerRole.slice(1)}`;
+  const role =
+    speakerTitle && speakerTitle.length > 0
+      ? speakerTitle
+      : `${speakerRole.charAt(0).toUpperCase()}${speakerRole.slice(1)}`;
 
   return (
     <section aria-labelledby={titleId} className="bg-accent py-20 lg:py-32">

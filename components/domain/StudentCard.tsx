@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
 import { TagPill } from "@/components/ui/TagPill";
-import type { Student } from "@/content/fixtures/students";
 import { canShowPortrait } from "@/lib/content/canShowPortrait";
+import type { Student } from "@/lib/content/students";
 
 type StudentCardProps = {
   student: Student;
@@ -11,16 +11,17 @@ type StudentCardProps = {
 
 export function StudentCard({ student, variant = "default" }: StudentCardProps) {
   const { displayName, community, grade, quote, portrait, consent, sponsorshipStatus } = student;
-  const allowPortrait = canShowPortrait(consent) && !!portrait;
+  const portraitSrc = portrait?.src ?? null;
+  const allowPortrait = canShowPortrait(consent) && !!portraitSrc;
   const isSpotlight = variant === "spotlight";
 
   return (
     <article className="flex h-full flex-col gap-4 bg-ground-2">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
-        {allowPortrait && portrait ? (
+        {allowPortrait && portraitSrc ? (
           <Image
-            src={portrait.src}
-            alt={portrait.alt}
+            src={portraitSrc}
+            alt={portrait?.alt ?? ""}
             fill
             sizes={isSpotlight ? "320px" : "(min-width: 1024px) 25vw, 50vw"}
             className="object-cover"

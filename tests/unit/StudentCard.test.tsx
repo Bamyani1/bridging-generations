@@ -9,22 +9,7 @@ vi.mock("next/image", () => ({
 }));
 
 import { StudentCard } from "@/components/domain/StudentCard";
-import type { Student } from "@/content/fixtures/students";
-import type { StudentConsent } from "@/lib/content/canShowPortrait";
-
-const granted: StudentConsent = {
-  portraitReleaseStatus: "granted",
-  storyReleaseStatus: "granted",
-  consentScope: ["website"],
-  revokable: true,
-};
-
-const pending: StudentConsent = {
-  portraitReleaseStatus: "pending",
-  storyReleaseStatus: "pending",
-  consentScope: [],
-  revokable: true,
-};
+import type { Student } from "@/lib/content/students";
 
 const withPortrait: Student = {
   id: "demo-1",
@@ -34,15 +19,32 @@ const withPortrait: Student = {
   community: "marma",
   quote: "Short aspiration.",
   portrait: { src: "/demo.jpg", alt: "Portrait of a smiling student" },
-  consent: granted,
+  consent: {
+    portraitReleaseStatus: "granted",
+    storyReleaseStatus: "granted",
+    consentScope: ["website"],
+    revokable: true,
+    signedDate: "2025-09-01",
+    releaseFormId: "BG-REL-2025-001",
+    revokedAt: null,
+  },
   sponsorshipStatus: "sponsored",
+  enrolledAt: "2025-01-01",
 };
 
 const withoutConsent: Student = {
   ...withPortrait,
   id: "demo-2",
   displayName: "Tanuja",
-  consent: pending,
+  consent: {
+    portraitReleaseStatus: "pending",
+    storyReleaseStatus: "pending",
+    consentScope: [],
+    revokable: true,
+    signedDate: null,
+    releaseFormId: "",
+    revokedAt: null,
+  },
 };
 
 describe("StudentCard", () => {

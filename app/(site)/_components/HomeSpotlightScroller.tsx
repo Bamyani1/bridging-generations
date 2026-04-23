@@ -1,10 +1,12 @@
 import { StudentSpotlightScroller } from "@/components/domain/StudentSpotlightScroller";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { getSpotlightStudents } from "@/content/fixtures/students";
+import type { Student } from "@/lib/content/students";
 
-export function HomeSpotlightScroller() {
-  const spotlight = getSpotlightStudents(6);
+type HomeSpotlightScrollerProps = {
+  students: Student[];
+};
 
+export function HomeSpotlightScroller({ students }: HomeSpotlightScrollerProps) {
   return (
     <section aria-labelledby="home-spotlight-title" className="bg-ground py-20 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
@@ -19,7 +21,7 @@ export function HomeSpotlightScroller() {
           </p>
         </header>
       </div>
-      <StudentSpotlightScroller students={spotlight} />
+      <StudentSpotlightScroller students={students} />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Link } from "next-view-transitions";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import type { Project } from "@/content/fixtures/projects";
+import type { Project } from "@/lib/content/projects";
 
 type ProgramCardProps = {
   project: Project;

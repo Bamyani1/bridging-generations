@@ -30,7 +30,6 @@ vi.mock("next/image", () => ({
 }));
 
 import { HomeHero } from "@/app/(site)/_components/HomeHero";
-import { siteSettings } from "@/content/fixtures/siteSettings";
 import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
 const stats: StatsSnapshot = {
@@ -43,6 +42,8 @@ const stats: StatsSnapshot = {
     "Tuition, books, daily meals, and the materials they need — so the classroom stays the place every one of them belongs.",
 };
 
+const ein = "00-0000000";
+
 describe("HomeHero", () => {
   beforeEach(() => {
     mockMatchMediaAdd.mockClear();
@@ -53,32 +54,32 @@ describe("HomeHero", () => {
   });
 
   it("renders each headline line", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     for (const line of stats.homeHeroHeadline.split("\n")) {
       expect(screen.getByText(line)).toBeInTheDocument();
     }
   });
 
   it("renders the headline as the page h1", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveAttribute("id", "home-hero-title");
   });
 
   it("wires the hero section landmark to the h1 via aria-labelledby", () => {
-    const { container } = render(<HomeHero stats={stats} />);
+    const { container } = render(<HomeHero stats={stats} ein={ein} />);
     const section = container.querySelector("section");
     expect(section).toHaveAttribute("aria-labelledby", "home-hero-title");
     expect(container.querySelector("#home-hero-title")).not.toBeNull();
   });
 
   it("renders the subhead copy", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
   });
 
   it("renders dual CTAs linking to /donate and /projects", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     expect(screen.getByRole("link", { name: "Sponsor a Student" })).toHaveAttribute(
       "href",
       "/donate",
@@ -86,16 +87,16 @@ describe("HomeHero", () => {
     expect(screen.getByRole("link", { name: "Our Programs" })).toHaveAttribute("href", "/projects");
   });
 
-  it("renders the 501(c)(3) reassurance line with the fixture EIN", () => {
-    const { container } = render(<HomeHero stats={stats} />);
+  it("renders the 501(c)(3) reassurance line with the prop EIN", () => {
+    const { container } = render(<HomeHero stats={stats} ein={ein} />);
     expect(container.textContent).toContain("501(c)(3)");
-    expect(container.textContent).toContain(`EIN ${siteSettings.ein}`);
+    expect(container.textContent).toContain(`EIN ${ein}`);
     expect(container.textContent).toContain("Tax-deductible");
     expect(container.textContent).toContain("No personal-data cookies");
   });
 
   it("gives the hero image a descriptive alt", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     const img = screen.getByAltText(
       "Students in a Bangladesh classroom hold up their drawings beside their teacher",
     );
@@ -103,7 +104,7 @@ describe("HomeHero", () => {
   });
 
   it("registers a gsap.matchMedia branch for reduced and full motion", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     expect(mockMatchMediaAdd).toHaveBeenCalledTimes(1);
     const [mediaQueries] = mockMatchMediaAdd.mock.calls[0];
     expect(mediaQueries).toEqual({
@@ -113,7 +114,7 @@ describe("HomeHero", () => {
   });
 
   it("runs the entrance timeline when reduceMotion is false", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     const callback = mockMatchMediaAdd.mock.calls[0][1] as (ctx: {
       conditions: { reduceMotion: boolean; fullMotion: boolean };
     }) => void;
@@ -123,7 +124,7 @@ describe("HomeHero", () => {
   });
 
   it("skips the entrance timeline when reduceMotion is true", () => {
-    render(<HomeHero stats={stats} />);
+    render(<HomeHero stats={stats} ein={ein} />);
     const callback = mockMatchMediaAdd.mock.calls[0][1] as (ctx: {
       conditions: { reduceMotion: boolean; fullMotion: boolean };
     }) => void;

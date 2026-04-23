@@ -1,9 +1,9 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt, requiredImageWithAlt } from "../fields";
 
 export const successStoryCollection = collection({
   label: "Success stories",
-  path: "content/success-stories/*",
+  path: "content/success-stories/*/",
   slugField: "subjectName",
   format: { contentField: "body" },
   columns: ["publishedAt", "published"],
@@ -36,7 +36,7 @@ export const successStoryCollection = collection({
         },
       },
     }),
-    portrait: imageWithAlt({ label: "Portrait", dir: "success-stories", required: true }),
+    portrait: requiredImageWithAlt({ label: "Portrait", dir: "success-stories" }),
     linkedStudentId: fields.relationship({
       label: "Linked student",
       collection: "student",
@@ -61,10 +61,9 @@ export const successStoryCollection = collection({
       description: "Falls back to the auto-derived description when empty.",
       multiline: true,
     }),
-    ogImageOverride: imageWithAlt({
+    ogImageOverride: optionalImageWithAlt({
       label: "OG image override",
       dir: "success-stories",
-      required: false,
     }),
   },
 });

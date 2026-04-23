@@ -1,8 +1,10 @@
 import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
-import { getFeaturedTestimonial } from "@/content/fixtures/testimonials";
+import type { Testimonial } from "@/lib/content/testimonials";
 
-export function HomeTestimonialPanel() {
-  const testimonial = getFeaturedTestimonial();
-  if (!testimonial) return null;
+type HomeTestimonialPanelProps = {
+  testimonial: Testimonial;
+};
+
+export function HomeTestimonialPanel({ testimonial }: HomeTestimonialPanelProps) {
   return <TestimonialPanel testimonial={testimonial} titleId="home-testimonial-title" />;
 }

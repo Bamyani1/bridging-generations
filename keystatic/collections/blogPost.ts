@@ -1,9 +1,9 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { optionalImageWithAlt, requiredImageWithAlt } from "../fields";
 
 export const blogPostCollection = collection({
   label: "Blog posts",
-  path: "content/blog-posts/*",
+  path: "content/blog-posts/*/",
   slugField: "title",
   format: { contentField: "body" },
   columns: ["publishedAt", "published"],
@@ -22,7 +22,7 @@ export const blogPostCollection = collection({
       label: "Body",
       options: { image: { directory: "public/images/blog", publicPath: "/images/blog/" } },
     }),
-    coverImage: imageWithAlt({ label: "Cover image", dir: "blog", required: true }),
+    coverImage: requiredImageWithAlt({ label: "Cover image", dir: "blog" }),
     author: fields.relationship({ label: "Author", collection: "boardMember" }),
     published: fields.checkbox({
       label: "Published",
@@ -51,10 +51,9 @@ export const blogPostCollection = collection({
       description: "Falls back to excerpt when empty.",
       multiline: true,
     }),
-    ogImageOverride: imageWithAlt({
+    ogImageOverride: optionalImageWithAlt({
       label: "OG image override",
       dir: "blog",
-      required: false,
     }),
   },
 });

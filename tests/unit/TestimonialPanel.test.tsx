@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
-import type { Testimonial } from "@/content/fixtures/testimonials";
+import type { Testimonial } from "@/lib/content/testimonials";
 
 const sample: Testimonial = {
   id: "demo",
@@ -9,7 +9,7 @@ const sample: Testimonial = {
   speakerName: "Jane Doe",
   speakerTitle: "Founder, Example Org",
   speakerRole: "board",
-  featured: true,
+  speakerPhoto: { src: null, alt: "" },
 };
 
 describe("TestimonialPanel", () => {
@@ -26,10 +26,8 @@ describe("TestimonialPanel", () => {
   });
 
   it("falls back to the capitalized role when no title is set", () => {
-    const { getByText } = render(
-      <TestimonialPanel testimonial={{ ...sample, speakerTitle: undefined }} />,
-    );
-    expect(getByText("Board")).toBeInTheDocument();
+    render(<TestimonialPanel testimonial={{ ...sample, speakerTitle: "" }} />);
+    expect(screen.getByText("Board")).toBeInTheDocument();
   });
 
   it("renders the CTA linking to /donate by default", () => {

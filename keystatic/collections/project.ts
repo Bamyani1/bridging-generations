@@ -1,5 +1,5 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { requiredImageWithAlt } from "../fields";
 
 const STATUS_OPTIONS = [
   { label: "Active", value: "active" },
@@ -9,7 +9,7 @@ const STATUS_OPTIONS = [
 
 export const projectCollection = collection({
   label: "Projects",
-  path: "content/projects/*",
+  path: "content/projects/*/",
   slugField: "title",
   columns: ["status", "fundingGoal"],
   schema: {
@@ -43,7 +43,7 @@ export const projectCollection = collection({
       options: STATUS_OPTIONS,
       defaultValue: "active",
     }),
-    heroImage: imageWithAlt({ label: "Hero image", dir: "projects", required: true }),
+    heroImage: requiredImageWithAlt({ label: "Hero image", dir: "projects" }),
     order: fields.integer({
       label: "Sort order",
       description: "Manual sort on /projects; lower = higher in the list.",

@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { Link } from "next-view-transitions";
 import { TagPill } from "@/components/ui/TagPill";
-import type { Activity } from "@/content/fixtures/activities";
+import type { Activity } from "@/lib/content/activities";
 
 type ActivityCardProps = {
   activity: Activity;
@@ -21,8 +20,8 @@ function formatDate(iso: string): string {
 }
 
 export function ActivityCard({ activity }: ActivityCardProps) {
-  const { coverImage, title, excerpt, tag, publishedAt, href } = activity;
-  const content = (
+  const { coverImage, title, excerpt, tag, publishedAt } = activity;
+  return (
     <article className="group flex h-full flex-col gap-4 bg-ground-2">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
         <Image
@@ -45,16 +44,4 @@ export function ActivityCard({ activity }: ActivityCardProps) {
       </div>
     </article>
   );
-
-  if (href) {
-    return (
-      <Link
-        href={href}
-        className="block h-full focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
-      >
-        {content}
-      </Link>
-    );
-  }
-  return content;
 }

@@ -2,11 +2,13 @@ import { Link } from "next-view-transitions";
 import { ActivityCard } from "@/components/domain/ActivityCard";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { getRecentActivities } from "@/content/fixtures/activities";
+import type { Activity } from "@/lib/content/activities";
 
-export function HomeActivities() {
-  const recent = getRecentActivities(2);
+type HomeActivitiesProps = {
+  activities: Activity[];
+};
 
+export function HomeActivities({ activities }: HomeActivitiesProps) {
   return (
     <section aria-labelledby="home-activities-title" className="bg-ground py-20 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
@@ -31,7 +33,7 @@ export function HomeActivities() {
           </Link>
         </header>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
-          {recent.map((activity, i) => (
+          {activities.map((activity, i) => (
             <Reveal key={activity.id} delay={i * 150}>
               <ActivityCard activity={activity} />
             </Reveal>

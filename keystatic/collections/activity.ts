@@ -1,5 +1,5 @@
 import { collection, fields } from "@keystatic/core";
-import { imageWithAlt } from "../fields";
+import { requiredImageWithAlt } from "../fields";
 
 const TAG_OPTIONS = [
   { label: "Distribution", value: "distribution" },
@@ -12,7 +12,7 @@ const TAG_OPTIONS = [
 
 export const activityCollection = collection({
   label: "Activities",
-  path: "content/activities/*",
+  path: "content/activities/*/",
   slugField: "title",
   columns: ["tag", "publishedAt"],
   schema: {
@@ -41,7 +41,7 @@ export const activityCollection = collection({
       label: "Published on",
       validation: { isRequired: true },
     }),
-    coverImage: imageWithAlt({ label: "Cover image", dir: "activities", required: true }),
+    coverImage: requiredImageWithAlt({ label: "Cover image", dir: "activities" }),
     relatedProjectId: fields.relationship({
       label: "Related project",
       collection: "project",

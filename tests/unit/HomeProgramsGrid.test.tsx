@@ -9,11 +9,36 @@ vi.mock("next/image", () => ({
 }));
 
 import { HomeProgramsGrid } from "@/app/(site)/_components/HomeProgramsGrid";
-import { getFeaturedProjects } from "@/content/fixtures/projects";
+import type { Project } from "@/lib/content/projects";
+
+const projects: Project[] = [
+  {
+    id: "school-meal-program",
+    title: "School meal program",
+    summary: "A short summary.",
+    body: "Body text.",
+    fundingGoal: 12000,
+    fundingRaised: 8400,
+    status: "active",
+    heroImage: { src: "/project-meal.jpg", alt: "Meal photo" },
+    order: 1,
+  },
+  {
+    id: "girls-scholarship",
+    title: "Girls' scholarship fund",
+    summary: "A short summary.",
+    body: "Body text.",
+    fundingGoal: 15000,
+    fundingRaised: 15000,
+    status: "funded",
+    heroImage: { src: "/project-scholarship.jpg", alt: "Scholarship photo" },
+    order: 2,
+  },
+];
 
 describe("HomeProgramsGrid", () => {
   it("renders the section heading as an h2 wired via aria-labelledby", () => {
-    const { container } = render(<HomeProgramsGrid />);
+    const { container } = render(<HomeProgramsGrid projects={projects} />);
     const section = container.querySelector("section");
     expect(section).toHaveAttribute("aria-labelledby", "home-programs-title");
     const heading = screen.getByRole("heading", { level: 2 });
@@ -22,17 +47,15 @@ describe("HomeProgramsGrid", () => {
   });
 
   it("renders the eyebrow and 'See all programs' tertiary link", () => {
-    render(<HomeProgramsGrid />);
+    render(<HomeProgramsGrid projects={projects} />);
     expect(screen.getByText("How we help")).toBeInTheDocument();
     const seeAll = screen.getByRole("link", { name: /see all programs/i });
     expect(seeAll).toHaveAttribute("href", "/projects");
   });
 
-  it("renders two featured ProgramCards from the fixture", () => {
-    render(<HomeProgramsGrid />);
-    const featured = getFeaturedProjects(2);
-    expect(featured).toHaveLength(2);
-    for (const project of featured) {
+  it("renders one ProgramCard per project", () => {
+    render(<HomeProgramsGrid projects={projects} />);
+    for (const project of projects) {
       expect(screen.getByText(project.title)).toBeInTheDocument();
     }
   });

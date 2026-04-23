@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { siteSettings } from "@/content/fixtures/siteSettings";
 
-export function HomeMissionBand() {
+type HomeMissionBandProps = {
+  missionFull: string;
+};
+
+export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
   return (
     <section aria-labelledby="home-mission-title" className="bg-ground-3 py-20 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
@@ -12,7 +15,7 @@ export function HomeMissionBand() {
             <div className="flex flex-col gap-5">
               <Eyebrow>Our mission</Eyebrow>
               <h2 id="home-mission-title" className="text-balance text-heading-3 text-ink">
-                {siteSettings.missionFull}
+                {missionFull}
               </h2>
             </div>
           </Reveal>

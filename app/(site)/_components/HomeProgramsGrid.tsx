@@ -2,11 +2,13 @@ import { Link } from "next-view-transitions";
 import { ProgramCard } from "@/components/domain/ProgramCard";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { getFeaturedProjects } from "@/content/fixtures/projects";
+import type { Project } from "@/lib/content/projects";
 
-export function HomeProgramsGrid() {
-  const featured = getFeaturedProjects(2);
+type HomeProgramsGridProps = {
+  projects: Project[];
+};
 
+export function HomeProgramsGrid({ projects }: HomeProgramsGridProps) {
   return (
     <section aria-labelledby="home-programs-title" className="bg-ground py-20 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
@@ -31,7 +33,7 @@ export function HomeProgramsGrid() {
           </Link>
         </header>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
-          {featured.map((project, i) => (
+          {projects.map((project, i) => (
             <Reveal key={project.id} delay={i * 150}>
               <ProgramCard project={project} />
             </Reveal>

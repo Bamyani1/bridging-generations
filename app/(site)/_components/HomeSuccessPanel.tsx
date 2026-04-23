@@ -2,12 +2,13 @@ import Image from "next/image";
 import { Link } from "next-view-transitions";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
-import { getFeaturedSuccessStory } from "@/content/fixtures/successStories";
+import type { SuccessStory } from "@/lib/content/successStories";
 
-export function HomeSuccessPanel() {
-  const story = getFeaturedSuccessStory();
-  if (!story) return null;
+type HomeSuccessPanelProps = {
+  story: Pick<SuccessStory, "slug" | "subjectName" | "subjectRole" | "pullQuote" | "portrait">;
+};
 
+export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
   return (
     <section
       aria-labelledby="home-success-title"

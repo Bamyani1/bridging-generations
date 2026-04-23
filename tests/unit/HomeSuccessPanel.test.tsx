@@ -9,41 +9,43 @@ vi.mock("next/image", () => ({
 }));
 
 import { HomeSuccessPanel } from "@/app/(site)/_components/HomeSuccessPanel";
-import { getFeaturedSuccessStory } from "@/content/fixtures/successStories";
+
+const story = {
+  slug: "priya-university-dhaka",
+  subjectName: "Priya",
+  subjectRole: "Alum, now a university student in Dhaka",
+  pullQuote: "I thought school would end for me after grade five.",
+  portrait: { src: "/success-story-priya.jpg", alt: "Portrait of Priya" },
+};
 
 describe("HomeSuccessPanel", () => {
   it("renders the featured quote inside a blockquote", () => {
-    render(<HomeSuccessPanel />);
-    const quote = getFeaturedSuccessStory();
-    expect(quote).toBeDefined();
+    render(<HomeSuccessPanel story={story} />);
     const block = screen.getByRole("blockquote");
-    expect(block).toHaveTextContent(quote?.pullQuote ?? "");
+    expect(block).toHaveTextContent(story.pullQuote);
   });
 
   it("renders subject name and role", () => {
-    render(<HomeSuccessPanel />);
-    const story = getFeaturedSuccessStory();
-    expect(screen.getByText(story?.subjectName ?? "")).toBeInTheDocument();
-    expect(screen.getByText(story?.subjectRole ?? "")).toBeInTheDocument();
+    render(<HomeSuccessPanel story={story} />);
+    expect(screen.getByText(story.subjectName)).toBeInTheDocument();
+    expect(screen.getByText(story.subjectRole)).toBeInTheDocument();
   });
 
   it("wires the section landmark to the quote via aria-labelledby", () => {
-    const { container } = render(<HomeSuccessPanel />);
+    const { container } = render(<HomeSuccessPanel story={story} />);
     const section = container.querySelector("section");
     expect(section).toHaveAttribute("aria-labelledby", "home-success-title");
     expect(container.querySelector("#home-success-title")).not.toBeNull();
   });
 
   it("links the CTA to the story's detail URL", () => {
-    render(<HomeSuccessPanel />);
-    const story = getFeaturedSuccessStory();
-    const link = screen.getByRole("link", { name: new RegExp(`read ${story?.subjectName}`, "i") });
-    expect(link).toHaveAttribute("href", `/success-stories/${story?.slug}`);
+    render(<HomeSuccessPanel story={story} />);
+    const link = screen.getByRole("link", { name: /read priya/i });
+    expect(link).toHaveAttribute("href", `/success-stories/${story.slug}`);
   });
 
   it("renders the portrait with descriptive alt", () => {
-    render(<HomeSuccessPanel />);
-    const story = getFeaturedSuccessStory();
-    expect(screen.getByAltText(story?.portrait.alt ?? "")).toBeInTheDocument();
+    render(<HomeSuccessPanel story={story} />);
+    expect(screen.getByAltText(story.portrait.alt)).toBeInTheDocument();
   });
 });
