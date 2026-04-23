@@ -5,11 +5,13 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
 import { getAllSchools } from "@/lib/content/schools";
 import { getStudentsGroupedBySchool } from "@/lib/content/students";
+import { getAllTestimonials } from "@/lib/content/testimonials";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { ConsentStatement } from "./_components/ConsentStatement";
 import { SchoolSection } from "./_components/SchoolSection";
 import { StudentsHero } from "./_components/StudentsHero";
+import { StudentsPullQuote } from "./_components/StudentsPullQuote";
 
 export const metadata: Metadata = {
   title: "Students",
@@ -18,7 +20,16 @@ export const metadata: Metadata = {
 };
 
 export default async function StudentsPage() {
-  const [schools, grouped] = await Promise.all([getAllSchools(), getStudentsGroupedBySchool()]);
+  const [schools, grouped, testimonials] = await Promise.all([
+    getAllSchools(),
+    getStudentsGroupedBySchool(),
+    getAllTestimonials(),
+  ]);
+
+  const pullQuote =
+    testimonials.find((t) => t.speakerRole === "student") ??
+    testimonials.find((t) => t.speakerRole === "parent") ??
+    null;
 
   const schoolById = new Map(schools.map((school) => [school.id, school]));
   type Section = {
@@ -49,7 +60,10 @@ export default async function StudentsPage() {
 
   return (
     <>
-      <StudentsHero studentCount={studentCount} schoolCount={schools.length} />
+      <div className="relative">
+        <StudentsHero studentCount={studentCount} schoolCount={schools.length} />
+        {pullQuote ? <StudentsPullQuote testimonial={pullQuote} /> : null}
+      </div>
       <ConsentStatement />
       <section
         aria-label="Student sponsorships at a glance"
