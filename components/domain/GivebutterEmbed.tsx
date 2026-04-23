@@ -2,6 +2,8 @@
 
 import Script from "next/script";
 import { createElement, useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type GivebutterEmbedProps = {
@@ -9,34 +11,48 @@ type GivebutterEmbedProps = {
   campaignId: string;
 };
 
+function SetupFallback() {
+  return (
+    <div className="flex min-h-[560px] flex-col justify-center gap-5 border border-hairline bg-ground-2 p-8 sm:p-10">
+      <Eyebrow>Give by email</Eyebrow>
+      <p className="text-balance text-heading-4 text-ink">
+        While we finish wiring up our Givebutter campaign, write us and a board member will send
+        secure payment details the same day.
+      </p>
+      <p className="max-w-[52ch] text-body text-ink-2">
+        Check, wire transfer, or a direct Givebutter link — whichever works for you. Monthly or
+        one-time, any amount helps keep a student in the classroom.
+      </p>
+      <div className="flex flex-wrap gap-3">
+        <Button
+          variant="primary"
+          href="mailto:info@bridginggenerations.org?subject=I'd%20like%20to%20donate"
+        >
+          Email the board
+        </Button>
+        <Button variant="secondary" href="mailto:info@bridginggenerations.org">
+          info@bridginggenerations.org
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export function GivebutterEmbed({ accountId, campaignId }: GivebutterEmbedProps) {
   const [loaded, setLoaded] = useState(false);
 
-  // Campaign id drives the widget element; without it we have nothing to mount.
-  if (!campaignId || isPlaceholder(campaignId)) {
-    return (
-      <div className="bg-ground-2 p-6">
-        <p className="text-body text-ink-2">
-          Our donation widget is being set up. In the meantime, email{" "}
-          <a
-            href="mailto:info@bridginggenerations.org"
-            className="text-accent underline underline-offset-[3px]"
-          >
-            info@bridginggenerations.org
-          </a>{" "}
-          and a board member will help you give.
-        </p>
-      </div>
-    );
+  // Both values must be real Givebutter dashboard values — accountId (acct= in
+  // the widget script URL) and campaignId (<givebutter-widget id>). If either
+  // is a [CONFIRM:] stub the widget-core script would error in the console and
+  // render nothing, so we show an honest email-us CTA instead.
+  const accountReady = accountId && !isPlaceholder(accountId);
+  const campaignReady = campaignId && !isPlaceholder(campaignId);
+  if (!accountReady || !campaignReady) {
+    return <SetupFallback />;
   }
 
-  // Account id drives the widget-core analytics on the script url. When it's
-  // absent or still a [CONFIRM:] stub we fall back to the campaign id — the
-  // widget element still mounts and renders the form; widget-core just logs a
-  // console warning about the acct value until a real id is filled in.
-  const acct = accountId && !isPlaceholder(accountId) ? accountId : campaignId;
   const scriptSrc = `https://widgets.givebutter.com/latest.umd.cjs?acct=${encodeURIComponent(
-    acct,
+    accountId,
   )}&p=other`;
 
   return (
