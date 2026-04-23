@@ -18,7 +18,7 @@ export function CTAFooterPanel({
   titleId = "cta-footer-title",
 }: CTAFooterPanelProps) {
   const isTeal = tone === "teal";
-  const surfaceClass = isTeal ? "bg-accent text-white" : "bg-ground text-ink";
+  const surfaceClass = isTeal ? "teal-panel text-white" : "bg-ground text-ink";
   const bodyClass = isTeal ? "text-white/80" : "text-ink-2";
 
   return (

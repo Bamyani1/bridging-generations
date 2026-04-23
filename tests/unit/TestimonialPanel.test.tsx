@@ -42,4 +42,13 @@ describe("TestimonialPanel", () => {
     expect(section).toHaveAttribute("aria-labelledby", "custom-id");
     expect(container.querySelector("#custom-id")).not.toBeNull();
   });
+
+  it("renders the teal-panel surface with an aria-hidden quote glyph", () => {
+    const { container } = render(<TestimonialPanel testimonial={sample} />);
+    const section = container.querySelector("section");
+    expect(section?.className).toContain("teal-panel");
+    const glyph = container.querySelector(".teal-panel-glyph");
+    expect(glyph).not.toBeNull();
+    expect(glyph).toHaveAttribute("aria-hidden", "true");
+  });
 });
