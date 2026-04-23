@@ -14,7 +14,7 @@ export function AboutMissionVision({ missionFull, visionFull }: AboutMissionVisi
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <div className="flex flex-col gap-5">
-            <h2 id="about-mission-title" className="text-balance text-heading-3 text-ink">
+            <h2 id="about-mission-title" className="text-balance text-heading-1 text-ink">
               Our Mission
             </h2>
             <p className="text-body-lg text-ink-2">{missionFull}</p>
@@ -22,7 +22,7 @@ export function AboutMissionVision({ missionFull, visionFull }: AboutMissionVisi
         </Reveal>
         <Reveal delay={100}>
           <div className="flex flex-col gap-5">
-            <h2 id="about-vision-title" className="text-balance text-heading-3 text-ink">
+            <h2 id="about-vision-title" className="text-balance text-heading-1 text-ink">
               Our Vision
             </h2>
             <p className="text-body-lg text-ink-2">{visionFull}</p>
