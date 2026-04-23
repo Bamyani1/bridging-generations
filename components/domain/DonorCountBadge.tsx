@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
+import { easeOutSmooth } from "@/lib/motion/easing";
 
 type DonorCountBadgeProps = {
   count: number;
@@ -33,7 +34,7 @@ export function DonorCountBadge({ count, label }: DonorCountBadgeProps) {
           const start = performance.now();
           const tick = (now: number) => {
             const progress = Math.min(1, (now - start) / DURATION_MS);
-            const eased = 1 - (1 - progress) ** 4;
+            const eased = easeOutSmooth(progress);
             setDisplayed(Math.round(eased * count));
             if (progress < 1) rafId = requestAnimationFrame(tick);
           };
