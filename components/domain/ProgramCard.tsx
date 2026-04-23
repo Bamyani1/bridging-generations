@@ -16,13 +16,21 @@ const dollars = new Intl.NumberFormat("en-US", {
 export function ProgramCard({ project }: ProgramCardProps) {
   const { heroImage, title, summary, fundingGoal, fundingRaised, status } = project;
   const percentage = fundingGoal > 0 ? Math.round((fundingRaised / fundingGoal) * 100) : 0;
-  const isFunded = status === "funded" || percentage >= 100;
-  const progressLabel = isFunded
-    ? undefined
-    : `Raised ${dollars.format(fundingRaised)} of ${dollars.format(fundingGoal)}`;
+  const isPaused = status === "paused";
+  const isFunded = !isPaused && (status === "funded" || percentage >= 100);
+  const progressLabel =
+    isFunded || isPaused
+      ? undefined
+      : `Raised ${dollars.format(fundingRaised)} of ${dollars.format(fundingGoal)}`;
+  const progressTone = isPaused ? "paused" : isFunded ? "funded" : "default";
+  const ctaLabel = isFunded
+    ? "Read what we did"
+    : isPaused
+      ? "Why it's on pause"
+      : "Support this project";
 
   return (
-    <article className="group flex flex-col gap-5 bg-ground-2">
+    <article className={`group flex flex-col gap-5 bg-ground-2${isPaused ? " opacity-80" : ""}`}>
       <Link
         href="/projects"
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
@@ -33,23 +41,19 @@ export function ProgramCard({ project }: ProgramCardProps) {
             alt={heroImage.alt}
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
+            className={`object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]${isPaused ? " grayscale" : ""}`}
           />
         </div>
       </Link>
       <div className="flex flex-col gap-4 p-6 lg:p-8">
         <h3 className="text-heading-4 text-ink">{title}</h3>
         <p className="text-body text-ink-2">{summary}</p>
-        <ProgressBar
-          percentage={percentage}
-          label={progressLabel}
-          tone={isFunded ? "funded" : "default"}
-        />
+        <ProgressBar percentage={percentage} label={progressLabel} tone={progressTone} />
         <Link
           href="/projects"
           className="group/link inline-flex items-center gap-1 text-nav-link uppercase text-accent transition hover:text-accent-2-text"
         >
-          Support this project
+          {ctaLabel}
           <span
             aria-hidden="true"
             className="transition-transform motion-safe:group-hover/link:translate-x-1"
