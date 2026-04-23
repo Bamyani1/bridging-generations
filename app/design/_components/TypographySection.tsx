@@ -1,3 +1,5 @@
+import { SectionShell } from "./SectionShell";
+
 type Tier = {
   name: string;
   desktopPx: number;
@@ -157,7 +159,7 @@ function TypeSample({ tier, size }: { tier: Tier; size: "desktop" | "mobile" }) 
   const px = size === "desktop" ? tier.desktopPx : tier.mobilePx;
   return (
     <div>
-      <p className="mb-2 text-meta uppercase text-ink-2">
+      <p className="mb-3 font-mono text-meta uppercase text-ink-2">
         {size} · {px}px
       </p>
       <p
@@ -177,16 +179,22 @@ function TypeSample({ tier, size }: { tier: Tier; size: "desktop" | "mobile" }) 
 
 function TypographyRow({ tier }: { tier: Tier }) {
   return (
-    <div className="border-hairline border-t py-8 first:border-t-0 first:pt-0">
-      <div className="mb-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-        <span className="font-mono text-meta text-ink">text-{tier.name}</span>
-        <span className="text-meta uppercase text-ink-2">
+    <div className="border-t border-hairline py-10 first:border-t-0 first:pt-0">
+      <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <span className="font-mono text-meta uppercase text-ink">text-{tier.name}</span>
+        <span aria-hidden="true" className="text-hairline">
+          /
+        </span>
+        <span className="font-mono text-meta uppercase text-ink-2">
           {tier.desktopPx}/{tier.mobilePx}px · w{tier.weight} · lh {tier.lineHeight} · tracking{" "}
           {tier.tracking}
         </span>
-        <span className="text-meta text-ink-2">{tier.usage}</span>
+        <span aria-hidden="true" className="text-hairline">
+          /
+        </span>
+        <span className="font-mono text-meta uppercase text-ink-2">{tier.usage}</span>
       </div>
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2">
         <TypeSample tier={tier} size="desktop" />
         <TypeSample tier={tier} size="mobile" />
       </div>
@@ -196,17 +204,24 @@ function TypographyRow({ tier }: { tier: Tier }) {
 
 export function TypographySection() {
   return (
-    <section id="typography" className="scroll-mt-8">
-      <h2 className="text-heading-2">Typography</h2>
-      <p className="mt-2 max-w-2xl text-body-sm text-ink-2">
-        Plus Jakarta Sans, one family, four weights. Fourteen tiers. Samples force the pixel size
-        inline so both desktop and mobile values render regardless of viewport.
+    <SectionShell
+      id="typography"
+      number="§2"
+      label="Typography"
+      meta={[
+        { key: "tiers", value: "14" },
+        { key: "family", value: "jakarta sans" },
+      ]}
+    >
+      <p className="max-w-2xl text-body text-ink-2">
+        One family, four weights, fourteen tiers. Samples force the pixel size inline so both
+        desktop and mobile render regardless of viewport.
       </p>
-      <div className="mt-8 space-y-0">
+      <div className="mt-10">
         {tiers.map((tier) => (
           <TypographyRow key={tier.name} tier={tier} />
         ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }

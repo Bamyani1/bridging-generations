@@ -26,7 +26,7 @@ describe("ColorSection", () => {
     expect(screen.getByText("#0F4C5C")).toBeInTheDocument();
     expect(screen.getByText("#B5462B")).toBeInTheDocument();
 
-    expect(screen.getAllByText(/^Non-text/).length).toBe(3);
-    expect(screen.getAllByText(/^Text-safe/).length).toBe(7);
+    expect(screen.getAllByText(/^non-text/).length).toBe(3);
+    expect(screen.getAllByText(/^text-safe/).length).toBe(7);
   });
 });
