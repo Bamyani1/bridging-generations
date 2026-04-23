@@ -27,13 +27,13 @@ export function HomeHero() {
           | { reduceMotion: boolean; fullMotion: boolean }
           | undefined;
         if (!conditions || conditions.reduceMotion) return;
-        const copyEls = [
+        const copyEls: HTMLElement[] = [
           eyebrowRef.current,
           headlineRef.current,
           subheadRef.current,
           ctasRef.current,
           reassuranceRef.current,
-        ].filter((el): el is HTMLElement => el !== null);
+        ].filter((el): el is NonNullable<typeof el> => el !== null);
         gsap.set(imageRef.current, { opacity: 0, scale: 1.04 });
         gsap.set(copyEls, { opacity: 0, y: 12 });
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });

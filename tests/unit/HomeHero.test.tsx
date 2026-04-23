@@ -1,20 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { mockMatchMediaAdd, mockRevert, mockSet, mockTimelineTo, mockTimeline } = vi.hoisted(
-  () => {
-    const to = vi.fn();
-    to.mockReturnThis();
-    const timeline = vi.fn(() => ({ to }));
-    return {
-      mockMatchMediaAdd: vi.fn(),
-      mockRevert: vi.fn(),
-      mockSet: vi.fn(),
-      mockTimelineTo: to,
-      mockTimeline: timeline,
-    };
-  },
-);
+const { mockMatchMediaAdd, mockRevert, mockSet, mockTimelineTo, mockTimeline } = vi.hoisted(() => {
+  const to = vi.fn();
+  to.mockReturnThis();
+  const timeline = vi.fn(() => ({ to }));
+  return {
+    mockMatchMediaAdd: vi.fn(),
+    mockRevert: vi.fn(),
+    mockSet: vi.fn(),
+    mockTimelineTo: to,
+    mockTimeline: timeline,
+  };
+});
 
 vi.mock("gsap", () => ({
   gsap: {
@@ -26,6 +24,7 @@ vi.mock("gsap", () => ({
 
 vi.mock("next/image", () => ({
   default: ({ alt, src }: { alt: string; src: string }) => (
+    // biome-ignore lint/performance/noImgElement: next/image is stubbed to a plain img for jsdom tests
     <img alt={alt} src={typeof src === "string" ? src : ""} />
   ),
 }));
@@ -67,10 +66,7 @@ describe("HomeHero", () => {
       "href",
       "/donate",
     );
-    expect(screen.getByRole("link", { name: "Our Programs" })).toHaveAttribute(
-      "href",
-      "/projects",
-    );
+    expect(screen.getByRole("link", { name: "Our Programs" })).toHaveAttribute("href", "/projects");
   });
 
   it("renders the 501(c)(3) reassurance line with the fixture EIN", () => {
@@ -83,9 +79,7 @@ describe("HomeHero", () => {
 
   it("gives the hero image a descriptive alt", () => {
     render(<HomeHero />);
-    const img = screen.getByAltText(
-      "Students in a classroom at a Hill Tracts partner school",
-    );
+    const img = screen.getByAltText("Students in a classroom at a Hill Tracts partner school");
     expect(img).toBeInTheDocument();
   });
 
