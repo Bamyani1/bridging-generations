@@ -62,7 +62,10 @@ export default async function DonatePage({ searchParams }: { searchParams: Searc
           </div>
           <div>
             {project ? <ProjectBanner project={project} /> : null}
-            <GivebutterEmbed campaignId={donatePage.givebutterCampaignId} />
+            <GivebutterEmbed
+              accountId={donatePage.givebutterAccountId}
+              campaignId={donatePage.givebutterCampaignId}
+            />
           </div>
         </div>
       </section>
