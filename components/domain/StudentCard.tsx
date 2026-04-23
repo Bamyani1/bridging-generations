@@ -23,7 +23,11 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
             src={portraitSrc}
             alt={portrait?.alt ?? ""}
             fill
-            sizes={isSpotlight ? "320px" : "(min-width: 1024px) 25vw, 50vw"}
+            sizes={
+              isSpotlight
+                ? "(min-width: 1024px) 360px, (min-width: 640px) 320px, 280px"
+                : "(min-width: 1024px) 25vw, 50vw"
+            }
             className="object-cover"
           />
         ) : (
