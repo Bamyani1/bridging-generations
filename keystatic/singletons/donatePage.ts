@@ -28,5 +28,31 @@ export const donatePageSingleton = singleton({
       description: "Shown below the embed.",
       multiline: true,
     }),
+    thankYouBody: fields.text({
+      label: "Thank-you body",
+      description:
+        "Body copy for /donate/thank-you. Avoid assuming donation completion — some visitors type the URL without donating.",
+      multiline: true,
+      validation: { isRequired: true, length: { min: 1 } },
+    }),
+    faq: fields.array(
+      fields.object({
+        question: fields.text({
+          label: "Question",
+          validation: { isRequired: true, length: { min: 1 } },
+        }),
+        answer: fields.text({
+          label: "Answer",
+          multiline: true,
+          validation: { isRequired: true, length: { min: 1 } },
+        }),
+      }),
+      {
+        label: "FAQ",
+        description:
+          "4–6 items on tax deductibility, processing fees, how the money is used, recurring cancellation, etc.",
+        itemLabel: (props) => props.fields.question.value.slice(0, 80) || "Question",
+      },
+    ),
   },
 });
