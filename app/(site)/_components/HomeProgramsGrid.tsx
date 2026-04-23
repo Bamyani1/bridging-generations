@@ -32,13 +32,15 @@ export function HomeProgramsGrid({ projects }: HomeProgramsGridProps) {
             </span>
           </Link>
         </header>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
-          {projects.map((project, i) => (
-            <Reveal key={project.id} delay={i * 100}>
-              <ProgramCard project={project} />
-            </Reveal>
+        <Reveal
+          cascade
+          stagger="scale-in"
+          className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10"
+        >
+          {projects.map((project) => (
+            <ProgramCard key={project.id} project={project} />
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
