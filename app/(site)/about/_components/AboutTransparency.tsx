@@ -1,4 +1,5 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type AboutTransparencyProps = {
   orgName: string;
@@ -20,6 +21,8 @@ export function AboutTransparency({
   contactEmail,
 }: AboutTransparencyProps) {
   const hasAnyFinancialLink = Boolean(form990Url) || Boolean(candidProfileUrl);
+  const showEin = !isPlaceholder(ein) && ein !== "00-0000000";
+  const showMailingAddress = !isPlaceholder(mailingAddress);
 
   return (
     <section
@@ -43,9 +46,13 @@ export function AboutTransparency({
               <span className="text-ink">{orgName}</span>
               <span>Founded {foundingYear}</span>
               <span>501(c)(3) nonprofit</span>
-              <span>
-                EIN <span className="tabular-nums">{ein}</span>
-              </span>
+              {showEin ? (
+                <span>
+                  EIN <span className="tabular-nums">{ein}</span>
+                </span>
+              ) : (
+                <span>EIN published once the board confirms the filing.</span>
+              )}
             </dd>
           </div>
           <div className="flex flex-col gap-3">
@@ -93,7 +100,11 @@ export function AboutTransparency({
           <div className="flex flex-col gap-3">
             <dt className="text-eyebrow uppercase text-accent">Governance</dt>
             <dd className="flex flex-col gap-3 text-body text-ink-2">
-              <address className="whitespace-pre-line not-italic">{mailingAddress}</address>
+              {showMailingAddress ? (
+                <address className="whitespace-pre-line not-italic">{mailingAddress}</address>
+              ) : (
+                <p>We operate remotely. Mail reaches us through the email below.</p>
+              )}
               <a
                 href={`mailto:${contactEmail}`}
                 className="text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
