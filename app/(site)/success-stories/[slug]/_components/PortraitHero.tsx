@@ -8,9 +8,13 @@ type PortraitHeroProps = {
 };
 
 export function PortraitHero({ story, showPortrait }: PortraitHeroProps) {
+  const imageWrapperClass = story.heroDuotone
+    ? "relative mx-auto aspect-[5/6] w-full max-w-[1100px] overflow-hidden hero-duotone sm:aspect-[16/10] lg:aspect-[16/9]"
+    : "relative mx-auto aspect-[5/6] w-full max-w-[1100px] overflow-hidden sm:aspect-[16/10] lg:aspect-[16/9]";
+
   return (
     <section aria-labelledby="success-story-title" className="relative bg-ground-3">
-      <div className="relative mx-auto aspect-[5/6] w-full max-w-[1100px] overflow-hidden sm:aspect-[16/10] lg:aspect-[16/9]">
+      <div className={imageWrapperClass}>
         {showPortrait ? (
           <Image
             src={story.portrait.src}

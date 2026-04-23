@@ -17,13 +17,16 @@ export function BoardMemberCard({ member, headingLevel = 3 }: BoardMemberCardPro
     <article className="card-hover group flex h-full flex-col gap-5 bg-ground-2">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
         {portraitSrc ? (
-          <Image
-            src={portraitSrc}
-            alt={portraitAlt}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
-          />
+          <>
+            <Image
+              src={portraitSrc}
+              alt={portraitAlt}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
+            />
+            <span aria-hidden="true" className="portrait-vignette" />
+          </>
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <Avatar name={name} size="lg" />
