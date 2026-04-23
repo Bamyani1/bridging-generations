@@ -31,6 +31,7 @@ test("mobile menu opens, traps focus, and closes on escape", async ({ page }) =>
 });
 
 test("home route has zero axe violations with nav mounted", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
