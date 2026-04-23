@@ -30,7 +30,7 @@ export function ProgramCard({ project }: ProgramCardProps) {
       : "Support this project";
 
   return (
-    <article className={`group flex flex-col gap-5 bg-ground-2${isPaused ? " opacity-80" : ""}`}>
+    <article className="group flex flex-col gap-5 bg-ground-2">
       <Link
         href="/projects"
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
