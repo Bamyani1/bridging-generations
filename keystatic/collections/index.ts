@@ -1,0 +1,9 @@
+export { activityCollection } from "./activity";
+export { blogPostCollection } from "./blogPost";
+export { boardMemberCollection } from "./boardMember";
+export { galleryImageCollection } from "./galleryImage";
+export { projectCollection } from "./project";
+export { schoolCollection } from "./school";
+export { studentCollection } from "./student";
+export { successStoryCollection } from "./successStory";
+export { testimonialCollection } from "./testimonial";
