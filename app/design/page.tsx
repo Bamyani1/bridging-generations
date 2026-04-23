@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ButtonSection } from "./_components/ButtonSection";
 import { ColorSection } from "./_components/ColorSection";
 import { RadiusSection } from "./_components/RadiusSection";
 import { ShadowSection } from "./_components/ShadowSection";
@@ -12,7 +13,6 @@ export const metadata: Metadata = {
 };
 
 const stubSections: Array<{ id: string; title: string; note: string }> = [
-  { id: "buttons", title: "Buttons", note: "Variants + states ship in PR 2.5." },
   {
     id: "eyebrow-tagpill",
     title: "Eyebrow, TagPill & StatusDot",
@@ -42,6 +42,7 @@ export default function DesignPage() {
       <SpacingSection />
       <RadiusSection />
       <ShadowSection />
+      <ButtonSection />
       {stubSections.map((section) => (
         <section key={section.id} id={section.id} className="scroll-mt-8">
           <h2 className="text-heading-2">{section.title}</h2>
