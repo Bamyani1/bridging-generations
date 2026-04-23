@@ -65,6 +65,7 @@ describe("HomeHero", () => {
     render(<HomeHero stats={stats} ein={ein} />);
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveAttribute("id", "home-hero-title");
+    expect(heading).toHaveClass("text-display-1");
   });
 
   it("wires the hero section landmark to the h1 via aria-labelledby", () => {
@@ -102,6 +103,18 @@ describe("HomeHero", () => {
       "Students in a Bangladesh classroom hold up their drawings beside their teacher",
     );
     expect(img).toBeInTheDocument();
+  });
+
+  it("applies the signature image motion and depth overlay", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    const img = screen.getByAltText(
+      "Students in a Bangladesh classroom hold up their drawings beside their teacher",
+    );
+    const imagePanel = img.parentElement;
+    expect(imagePanel).toHaveClass("kenburns");
+    const overlay = imagePanel?.querySelector('[aria-hidden="true"]');
+    expect(overlay).not.toBeNull();
+    expect(overlay?.getAttribute("class")).toContain("linear-gradient");
   });
 
   it("renders correctly when reduced motion is preferred", () => {

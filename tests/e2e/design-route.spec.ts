@@ -11,6 +11,12 @@ test("design route is noindexed via meta and header", async ({ page, request }) 
   await expect(page.getByRole("heading", { name: "Design System", level: 1 })).toBeVisible();
 });
 
+test("nested design paths keep the noindex header", async ({ request }) => {
+  const res = await request.get("/design/anything");
+  expect(res.headers()["x-robots-tag"]).toContain("noindex");
+  expect(res.headers()["x-robots-tag"]).toContain("nofollow");
+});
+
 test("robots.txt disallows design and donate thank-you", async ({ request }) => {
   const res = await request.get("/robots.txt");
   expect(res.status()).toBe(200);

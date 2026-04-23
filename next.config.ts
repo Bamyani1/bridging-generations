@@ -1,16 +1,16 @@
 import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
-// Report-only until Phase 10.6 flips this to an enforcing `Content-Security-Policy`.
-// Allowlist covers Givebutter embed (Phase 8) and Fathom analytics (Phase 10.2).
+// Report-only until Phase 12.5 flips this to an enforcing `Content-Security-Policy`.
+// Allowlist covers Givebutter embed (Phase 8). Analytics deferred.
 // Resend is server-side only and does not require CSP entries.
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://givebutter.com https://widgets.givebutter.com https://cdn.usefathom.com",
+  "script-src 'self' 'unsafe-inline' https://givebutter.com https://widgets.givebutter.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://cdn.usefathom.com https://api.usefathom.com",
+  "connect-src 'self'",
   "frame-src 'self' https://givebutter.com https://widgets.givebutter.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",

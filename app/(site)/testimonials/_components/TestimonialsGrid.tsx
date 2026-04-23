@@ -90,10 +90,10 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
     | { kind: "card"; testimonial: Testimonial }
     | { kind: "panel"; testimonial: Testimonial; key: string }
   > = [];
-  for (let i = 0; i < cards.length; i += 1) {
-    interleaved.push(cards[i]!);
+  for (const [i, card] of cards.entries()) {
+    interleaved.push(card);
     if ((i + 1) % HERO_EVERY === 0 && i + 1 < cards.length) {
-      const heroTarget = cards[i + 1]?.testimonial ?? cards[i]!.testimonial;
+      const heroTarget = cards[i + 1]?.testimonial ?? card.testimonial;
       interleaved.push({
         kind: "panel",
         testimonial: heroTarget,

@@ -13,6 +13,6 @@ test("security headers are served on the home route", async ({ request }) => {
   expect(csp).toBeDefined();
   expect(csp).toContain("default-src 'self'");
   expect(csp).toContain("givebutter.com");
-  expect(csp).toContain("cdn.usefathom.com");
+  expect(csp).not.toContain("usefathom.com");
   expect(csp).toContain("frame-ancestors 'none'");
 });
