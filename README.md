@@ -65,7 +65,7 @@ One-time setup by the site admin:
 
 ## Deployment
 
-This site deploys to Vercel. Every PR gets an automatic preview URL. Production is promoted per release — the plan has a dedicated Phase 10 for domain, OG images, Fathom analytics, CSP flip, and Resend domain warmup.
+This site deploys to Vercel. Every PR gets an automatic preview URL. Production is promoted per release — the current launch track has a dedicated Phase 12 for domain setup, OG images, sitemap/robots, CSP enforcement, and Resend domain warmup. Analytics are deferred for v1.
 
 ## Pre-launch content checklist
 
