@@ -59,7 +59,10 @@ export function Nav() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-40 h-16 bg-accent/85 backdrop-blur-2xl">
+      <nav
+        aria-label="Primary"
+        className="fixed inset-x-0 top-0 z-40 h-16 bg-accent/85 backdrop-blur-2xl"
+      >
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-[6%]">
           <Link
             href="/"
@@ -105,7 +108,7 @@ export function Nav() {
             <Menu className="size-5" aria-hidden="true" />
           </button>
         </div>
-      </div>
+      </nav>
       {open && (
         <div className="lg:hidden">
           <button
