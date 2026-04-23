@@ -33,7 +33,7 @@ describe("CTAFooterPanel", () => {
   it("switches to teal surface when tone='teal'", () => {
     const { container } = render(<CTAFooterPanel {...props} tone="teal" />);
     const section = container.querySelector("section");
-    expect(section?.className).toContain("bg-accent");
+    expect(section?.className).toContain("teal-panel");
     expect(section?.className).toContain("text-white");
   });
 

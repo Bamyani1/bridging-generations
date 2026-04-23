@@ -21,8 +21,9 @@ export function TestimonialPanel({
       : `${speakerRole.charAt(0).toUpperCase()}${speakerRole.slice(1)}`;
 
   return (
-    <section aria-labelledby={titleId} className="bg-accent py-20 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
+    <section aria-labelledby={titleId} className="teal-panel py-20 lg:py-32">
+      <span aria-hidden="true" className="teal-panel-glyph" />
+      <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <blockquote className="flex flex-col gap-10">
           <p id={titleId} className="text-balance text-heading-1 text-white">
             &ldquo;{quote}&rdquo;
