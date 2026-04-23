@@ -54,6 +54,7 @@ export function DonorCountBadge({ count, label }: DonorCountBadgeProps) {
   return (
     <div
       ref={ref}
+      role="img"
       aria-label={`${count} ${label}`}
       className="flex flex-col items-center gap-4 bg-ground-3 px-6 py-16 text-center lg:px-12 lg:py-24"
     >

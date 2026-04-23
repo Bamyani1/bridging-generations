@@ -15,6 +15,17 @@ export const galleryImageCollection = collection({
       slug: { label: "Slug" },
     }),
     image: requiredImageWithAlt({ label: "Image", dir: "gallery" }),
+    width: fields.integer({
+      label: "Width (pixels)",
+      description:
+        "Intrinsic pixel width of the image. Needed so next/image can reserve layout space.",
+      validation: { isRequired: true, min: 1 },
+    }),
+    height: fields.integer({
+      label: "Height (pixels)",
+      description: "Intrinsic pixel height of the image.",
+      validation: { isRequired: true, min: 1 },
+    }),
     takenAt: fields.date({ label: "Taken on" }),
     location: fields.text({ label: "Location" }),
   },
