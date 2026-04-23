@@ -1,0 +1,68 @@
+"use client";
+
+import { useLayoutEffect, useRef, useState } from "react";
+
+type StatCardProps = {
+  value: number;
+  label: string;
+  delay?: number;
+};
+
+const DURATION_MS = 1200;
+
+export function StatCard({ value, label, delay = 0 }: StatCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [displayed, setDisplayed] = useState(value);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    setDisplayed(0);
+
+    const el = ref.current;
+    if (!el) return;
+
+    let rafId = 0;
+    let timeoutId = 0;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) return;
+          observer.disconnect();
+          timeoutId = window.setTimeout(() => {
+            const start = performance.now();
+            const tick = (now: number) => {
+              const progress = Math.min(1, (now - start) / DURATION_MS);
+              const eased = 1 - (1 - progress) ** 4;
+              setDisplayed(Math.round(eased * value));
+              if (progress < 1) rafId = requestAnimationFrame(tick);
+            };
+            rafId = requestAnimationFrame(tick);
+          }, delay);
+          return;
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [value, delay]);
+
+  return (
+    <div ref={ref} className="flex flex-col gap-3">
+      <span className="text-balance text-display-2 leading-none text-accent-2-text tabular-nums">
+        <span aria-hidden="true">{displayed}</span>
+        <span className="sr-only">{value}</span>
+      </span>
+      <span className="text-eyebrow uppercase text-ink-2">{label}</span>
+    </div>
+  );
+}
