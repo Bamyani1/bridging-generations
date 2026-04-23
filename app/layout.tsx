@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
 import "./globals.css";
@@ -34,7 +35,9 @@ export default function RootLayout({
         <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
           {children}
         </main>
-        <footer>{/* Footer lands here in PR 3.3 */}</footer>
+        <footer>
+          <Footer />
+        </footer>
       </body>
     </html>
   );
