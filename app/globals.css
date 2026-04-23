@@ -16,6 +16,7 @@
   /* §1 Color — accent. accent-2 is non-text only (2.1:1 on ground); use accent-2-text for type. */
   --color-accent: #0f4c5c;
   --color-accent-2: #e76f51;
+  --color-accent-2-hover: #d85a3a;
   --color-accent-2-text: #b5462b;
   --color-accent-3: #ffb84d;
 
