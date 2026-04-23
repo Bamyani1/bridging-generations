@@ -9,6 +9,10 @@ vi.mock("next-view-transitions", () => ({
   ViewTransitions: ({ children }: { children: ReactNode }) => children,
 }));
 
+// `server-only` throws when imported outside a React Server Component. Stub it so
+// unit tests can exercise pure helpers that live alongside server-only accessors.
+vi.mock("server-only", () => ({}));
+
 class StubIntersectionObserver {
   readonly root = null;
   readonly rootMargin = "";

@@ -33,10 +33,9 @@ export type StudentsBySchool = {
   students: Student[];
 };
 
-export async function getStudentsGroupedBySchool(): Promise<StudentsBySchool[]> {
-  const all = await getAllStudents();
+export function groupStudentsBySchool(students: Student[]): StudentsBySchool[] {
   const bySchool = new Map<string, Student[]>();
-  for (const student of all) {
+  for (const student of students) {
     const key = student.schoolId ?? "";
     if (!key) continue;
     const bucket = bySchool.get(key) ?? [];
@@ -44,12 +43,16 @@ export async function getStudentsGroupedBySchool(): Promise<StudentsBySchool[]> 
     bySchool.set(key, bucket);
   }
   return Array.from(bySchool.entries())
-    .map(([schoolId, students]) => ({
+    .map(([schoolId, bucket]) => ({
       schoolId,
-      students: [...students].sort((a, b) => {
+      students: [...bucket].sort((a, b) => {
         if (a.grade !== b.grade) return a.grade - b.grade;
         return a.displayName.localeCompare(b.displayName);
       }),
     }))
     .sort((a, b) => a.schoolId.localeCompare(b.schoolId));
+}
+
+export async function getStudentsGroupedBySchool(): Promise<StudentsBySchool[]> {
+  return groupStudentsBySchool(await getAllStudents());
 }

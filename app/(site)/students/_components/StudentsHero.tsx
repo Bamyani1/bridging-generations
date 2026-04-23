@@ -13,10 +13,7 @@ export function StudentsHero({ studentCount, schoolCount }: StudentsHeroProps) {
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
         <Eyebrow>The Chittagong Hill Tracts</Eyebrow>
-        <h1
-          id="students-hero-title"
-          className="max-w-[20ch] text-balance text-display-1 text-ink"
-        >
+        <h1 id="students-hero-title" className="max-w-[20ch] text-balance text-display-1 text-ink">
           Student Directory
         </h1>
         <p className="max-w-[60ch] text-body-lg text-ink-2">

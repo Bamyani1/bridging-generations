@@ -10,9 +10,9 @@ export function ConsentStatement() {
         </h2>
         <p className="max-w-[72ch] text-body-sm text-ink-2">
           We publish a student&rsquo;s portrait only when their family has signed a written release
-          that names this website specifically. Where that release is missing, pending, or withdrawn,
-          you&rsquo;ll see a neutral illustrated placeholder in its place. Families can revoke
-          consent at any time; the next deploy removes the photo.
+          that names this website specifically. Where that release is missing, pending, or
+          withdrawn, you&rsquo;ll see a neutral illustrated placeholder in its place. Families can
+          revoke consent at any time; the next deploy removes the photo.
         </p>
       </div>
     </section>
