@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionShell } from "./SectionShell";
 
 const durationTable: Array<{ token: string; value: string; use: string }> = [
   { token: "--motion-xs", value: "120ms", use: "State flip (hover color)" },
@@ -9,11 +10,7 @@ const durationTable: Array<{ token: string; value: string; use: string }> = [
 ];
 
 const easingTable: Array<{ token: string; curve: string; use: string }> = [
-  {
-    token: "--ease-smooth",
-    curve: "cubic-bezier(0.16, 1, 0.3, 1)",
-    use: "Reveals + most transitions",
-  },
+  { token: "--ease-smooth", curve: "cubic-bezier(0.16, 1, 0.3, 1)", use: "Reveals + transitions" },
   {
     token: "--ease-in-out",
     curve: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -24,21 +21,31 @@ const easingTable: Array<{ token: string; curve: string; use: string }> = [
 
 export function MotionLabSection() {
   return (
-    <section id="motion" className="scroll-mt-8">
-      <h2 className="text-heading-2">Motion</h2>
-      <p className="mt-2 max-w-2xl text-body-sm text-ink-2">
-        Tokens, primitives, and demos for the §9 motion system. Reveals animate on enter; card
-        hovers lift and brighten; image-on-card zooms on hover. Every demo respects{" "}
+    <SectionShell
+      id="motion"
+      number="§12"
+      label="Motion"
+      meta={[
+        { key: "durations", value: "5" },
+        { key: "easings", value: "3" },
+        { key: "reduced-motion", value: "safe" },
+      ]}
+    >
+      <p className="max-w-2xl text-body text-ink-2">
+        Tokens, primitives, and demos for §9 motion. Reveals animate on enter; card hovers lift and
+        brighten; image zooms on hover. Every demo respects{" "}
         <code className="font-mono">prefers-reduced-motion: reduce</code>.
       </p>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-2">
+      <div className="mt-10 grid gap-10 lg:grid-cols-2">
         <div>
-          <h3 className="text-heading-5">Duration tokens</h3>
-          <ul className="mt-3 space-y-1 text-meta">
+          <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
+            Duration tokens
+          </p>
+          <ul className="mt-4 space-y-2 font-mono text-meta uppercase">
             {durationTable.map((row) => (
               <li key={row.token} className="flex flex-wrap gap-x-3">
-                <span className="font-mono text-ink">{row.token}</span>
+                <span className="text-ink">{row.token}</span>
                 <span className="text-ink-2">{row.value}</span>
                 <span className="text-ink-2">— {row.use}</span>
               </li>
@@ -46,11 +53,11 @@ export function MotionLabSection() {
           </ul>
         </div>
         <div>
-          <h3 className="text-heading-5">Easing tokens</h3>
-          <ul className="mt-3 space-y-1 text-meta">
+          <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Easing tokens</p>
+          <ul className="mt-4 space-y-2 font-mono text-meta uppercase">
             {easingTable.map((row) => (
               <li key={row.token} className="flex flex-wrap gap-x-3">
-                <span className="font-mono text-ink">{row.token}</span>
+                <span className="text-ink">{row.token}</span>
                 <span className="text-ink-2">{row.curve}</span>
                 <span className="text-ink-2">— {row.use}</span>
               </li>
@@ -59,44 +66,45 @@ export function MotionLabSection() {
         </div>
       </div>
 
-      <div className="mt-10">
-        <h3 className="text-heading-5">Scroll reveal</h3>
-        <p className="mt-1 text-meta text-ink-2">
-          Scroll down on a tall page; each Reveal fades + slides up 30px once it intersects the
-          viewport. Reduced motion drops the translate.
+      <div className="mt-12 border-t border-hairline pt-8">
+        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Scroll reveal</p>
+        <p className="mt-2 text-body-sm text-ink-2">
+          Each Reveal fades + slides up 30px once it intersects the viewport. Reduced motion drops
+          the translate.
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
           {[0, 80, 160].map((delay) => (
             <Reveal key={delay} delay={delay}>
-              <div className="rounded-lg border border-hairline bg-ground-2 p-6">
-                <p className="text-body-sm">Reveal · delay {delay}ms</p>
+              <div className="border border-hairline bg-ground-2 p-6">
+                <p className="font-mono text-meta uppercase text-ink">Reveal · delay {delay}ms</p>
               </div>
             </Reveal>
           ))}
         </div>
       </div>
 
-      <div className="mt-10">
-        <h3 className="text-heading-5">Card hover</h3>
-        <p className="mt-1 text-meta text-ink-2">
-          Hover the card: lifts -1 × spacing, swaps shadow-card → shadow-card-hover over 220ms.
-          Reduced motion: shadow swap only.
+      <div className="mt-12 border-t border-hairline pt-8">
+        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Card hover</p>
+        <p className="mt-2 text-body-sm text-ink-2">
+          Lifts -1 × spacing; swaps shadow-card → shadow-card-hover over 220ms. Reduced motion:
+          shadow swap only.
         </p>
         <div className="mt-4 max-w-sm">
-          <div className="rounded-lg border border-hairline bg-ground-2 p-6 shadow-[var(--shadow-card)] transition-all duration-[var(--motion-sm)] ease-[var(--ease-smooth)] hover:shadow-[var(--shadow-card-hover)] motion-safe:hover:-translate-y-1">
+          <div className="border border-hairline bg-ground-2 p-6 shadow-[var(--shadow-card)] transition-all duration-[var(--motion-sm)] ease-[var(--ease-smooth)] hover:shadow-[var(--shadow-card-hover)] motion-safe:hover:-translate-y-1">
             <p className="text-heading-5">Hoverable card</p>
             <p className="mt-1 text-body-sm text-ink-2">Move the cursor over me.</p>
           </div>
         </div>
       </div>
 
-      <div className="mt-10">
-        <h3 className="text-heading-5">Image zoom on hover</h3>
-        <p className="mt-1 text-meta text-ink-2">
-          Hover triggers a 1.06× scale on the image over 700ms smooth easing. Reduced motion:
-          static.
+      <div className="mt-12 border-t border-hairline pt-8">
+        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
+          Image zoom · hover
         </p>
-        <div className="group mt-4 max-w-sm overflow-hidden rounded-lg">
+        <p className="mt-2 text-body-sm text-ink-2">
+          1.06× scale over 700ms smooth easing. Reduced motion: static.
+        </p>
+        <div className="group mt-4 max-w-sm overflow-hidden">
           <div
             aria-hidden="true"
             className="aspect-[4/3] bg-accent transition-transform duration-[var(--motion-lg)] ease-[var(--ease-smooth)] motion-safe:group-hover:scale-[1.06]"
@@ -104,17 +112,16 @@ export function MotionLabSection() {
         </div>
       </div>
 
-      <div className="mt-10 rounded-md border border-hairline bg-ground-3 p-4 text-body-sm text-ink-2">
-        <p className="font-medium text-ink">Reduced motion contract</p>
-        <p className="mt-1">
+      <div className="mt-12 border-t border-hairline pt-8">
+        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
+          Reduced-motion contract
+        </p>
+        <p className="mt-3 text-body-sm text-ink-2">
           When <code className="font-mono">prefers-reduced-motion: reduce</code> matches: every
           translate / scale / rotate transform is removed; opacity fades only where they convey
           meaning; reveals render statically; Lenis is disabled; count-ups render their final value.
         </p>
-        <p className="mt-2">
-          Page-transition demo (View Transitions API + GSAP fallback) lands with PR 3.5.
-        </p>
       </div>
-    </section>
+    </SectionShell>
   );
 }

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { RadiusSection } from "@/app/design/_components/RadiusSection";
 import { ShadowSection } from "@/app/design/_components/ShadowSection";
+import { ShapeSection } from "@/app/design/_components/ShapeSection";
 import { SpacingSection } from "@/app/design/_components/SpacingSection";
 
 describe("SpacingSection", () => {
@@ -19,11 +19,11 @@ describe("SpacingSection", () => {
   });
 });
 
-describe("RadiusSection", () => {
-  it("renders all four radius tokens", () => {
-    render(<RadiusSection />);
-    for (const token of ["--radius-sm", "--radius-md", "--radius-lg", "--radius-full"]) {
-      expect(screen.getByText(token)).toBeInTheDocument();
+describe("ShapeSection", () => {
+  it("renders all five shape samples", () => {
+    render(<ShapeSection />);
+    for (const label of ["Sharp", "Pill", "Squircle", "Scoop", "Bevel"]) {
+      expect(screen.getByText(label)).toBeInTheDocument();
     }
   });
 });

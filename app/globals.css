@@ -100,10 +100,9 @@
   --text-nav-link--letter-spacing: 0.08em;
   --text-nav-link--font-weight: 600;
 
-  /* §4 Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  /* §4 Shape — editorial sharp. Baseline is 0 for cards, buttons, inputs, and containers.
+     --radius-full is the only named radius; it backs avatars, status dots, and pill tags.
+     See §4 SHAPE on /design for the corner-shape progressive enhancement demo. */
   --radius-full: 9999px;
 
   /* §5 Elevation */
@@ -134,6 +133,30 @@
 
   /* §3 stack: 16 / 24 / 32 / 40 / 56 — pick from Tailwind 4px grid: p-4 p-6 p-8 p-10 p-14 */
   /* §3 inline: 8 / 12 / 16 / 24 — pick from Tailwind 4px grid: gap-2 gap-3 gap-4 gap-6 */
+}
+
+/* §4 Shape — corner-shape progressive enhancement. Baseline border-radius renders a rounded
+   rectangle in all browsers; Chrome 139+ upgrades to the named shape via @supports. Reserve these
+   for hero-level surfaces (featured portrait, marquee CTA) — shape as hierarchy, not decoration. */
+.shape-squircle {
+  border-radius: 16px;
+}
+.shape-scoop {
+  border-radius: 24px;
+}
+.shape-bevel {
+  border-radius: 12px;
+}
+@supports (corner-shape: squircle) {
+  .shape-squircle {
+    corner-shape: squircle;
+  }
+  .shape-scoop {
+    corner-shape: scoop;
+  }
+  .shape-bevel {
+    corner-shape: bevel;
+  }
 }
 
 /* §9 View transitions — fade + slight Y shift on route change (see ViewTransitionRoot). */

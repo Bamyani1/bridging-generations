@@ -1,3 +1,5 @@
+import { SectionShell } from "./SectionShell";
+
 type Swatch = {
   token: string;
   hex: string;
@@ -66,7 +68,7 @@ const accents: Swatch[] = [
     hex: "#E76F51",
     role: "Coral. Primary-button fill, live dots, emphasis accents.",
     textSafe: false,
-    notes: "2.1:1 on ground — fails AA for text; non-text only",
+    notes: "2.1:1 on ground — non-text only",
   },
   {
     token: "--color-accent-2-text",
@@ -80,38 +82,42 @@ const accents: Swatch[] = [
     hex: "#FFB84D",
     role: "Amber. Active-nav on teal, highlights.",
     textSafe: false,
-    notes: "1.7:1 on ground — fails AA for text; non-text only",
+    notes: "1.7:1 on ground — non-text only",
   },
 ];
 
-function SwatchTile({ swatch }: { swatch: Swatch }) {
+function SwatchRow({ swatch }: { swatch: Swatch }) {
   return (
-    <figure className="overflow-hidden rounded-md border border-hairline bg-ground-2">
+    <div className="grid grid-cols-12 items-center gap-4 border-t border-hairline py-5 first:border-t-0 first:pt-0">
       <div
         aria-hidden="true"
-        className="h-24 w-full"
+        className="col-span-12 h-20 sm:col-span-3 sm:h-16"
         style={{ backgroundColor: `var(${swatch.token})` }}
       />
-      <figcaption className="space-y-1 p-4">
-        <p className="font-mono text-meta uppercase text-ink-2">{swatch.token}</p>
-        <p className="font-mono text-body-sm">{swatch.hex}</p>
-        <p className="text-body-sm text-ink-2">{swatch.role}</p>
-        <p className={`pt-1 text-meta ${swatch.textSafe ? "text-accent" : "text-accent-2-text"}`}>
-          {swatch.textSafe ? "Text-safe" : "Non-text"}
-          {swatch.notes ? ` · ${swatch.notes}` : ""}
-        </p>
-      </figcaption>
-    </figure>
+      <div className="col-span-12 sm:col-span-4">
+        <p className="font-mono text-meta uppercase text-ink">{swatch.token}</p>
+        <p className="font-mono text-body-sm text-ink-2">{swatch.hex}</p>
+      </div>
+      <p className="col-span-12 text-body-sm text-ink-2 sm:col-span-3">{swatch.role}</p>
+      <p
+        className={`col-span-12 font-mono text-meta uppercase sm:col-span-2 ${
+          swatch.textSafe ? "text-accent" : "text-accent-2-text"
+        }`}
+      >
+        {swatch.textSafe ? "text-safe" : "non-text"}
+        {swatch.notes ? ` · ${swatch.notes}` : ""}
+      </p>
+    </div>
   );
 }
 
-function SwatchGroup({ title, swatches }: { title: string; swatches: Swatch[] }) {
+function Group({ title, swatches }: { title: string; swatches: Swatch[] }) {
   return (
     <div>
-      <h3 className="mb-4 text-heading-4">{title}</h3>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">{title}</p>
+      <div className="mt-3">
         {swatches.map((swatch) => (
-          <SwatchTile key={swatch.token} swatch={swatch} />
+          <SwatchRow key={swatch.token} swatch={swatch} />
         ))}
       </div>
     </div>
@@ -120,18 +126,25 @@ function SwatchGroup({ title, swatches }: { title: string; swatches: Swatch[] })
 
 export function ColorSection() {
   return (
-    <section id="color" className="scroll-mt-8">
-      <h2 className="text-heading-2">Color</h2>
-      <p className="mt-2 max-w-2xl text-body-sm text-ink-2">
-        Ten tokens total — three surface, two ink, one line, four accent. Contrast notes reference
+    <SectionShell
+      id="color"
+      number="§1"
+      label="Color"
+      meta={[
+        { key: "tokens", value: "10" },
+        { key: "wcag", value: "aa" },
+      ]}
+    >
+      <p className="max-w-2xl text-body text-ink-2">
+        Three surface tiers, two inks, one hairline, four accents. Contrast notes reference
         DESIGN-SYSTEM.md §1 verified pairings.
       </p>
-      <div className="mt-8 space-y-10">
-        <SwatchGroup title="Surface" swatches={surfaces} />
-        <SwatchGroup title="Ink" swatches={inks} />
-        <SwatchGroup title="Line" swatches={lines} />
-        <SwatchGroup title="Accent" swatches={accents} />
+      <div className="mt-10 space-y-12">
+        <Group title="Surface" swatches={surfaces} />
+        <Group title="Ink" swatches={inks} />
+        <Group title="Line" swatches={lines} />
+        <Group title="Accent" swatches={accents} />
       </div>
-    </section>
+    </SectionShell>
   );
 }

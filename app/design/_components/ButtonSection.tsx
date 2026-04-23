@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { SectionShell } from "./SectionShell";
 
 const variants: Array<{ variant: "primary" | "secondary" | "tertiary"; label: string }> = [
   { variant: "primary", label: "Donate now" },
@@ -8,18 +9,24 @@ const variants: Array<{ variant: "primary" | "secondary" | "tertiary"; label: st
 
 export function ButtonSection() {
   return (
-    <section id="buttons" className="scroll-mt-8">
-      <h2 className="text-heading-2">Buttons</h2>
-      <p className="mt-2 max-w-2xl text-body-sm text-ink-2">
-        Three variants. Hover on primary triggers a 1.02× scale and the darker coral{" "}
-        <code className="font-mono">--color-accent-2-hover</code>; reduced-motion drops the scale.
-        Focus uses the global accent ring per DESIGN-SYSTEM.md §10.
+    <SectionShell
+      id="buttons"
+      number="§6"
+      label="Buttons"
+      meta={[
+        { key: "variants", value: "3" },
+        { key: "states", value: "default · disabled · loading · link" },
+      ]}
+    >
+      <p className="max-w-2xl text-body text-ink-2">
+        Three variants, sharp corners, coral shadow on primary. Focus uses the global accent ring.
+        Reduced-motion drops the hover scale.
       </p>
-      <div className="mt-6 space-y-8">
+      <div className="mt-10 space-y-10">
         {variants.map(({ variant, label }) => (
-          <div key={variant}>
-            <h3 className="text-heading-5 capitalize">{variant}</h3>
-            <div className="mt-3 flex flex-wrap items-center gap-4">
+          <div key={variant} className="border-t border-hairline pt-6 first:border-t-0 first:pt-0">
+            <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">{variant}</p>
+            <div className="mt-4 flex flex-wrap items-center gap-4">
               <Button variant={variant}>{label}</Button>
               <Button variant={variant} disabled>
                 {label}
@@ -34,6 +41,6 @@ export function ButtonSection() {
           </div>
         ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }

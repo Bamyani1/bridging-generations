@@ -33,6 +33,18 @@
       "recommended": true
     }
   },
+  "overrides": [
+    {
+      "includes": ["app/globals.css"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnknownProperty": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "double",
