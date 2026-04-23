@@ -1,8 +1,8 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Link } from "next-view-transitions";
 import { useEffect, useId, useRef, useState } from "react";
 import { donateCta, primaryNav } from "@/content/fixtures/navigation";
 

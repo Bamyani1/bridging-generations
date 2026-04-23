@@ -136,6 +136,32 @@
   /* §3 inline: 8 / 12 / 16 / 24 — pick from Tailwind 4px grid: gap-2 gap-3 gap-4 gap-6 */
 }
 
+/* §9 View transitions — fade + slight Y shift on route change (see ViewTransitionRoot). */
+::view-transition-old(root) {
+  animation: vt-fade-out var(--motion-xs) var(--ease-in-out) both;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in var(--motion-sm) var(--ease-smooth) both;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 /* Nav mobile menu — staggered item slide-in, 60ms per index (see Nav component). */
 @keyframes menu-item-in {
   from {

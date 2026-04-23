@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { ViewTransitionRoot } from "@/components/layout/ViewTransitionRoot";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -27,20 +28,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-ground text-body text-ink">
-        <SmoothScroll />
-        <SkipLink />
-        <header>
-          <Nav />
-        </header>
-        <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
-          {children}
-        </main>
-        <footer>
-          <Footer />
-        </footer>
-      </body>
-    </html>
+    <ViewTransitionRoot>
+      <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
+        <body className="flex min-h-full flex-col bg-ground text-body text-ink">
+          <SmoothScroll />
+          <SkipLink />
+          <header>
+            <Nav />
+          </header>
+          <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
+            {children}
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </body>
+      </html>
+    </ViewTransitionRoot>
   );
 }
