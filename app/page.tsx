@@ -1,3 +1,4 @@
+import { HomeActivities } from "./_components/HomeActivities";
 import { HomeHero } from "./_components/HomeHero";
 import { HomeMissionBand } from "./_components/HomeMissionBand";
 import { HomeProgramsGrid } from "./_components/HomeProgramsGrid";
@@ -12,6 +13,7 @@ export default function Home() {
       <HomeStatsTrio />
       <HomeProgramsGrid />
       <HomeSuccessPanel />
+      <HomeActivities />
     </>
   );
 }
