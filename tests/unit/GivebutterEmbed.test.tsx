@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("next/script", () => ({
@@ -10,48 +10,46 @@ vi.mock("next/script", () => ({
 import { GivebutterEmbed } from "@/components/domain/GivebutterEmbed";
 
 describe("GivebutterEmbed", () => {
-  it("uses the account id as acct when both values are set", () => {
+  it("mounts the widget and loads the script when both IDs are real", () => {
     const { getByTestId, container } = render(
-      <GivebutterEmbed accountId="bridging-generations" campaignId="ZbQ0n2" />,
+      <GivebutterEmbed accountId="bridging-generations" campaignId="A1B2C3" />,
     );
     expect(getByTestId("gb-script").getAttribute("data-src")).toBe(
       "https://widgets.givebutter.com/latest.umd.cjs?acct=bridging-generations&p=other",
     );
-    expect(container.querySelector("givebutter-widget")?.getAttribute("id")).toBe("ZbQ0n2");
+    expect(container.querySelector("givebutter-widget")?.getAttribute("id")).toBe("A1B2C3");
   });
 
-  it("still mounts the widget when accountId is a placeholder, using the campaign id as a stand-in acct", () => {
-    const { getByTestId, container } = render(
+  it("renders the setup fallback when accountId is a [CONFIRM:] stub", () => {
+    const { container, queryByTestId } = render(
       <GivebutterEmbed
         accountId="[CONFIRM: acct= value from Givebutter dashboard embed code]"
-        campaignId="ZbQ0n2"
+        campaignId="A1B2C3"
       />,
-    );
-    expect(getByTestId("gb-script").getAttribute("data-src")).toBe(
-      "https://widgets.givebutter.com/latest.umd.cjs?acct=ZbQ0n2&p=other",
-    );
-    expect(container.querySelector("givebutter-widget")?.getAttribute("id")).toBe("ZbQ0n2");
-  });
-
-  it("still mounts the widget when accountId is empty", () => {
-    const { container } = render(<GivebutterEmbed accountId="" campaignId="ZbQ0n2" />);
-    expect(container.querySelector("givebutter-widget")?.getAttribute("id")).toBe("ZbQ0n2");
-  });
-
-  it("renders the mailto fallback only when campaignId is missing", () => {
-    const { container, queryByTestId } = render(
-      <GivebutterEmbed accountId="bridging-generations" campaignId="" />,
     );
     expect(queryByTestId("gb-script")).toBeNull();
     expect(container.querySelector("givebutter-widget")).toBeNull();
-    expect(container.textContent).toMatch(/info@bridginggenerations.org/);
+    expect(screen.getByRole("link", { name: /email the board/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("mailto:info@bridginggenerations.org"),
+    );
   });
 
-  it("renders the mailto fallback when campaignId is a [CONFIRM:] stub", () => {
-    const { container } = render(
-      <GivebutterEmbed accountId="bridging-generations" campaignId="[CONFIRM: campaign code]" />,
+  it("renders the setup fallback when campaignId is a [CONFIRM:] stub", () => {
+    const { container, queryByTestId } = render(
+      <GivebutterEmbed
+        accountId="bridging-generations"
+        campaignId="[CONFIRM: six-character campaign code from Givebutter dashboard]"
+      />,
     );
+    expect(queryByTestId("gb-script")).toBeNull();
     expect(container.querySelector("givebutter-widget")).toBeNull();
-    expect(container.textContent).toMatch(/info@bridginggenerations.org/);
+    expect(screen.getByText(/email the board/i)).toBeInTheDocument();
+  });
+
+  it("renders the setup fallback when either ID is empty", () => {
+    const { container } = render(<GivebutterEmbed accountId="" campaignId="A1B2C3" />);
+    expect(container.querySelector("givebutter-widget")).toBeNull();
+    expect(screen.getByText(/email the board/i)).toBeInTheDocument();
   });
 });

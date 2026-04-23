@@ -14,15 +14,15 @@ export const donatePageSingleton = singleton({
       validation: { isRequired: true, length: { min: 1 } },
     }),
     givebutterAccountId: fields.text({
-      label: "Givebutter account ID",
+      label: "Givebutter account ID (acct= in embed code)",
       description:
-        "Your organization's Givebutter account ID — the value in the acct= query param on the widget script URL shown in the Givebutter dashboard embed code. Different from the campaign ID.",
+        "From the Givebutter dashboard's embed snippet: the value in the acct= query param of the widget script URL. Both this and the campaign ID must be real before the donate form will mount — otherwise the site shows an email-us fallback.",
       validation: { isRequired: true, length: { min: 1 } },
     }),
     givebutterCampaignId: fields.text({
-      label: "Givebutter campaign ID",
+      label: "Givebutter campaign ID (widget id)",
       description:
-        "Six-character campaign code — the value on the <givebutter-widget id=...> element in the dashboard embed code.",
+        "From the Givebutter dashboard's embed snippet: the value on the <givebutter-widget id=...> element. A six-character code — verify it resolves at givebutter.com/<code> before pasting.",
       validation: { isRequired: true, length: { min: 1 } },
     }),
     monthlySuggestion: fields.integer({
