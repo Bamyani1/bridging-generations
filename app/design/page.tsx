@@ -3,6 +3,7 @@ import { AvatarDividerSection } from "./_components/AvatarDividerSection";
 import { ButtonSection } from "./_components/ButtonSection";
 import { ColorSection } from "./_components/ColorSection";
 import { EyebrowTagPillSection } from "./_components/EyebrowTagPillSection";
+import { FormSection } from "./_components/FormSection";
 import { ProgressBarSection } from "./_components/ProgressBarSection";
 import { RadiusSection } from "./_components/RadiusSection";
 import { ShadowSection } from "./_components/ShadowSection";
@@ -16,7 +17,6 @@ export const metadata: Metadata = {
 };
 
 const stubSections: Array<{ id: string; title: string; note: string }> = [
-  { id: "forms", title: "Forms", note: "Input, Textarea, Select, Field ship in PR 2.9." },
   { id: "icons", title: "Icons", note: "Lucide grid ships in PR 2.10." },
   { id: "motion", title: "Motion", note: "Scroll reveal + card hover demos ship in PR 2.11." },
   { id: "breakpoint", title: "Breakpoint", note: "Live indicator ships in PR 2.12." },
@@ -42,6 +42,7 @@ export default function DesignPage() {
       <EyebrowTagPillSection />
       <ProgressBarSection />
       <AvatarDividerSection />
+      <FormSection />
       {stubSections.map((section) => (
         <section key={section.id} id={section.id} className="scroll-mt-8">
           <h2 className="text-heading-2">{section.title}</h2>
