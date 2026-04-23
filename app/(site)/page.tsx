@@ -1,3 +1,4 @@
+import { getStatsSnapshot } from "@/lib/content/statsSnapshot";
 import { HomeActivities } from "./_components/HomeActivities";
 import { HomeCTAFooter } from "./_components/HomeCTAFooter";
 import { HomeHero } from "./_components/HomeHero";
@@ -8,10 +9,11 @@ import { HomeStatsTrio } from "./_components/HomeStatsTrio";
 import { HomeSuccessPanel } from "./_components/HomeSuccessPanel";
 import { HomeTestimonialPanel } from "./_components/HomeTestimonialPanel";
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getStatsSnapshot();
   return (
     <>
-      <HomeHero />
+      <HomeHero stats={stats} />
       <HomeMissionBand />
       <HomeStatsTrio />
       <HomeProgramsGrid />

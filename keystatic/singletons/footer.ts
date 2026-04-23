@@ -2,7 +2,7 @@ import { fields, singleton } from "@keystatic/core";
 
 export const footerSingleton = singleton({
   label: "Footer",
-  path: "content/footer",
+  path: "content/footer/",
   schema: {
     columns: fields.array(
       fields.object({

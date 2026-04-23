@@ -5,9 +5,13 @@ import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { siteSettings } from "@/content/fixtures/siteSettings";
-import { statsSnapshot } from "@/content/fixtures/statsSnapshot";
+import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
-export function HomeHero() {
+type HomeHeroProps = {
+  stats: StatsSnapshot;
+};
+
+export function HomeHero({ stats }: HomeHeroProps) {
   const imageRef = useRef<HTMLDivElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -49,7 +53,7 @@ export function HomeHero() {
     return () => mm.revert();
   }, []);
 
-  const headlineLines = statsSnapshot.homeHeroHeadline.split("\n");
+  const headlineLines = stats.homeHeroHeadline.split("\n");
 
   return (
     <section aria-labelledby="home-hero-title" className="relative bg-ground">
@@ -70,7 +74,7 @@ export function HomeHero() {
         </div>
         <div className="flex flex-col justify-center gap-6 lg:order-2 lg:max-w-[56ch] lg:py-16">
           <p ref={eyebrowRef} className="text-eyebrow uppercase text-accent">
-            {statsSnapshot.homeHeroEyebrow}
+            {stats.homeHeroEyebrow}
           </p>
           <h1
             id="home-hero-title"
@@ -84,7 +88,7 @@ export function HomeHero() {
             ))}
           </h1>
           <p ref={subheadRef} className="max-w-[28ch] text-body-lg text-ink-2">
-            {statsSnapshot.homeHeroSubhead}
+            {stats.homeHeroSubhead}
           </p>
           <div ref={ctasRef} className="flex flex-wrap gap-3">
             <Button variant="primary" href="/donate">

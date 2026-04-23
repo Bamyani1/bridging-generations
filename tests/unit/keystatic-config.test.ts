@@ -35,10 +35,10 @@ describe("keystatic config", () => {
     expect(keys).toEqual([...EXPECTED_SINGLETONS].sort());
   });
 
-  it("each singleton writes to a kebab-case content/<key> path", () => {
+  it("each singleton writes to content/<kebab-key>/index.<ext> via trailing-slash path", () => {
     const singletons = keystaticConfig.singletons ?? {};
     for (const [_, def] of Object.entries(singletons)) {
-      expect(def.path).toMatch(/^content\/[a-z-]+$/);
+      expect(def.path).toMatch(/^content\/[a-z-]+\/$/);
     }
   });
 

@@ -2,7 +2,7 @@ import { fields, singleton } from "@keystatic/core";
 
 export const statsSnapshotSingleton = singleton({
   label: "Stats snapshot",
-  path: "content/stats-snapshot",
+  path: "content/stats-snapshot/",
   schema: {
     studentCount: fields.integer({
       label: "Student count",
