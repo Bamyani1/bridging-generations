@@ -34,7 +34,7 @@ export function HomeProgramsGrid({ projects }: HomeProgramsGridProps) {
         </header>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
           {projects.map((project, i) => (
-            <Reveal key={project.id} delay={i * 150}>
+            <Reveal key={project.id} delay={i * 100}>
               <ProgramCard project={project} />
             </Reveal>
           ))}

@@ -34,7 +34,7 @@ export function HomeActivities({ activities }: HomeActivitiesProps) {
         </header>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
           {activities.map((activity, i) => (
-            <Reveal key={activity.id} delay={i * 150}>
+            <Reveal key={activity.id} delay={i * 100}>
               <ActivityCard activity={activity} />
             </Reveal>
           ))}
