@@ -1,8 +1,7 @@
 "use client";
 
-import { gsap } from "gsap";
+import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
@@ -11,56 +10,33 @@ type HomeHeroProps = {
   ein: string;
 };
 
+const SMOOTH = [0.16, 1, 0.3, 1] as const;
+
 export function HomeHero({ stats, ein }: HomeHeroProps) {
-  const imageRef = useRef<HTMLDivElement>(null);
-  const eyebrowRef = useRef<HTMLParagraphElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subheadRef = useRef<HTMLParagraphElement>(null);
-  const ctasRef = useRef<HTMLDivElement>(null);
-  const reassuranceRef = useRef<HTMLParagraphElement>(null);
-
-  useLayoutEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add(
-      {
-        reduceMotion: "(prefers-reduced-motion: reduce)",
-        fullMotion: "(prefers-reduced-motion: no-preference)",
-      },
-      (context) => {
-        const conditions = context.conditions as
-          | { reduceMotion: boolean; fullMotion: boolean }
-          | undefined;
-        if (!conditions || conditions.reduceMotion) return;
-        const copyEls: HTMLElement[] = [
-          eyebrowRef.current,
-          headlineRef.current,
-          subheadRef.current,
-          ctasRef.current,
-          reassuranceRef.current,
-        ].filter((el): el is NonNullable<typeof el> => el !== null);
-        gsap.set(imageRef.current, { opacity: 0, scale: 1.04 });
-        gsap.set(copyEls, { opacity: 0, y: 12 });
-        const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-        tl.to(imageRef.current, { opacity: 1, scale: 1, duration: 1.2 }, 0)
-          .to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.1)
-          .to(headlineRef.current, { opacity: 1, y: 0, duration: 0.7 }, 0.2)
-          .to(subheadRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.4)
-          .to(ctasRef.current, { opacity: 1, y: 0, duration: 0.5 }, 0.55)
-          .to(reassuranceRef.current, { opacity: 1, duration: 0.5 }, 0.8);
-      },
-    );
-
-    return () => mm.revert();
-  }, []);
-
+  const shouldReduceMotion = useReducedMotion();
   const headlineLines = stats.homeHeroHeadline.split("\n");
+
+  const slideUp = (delay: number, duration: number) =>
+    shouldReduceMotion
+      ? undefined
+      : {
+          initial: { opacity: 0, y: 12 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration, delay, ease: SMOOTH },
+        };
 
   return (
     <section aria-labelledby="home-hero-title" className="relative bg-ground">
       <div className="mx-auto grid min-h-[90vh] max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:min-h-[600px] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
-        <div
-          ref={imageRef}
+        <motion.div
           className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full"
+          {...(shouldReduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, scale: 1.04 },
+                animate: { opacity: 1, scale: 1 },
+                transition: { duration: 1.2, ease: SMOOTH },
+              })}
         >
           <Image
             src="/home-hero.jpg"
@@ -71,36 +47,45 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
             className="object-cover"
             style={{ filter: "grayscale(20%) sepia(10%) saturate(1.02)" }}
           />
-        </div>
+        </motion.div>
         <div className="flex flex-col justify-center gap-6 lg:order-2 lg:max-w-[56ch] lg:py-16">
-          <p ref={eyebrowRef} className="text-eyebrow uppercase text-accent">
+          <motion.p className="text-eyebrow uppercase text-accent" {...slideUp(0.1, 0.6)}>
             {stats.homeHeroEyebrow}
-          </p>
-          <h1
+          </motion.p>
+          <motion.h1
             id="home-hero-title"
-            ref={headlineRef}
             className="text-balance text-display-2 text-ink"
+            {...slideUp(0.2, 0.7)}
           >
             {headlineLines.map((line) => (
               <span key={line} className="block">
                 {line}
               </span>
             ))}
-          </h1>
-          <p ref={subheadRef} className="max-w-[28ch] text-body-lg text-ink-2">
+          </motion.h1>
+          <motion.p className="max-w-[28ch] text-body-lg text-ink-2" {...slideUp(0.4, 0.6)}>
             {stats.homeHeroSubhead}
-          </p>
-          <div ref={ctasRef} className="flex flex-wrap gap-3">
+          </motion.p>
+          <motion.div className="flex flex-wrap gap-3" {...slideUp(0.55, 0.5)}>
             <Button variant="primary" href="/donate">
               Sponsor a Student
             </Button>
             <Button variant="secondary" href="/projects">
               Our Programs
             </Button>
-          </div>
-          <p ref={reassuranceRef} className="text-meta uppercase text-ink-2">
+          </motion.div>
+          <motion.p
+            className="text-meta uppercase text-ink-2"
+            {...(shouldReduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0 },
+                  animate: { opacity: 1 },
+                  transition: { duration: 0.5, delay: 0.8, ease: SMOOTH },
+                })}
+          >
             501(c)(3) · EIN {ein} · Tax-deductible · No personal-data cookies
-          </p>
+          </motion.p>
         </div>
       </div>
     </section>
