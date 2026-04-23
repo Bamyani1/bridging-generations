@@ -4,11 +4,12 @@ import { expect, test } from "@playwright/test";
 test("primary nav is keyboard reachable on desktop", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
+  const banner = page.getByRole("banner");
   await page.keyboard.press("Tab"); // skip link
   await page.keyboard.press("Tab"); // brand
-  await expect(page.getByRole("link", { name: "Bridging Generations" })).toBeFocused();
+  await expect(banner.getByRole("link", { name: "Bridging Generations" })).toBeFocused();
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("link", { name: "About" })).toBeFocused();
+  await expect(banner.getByRole("link", { name: "About" })).toBeFocused();
 });
 
 test("mobile menu opens, traps focus, and closes on escape", async ({ page }) => {
