@@ -19,8 +19,8 @@ const sections = [
 
 export default function DesignLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-ground text-ink">
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 overflow-y-auto border-r border-hairline p-8 lg:block">
+    <div className="flex min-h-[calc(100vh-4rem)]">
+      <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-hairline p-8 lg:block">
         <nav aria-label="Design system sections">
           <p className="text-eyebrow uppercase text-accent">Design</p>
           <ul className="mt-4 space-y-2 text-body-sm">
@@ -34,7 +34,7 @@ export default function DesignLayout({ children }: { children: ReactNode }) {
           </ul>
         </nav>
       </aside>
-      <main className="min-w-0 flex-1 p-8 lg:p-12">{children}</main>
+      <div className="min-w-0 flex-1 p-8 lg:p-12">{children}</div>
       <BreakpointIndicator />
     </div>
   );
