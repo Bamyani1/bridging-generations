@@ -5,6 +5,7 @@ import { HomeProgramsGrid } from "./_components/HomeProgramsGrid";
 import { HomeSpotlightScroller } from "./_components/HomeSpotlightScroller";
 import { HomeStatsTrio } from "./_components/HomeStatsTrio";
 import { HomeSuccessPanel } from "./_components/HomeSuccessPanel";
+import { HomeTestimonialPanel } from "./_components/HomeTestimonialPanel";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <HomeSuccessPanel />
       <HomeActivities />
       <HomeSpotlightScroller />
+      <HomeTestimonialPanel />
     </>
   );
 }
