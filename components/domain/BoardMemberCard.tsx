@@ -14,7 +14,7 @@ export function BoardMemberCard({ member, headingLevel = 3 }: BoardMemberCardPro
   const portraitAlt = portrait?.alt?.length ? portrait.alt : name;
 
   return (
-    <article className="group flex h-full flex-col gap-5 bg-ground-2">
+    <article className="card-hover group flex h-full flex-col gap-5 bg-ground-2">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
         {portraitSrc ? (
           <Image
@@ -32,7 +32,7 @@ export function BoardMemberCard({ member, headingLevel = 3 }: BoardMemberCardPro
       </div>
       <div className="flex flex-col gap-3 p-6">
         <span className="text-eyebrow uppercase tracking-[0.1em] text-accent">{role}</span>
-        <HeadingTag className="text-balance text-heading-5 text-ink">{name}</HeadingTag>
+        <HeadingTag className="card-title text-balance text-heading-5 text-ink">{name}</HeadingTag>
         <p className="text-body text-ink-2">{bio}</p>
       </div>
     </article>

@@ -30,7 +30,7 @@ export function ProgramCard({ project }: ProgramCardProps) {
       : "Support this project";
 
   return (
-    <article className="group flex flex-col gap-5 bg-ground-2">
+    <article className="card-hover group flex flex-col gap-5 bg-ground-2">
       <Link
         href="/projects"
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
@@ -46,7 +46,7 @@ export function ProgramCard({ project }: ProgramCardProps) {
         </div>
       </Link>
       <div className="flex flex-col gap-4 p-6 lg:p-8">
-        <h3 className="text-heading-4 text-ink">{title}</h3>
+        <h3 className="card-title text-heading-4 text-ink">{title}</h3>
         <p className="text-body text-ink-2">{summary}</p>
         <ProgressBar percentage={percentage} label={progressLabel} tone={progressTone} />
         <Link

@@ -281,6 +281,39 @@
   }
 }
 
+/* §9 Card hover — site-wide contract: -4px lift, deeper shadow, title nudges ink → accent. */
+/* Reduced motion keeps the shadow + color affordance but drops the transform. */
+.card-hover {
+  transition:
+    transform var(--motion-sm) var(--ease-smooth),
+    box-shadow var(--motion-sm) var(--ease-smooth);
+}
+.card-hover .card-title {
+  transition: color var(--motion-sm) var(--ease-smooth);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card-hover:hover,
+  .card-hover:focus-within {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .card-hover:hover .card-title,
+  .card-hover:focus-within .card-title {
+    color: var(--color-accent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-hover:hover,
+  .card-hover:focus-within {
+    box-shadow: var(--shadow-card-hover);
+    transform: none;
+  }
+  .card-hover:hover .card-title,
+  .card-hover:focus-within .card-title {
+    color: var(--color-accent);
+  }
+}
+
 /* Ken-Burns motion — slow scale loop for editorial success-story heroes. */
 @keyframes kenburns {
   0% {

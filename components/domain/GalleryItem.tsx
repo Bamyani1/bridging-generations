@@ -13,7 +13,7 @@ export function GalleryItem({ item, priority = false }: GalleryItemProps) {
       href={image.src ?? undefined}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative mb-4 block break-inside-avoid overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+      className="card-hover group relative mb-4 block break-inside-avoid overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
     >
       <Image
         src={image.src ?? ""}

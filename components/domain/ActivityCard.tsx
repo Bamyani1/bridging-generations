@@ -22,7 +22,7 @@ function formatDate(iso: string): string {
 export function ActivityCard({ activity }: ActivityCardProps) {
   const { coverImage, title, excerpt, tag, publishedAt } = activity;
   return (
-    <article className="group flex h-full flex-col gap-4 bg-ground-2">
+    <article className="card-hover group flex h-full flex-col gap-4 bg-ground-2">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
         <Image
           src={coverImage.src}
@@ -39,7 +39,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
             {formatDate(publishedAt)}
           </time>
         </div>
-        <h3 className="text-balance text-heading-5 text-ink">{title}</h3>
+        <h3 className="card-title text-balance text-heading-5 text-ink">{title}</h3>
         <p className="text-body text-ink-2">{excerpt}</p>
       </div>
     </article>

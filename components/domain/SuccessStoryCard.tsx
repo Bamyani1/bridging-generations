@@ -14,7 +14,7 @@ export function SuccessStoryCard({ story, showPortrait, headingLevel = 3 }: Succ
   const Heading = `h${headingLevel}` as "h2" | "h3";
 
   return (
-    <article className="group flex h-full flex-col gap-5 bg-ground-2">
+    <article className="card-hover group flex h-full flex-col gap-5 bg-ground-2">
       <Link
         href={href}
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
@@ -38,7 +38,7 @@ export function SuccessStoryCard({ story, showPortrait, headingLevel = 3 }: Succ
           {story.subjectName}
           {story.subjectRole ? ` · ${story.subjectRole}` : ""}
         </p>
-        <Heading className="text-balance text-heading-5 text-ink">
+        <Heading className="card-title text-balance text-heading-5 text-ink">
           <Link href={href} className="transition hover:text-accent-2-text">
             &ldquo;{story.pullQuote}&rdquo;
           </Link>
