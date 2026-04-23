@@ -281,6 +281,37 @@
   }
 }
 
+/* §9 Imagery variety — optional hero duotone and portrait vignette on hover. */
+.hero-duotone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2-text));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+.portrait-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(30, 30, 30, 0.3) 100%);
+  opacity: 0;
+  transition: opacity var(--motion-sm) var(--ease-smooth);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card-hover:hover .portrait-vignette,
+  .card-hover:focus-within .portrait-vignette {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-hover:hover .portrait-vignette,
+  .card-hover:focus-within .portrait-vignette {
+    opacity: 1;
+  }
+}
+
 /* §9 Teal-panel treatment — gradient depth + grain + optional quote-glyph. Contrast stays AA. */
 .teal-panel {
   position: relative;

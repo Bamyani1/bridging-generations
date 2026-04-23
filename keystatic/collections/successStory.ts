@@ -37,6 +37,11 @@ export const successStoryCollection = collection({
       },
     }),
     portrait: requiredImageWithAlt({ label: "Portrait", dir: "success-stories" }),
+    heroDuotone: fields.checkbox({
+      label: "Duotone hero",
+      description: "Apply a teal/coral duotone blend over the portrait hero.",
+      defaultValue: false,
+    }),
     linkedStudentId: fields.relationship({
       label: "Linked student",
       collection: "student",
