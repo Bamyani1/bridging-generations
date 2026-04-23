@@ -27,7 +27,7 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
   return (
     <article
       aria-labelledby={titleId}
-      className={`grid grid-cols-1 items-start gap-6 bg-ground-2 p-6 sm:p-8 lg:grid-cols-[5fr_7fr] lg:gap-10 lg:p-10${isPaused ? " opacity-80" : ""}`}
+      className="grid grid-cols-1 items-start gap-6 bg-ground-2 p-6 sm:p-8 lg:grid-cols-[5fr_7fr] lg:gap-10 lg:p-10"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
         <Image

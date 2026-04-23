@@ -78,8 +78,8 @@ export function Nav() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`text-nav-link uppercase transition hover:text-accent-3 ${
-                      active ? "text-accent-3" : "text-white"
+                    className={`text-nav-link text-white uppercase transition hover:text-accent-3 ${
+                      active ? "underline decoration-accent-3 decoration-2 underline-offset-4" : ""
                     }`}
                   >
                     {item.label}
