@@ -66,3 +66,46 @@ export function articleLd({
     publisher: { "@type": "Organization", name: publisherName },
   };
 }
+
+type NonprofitOrganizationArgs = {
+  siteUrl: string;
+  url: string;
+  orgName: string;
+  foundingDate: string | number;
+  taxID?: string;
+  address?: string;
+  email?: string;
+  sameAs?: string[];
+  boardMembers?: Array<{ name: string; jobTitle: string }>;
+};
+
+export function nonprofitOrganization({
+  siteUrl,
+  url,
+  orgName,
+  foundingDate,
+  taxID,
+  address,
+  email,
+  sameAs,
+  boardMembers,
+}: NonprofitOrganizationArgs) {
+  const filteredSameAs = (sameAs ?? []).filter((s) => s.length > 0);
+  const members = (boardMembers ?? []).map((m) => ({
+    "@type": "Person" as const,
+    name: m.name,
+    jobTitle: m.jobTitle,
+  }));
+  return {
+    "@context": "https://schema.org",
+    "@type": "NonprofitOrganization",
+    name: orgName,
+    url: new URL(url, siteUrl).toString(),
+    foundingDate: String(foundingDate),
+    ...(taxID ? { taxID } : {}),
+    ...(address ? { address: { "@type": "PostalAddress", streetAddress: address } } : {}),
+    ...(email ? { email } : {}),
+    ...(filteredSameAs.length > 0 ? { sameAs: filteredSameAs } : {}),
+    ...(members.length > 0 ? { member: members } : {}),
+  };
+}
