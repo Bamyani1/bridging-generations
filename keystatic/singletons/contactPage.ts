@@ -2,7 +2,7 @@ import { fields, singleton } from "@keystatic/core";
 
 export const contactPageSingleton = singleton({
   label: "Contact page",
-  path: "content/contact-page",
+  path: "content/contact-page/",
   schema: {
     headline: fields.text({
       label: "Headline",

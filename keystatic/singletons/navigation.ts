@@ -2,7 +2,7 @@ import { fields, singleton } from "@keystatic/core";
 
 export const navigationSingleton = singleton({
   label: "Navigation",
-  path: "content/navigation",
+  path: "content/navigation/",
   schema: {
     primaryLinks: fields.array(
       fields.object({

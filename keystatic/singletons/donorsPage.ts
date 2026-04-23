@@ -2,7 +2,7 @@ import { fields, singleton } from "@keystatic/core";
 
 export const donorsPageSingleton = singleton({
   label: "Donors page",
-  path: "content/donors-page",
+  path: "content/donors-page/",
   schema: {
     headline: fields.text({
       label: "Headline",

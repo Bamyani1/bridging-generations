@@ -2,7 +2,7 @@ import { fields, singleton } from "@keystatic/core";
 
 export const termsPageSingleton = singleton({
   label: "Terms page",
-  path: "content/terms-page",
+  path: "content/terms-page/",
   format: { contentField: "body" },
   schema: {
     body: fields.mdx({

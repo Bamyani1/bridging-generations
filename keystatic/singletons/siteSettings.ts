@@ -3,7 +3,7 @@ import { imageWithAlt } from "../fields";
 
 export const siteSettingsSingleton = singleton({
   label: "Site settings",
-  path: "content/site-settings",
+  path: "content/site-settings/",
   schema: {
     orgName: fields.text({
       label: "Organization name",
