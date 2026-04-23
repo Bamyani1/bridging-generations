@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { ColorSection } from "./_components/ColorSection";
+import { RadiusSection } from "./_components/RadiusSection";
+import { ShadowSection } from "./_components/ShadowSection";
+import { SpacingSection } from "./_components/SpacingSection";
 import { TypographySection } from "./_components/TypographySection";
 
 export const metadata: Metadata = {
@@ -9,9 +12,6 @@ export const metadata: Metadata = {
 };
 
 const stubSections: Array<{ id: string; title: string; note: string }> = [
-  { id: "spacing", title: "Spacing", note: "Rhythm visualization ships in PR 2.4." },
-  { id: "radius", title: "Radius", note: "Samples ship in PR 2.4." },
-  { id: "shadow", title: "Shadow", note: "Elevation samples ship in PR 2.4." },
   { id: "buttons", title: "Buttons", note: "Variants + states ship in PR 2.5." },
   {
     id: "eyebrow-tagpill",
@@ -39,6 +39,9 @@ export default function DesignPage() {
       </header>
       <ColorSection />
       <TypographySection />
+      <SpacingSection />
+      <RadiusSection />
+      <ShadowSection />
       {stubSections.map((section) => (
         <section key={section.id} id={section.id} className="scroll-mt-8">
           <h2 className="text-heading-2">{section.title}</h2>
