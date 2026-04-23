@@ -28,7 +28,7 @@ export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
         <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {boardMembers.map((member, index) => (
             <li key={member.id}>
-              <Reveal delay={index * 100}>
+              <Reveal delay={Math.min(index * 150, 600)}>
                 <BoardMemberCard member={member} />
               </Reveal>
             </li>

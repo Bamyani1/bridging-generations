@@ -208,26 +208,76 @@
 }
 
 /* §9 Reveal-on-scroll. JS toggles .is-visible (see Reveal component) — opacity-only on reduced motion. */
-.reveal-on-scroll {
+/* Non-cascade: parent animates. Cascade: parent stays static, direct children animate with per-item delay. */
+.reveal-on-scroll:not([data-reveal-cascade]) {
   opacity: 0;
   transform: translateY(30px);
   transition:
     opacity var(--motion-lg) var(--ease-smooth),
     transform var(--motion-lg) var(--ease-smooth);
 }
-.reveal-on-scroll.is-visible {
+.reveal-on-scroll:not([data-reveal-cascade]).is-visible {
   opacity: 1;
   transform: translateY(0);
 }
+.reveal-on-scroll:not([data-reveal-cascade])[data-reveal-stagger="left"] {
+  transform: translateX(-30px);
+}
+.reveal-on-scroll:not([data-reveal-cascade])[data-reveal-stagger="left"].is-visible {
+  transform: translateX(0);
+}
+.reveal-on-scroll:not([data-reveal-cascade])[data-reveal-stagger="right"] {
+  transform: translateX(30px);
+}
+.reveal-on-scroll:not([data-reveal-cascade])[data-reveal-stagger="right"].is-visible {
+  transform: translateX(0);
+}
+.reveal-on-scroll:not([data-reveal-cascade])[data-reveal-stagger="scale-in"] {
+  transform: scale(0.96);
+}
+.reveal-on-scroll:not([data-reveal-cascade])[data-reveal-stagger="scale-in"].is-visible {
+  transform: scale(1);
+}
+.reveal-on-scroll[data-reveal-cascade] > [data-reveal-item] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity var(--motion-lg) var(--ease-smooth),
+    transform var(--motion-lg) var(--ease-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-on-scroll[data-reveal-cascade].is-visible > [data-reveal-item] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-on-scroll[data-reveal-cascade][data-reveal-stagger="left"] > [data-reveal-item] {
+  transform: translateX(-30px);
+}
+.reveal-on-scroll[data-reveal-cascade][data-reveal-stagger="left"].is-visible > [data-reveal-item] {
+  transform: translateX(0);
+}
+.reveal-on-scroll[data-reveal-cascade][data-reveal-stagger="right"] > [data-reveal-item] {
+  transform: translateX(30px);
+}
+.reveal-on-scroll[data-reveal-cascade][data-reveal-stagger="right"].is-visible
+  > [data-reveal-item] {
+  transform: translateX(0);
+}
+.reveal-on-scroll[data-reveal-cascade][data-reveal-stagger="scale-in"] > [data-reveal-item] {
+  transform: scale(0.96);
+}
+.reveal-on-scroll[data-reveal-cascade][data-reveal-stagger="scale-in"].is-visible
+  > [data-reveal-item] {
+  transform: scale(1);
+}
 @media (prefers-reduced-motion: reduce) {
-  .reveal-on-scroll {
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible,
+  .reveal-on-scroll[data-reveal-cascade] > [data-reveal-item],
+  .reveal-on-scroll[data-reveal-cascade].is-visible > [data-reveal-item] {
     opacity: 1;
     transform: none;
     transition: none;
-  }
-  .reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: none;
   }
 }
 
