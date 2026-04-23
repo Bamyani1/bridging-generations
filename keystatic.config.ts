@@ -21,8 +21,18 @@ import {
   termsPageSingleton,
 } from "./keystatic/singletons";
 
+// Gate on the OAuth client ID: if Keystatic's GitHub app isn't wired yet
+// (dev, tests, preview without secrets), fall back to local filesystem.
+// Production should always have KEYSTATIC_GITHUB_CLIENT_ID set.
+const useGitHub = Boolean(process.env.KEYSTATIC_GITHUB_CLIENT_ID);
+
 export default config({
-  storage: { kind: "local" },
+  storage: useGitHub
+    ? {
+        kind: "github",
+        repo: { owner: "Bamyani1", name: "bridging-generations" },
+      }
+    : { kind: "local" },
   ui: {
     brand: { name: "Bridging Generations" },
   },
