@@ -16,7 +16,7 @@ export function TestimonialsHero({ count }: TestimonialsHeroProps) {
           <Eyebrow>Voices</Eyebrow>
           <h1
             id="testimonials-hero-title"
-            className="max-w-[18ch] text-balance text-display-1 text-ink"
+            className="max-w-[18ch] text-balance text-display-2 text-ink sm:text-display-1"
           >
             Testimonials.
           </h1>
