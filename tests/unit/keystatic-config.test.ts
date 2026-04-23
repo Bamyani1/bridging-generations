@@ -42,7 +42,10 @@ describe("keystatic config", () => {
     }
   });
 
-  it("uses local storage in v1 (raw git workflow)", () => {
+  it("storage mode is local when KEYSTATIC_GITHUB_CLIENT_ID is unset", () => {
+    // Tests always run without the OAuth secret, so the config must resolve
+    // to local. In production the env var flips it to github storage.
+    expect(process.env.KEYSTATIC_GITHUB_CLIENT_ID).toBeFalsy();
     expect(keystaticConfig.storage.kind).toBe("local");
   });
 
@@ -50,10 +53,10 @@ describe("keystatic config", () => {
     expect(keystaticConfig.ui?.brand?.name).toBe("Bridging Generations");
   });
 
-  it("each collection writes under content/<collection>/*", () => {
+  it("each collection uses per-entry-directory layout (content/<kebab>/*/)", () => {
     const collections = keystaticConfig.collections ?? {};
     for (const [_, def] of Object.entries(collections)) {
-      expect(def.path).toMatch(/^content\/[a-z-]+\/\*$/);
+      expect(def.path).toMatch(/^content\/[a-z-]+\/\*\/$/);
     }
   });
 
