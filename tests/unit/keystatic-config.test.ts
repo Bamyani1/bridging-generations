@@ -13,10 +13,33 @@ const EXPECTED_COLLECTIONS = [
   "boardMember",
 ] as const;
 
+const EXPECTED_SINGLETONS = [
+  "siteSettings",
+  "statsSnapshot",
+  "donorsPage",
+  "donatePage",
+  "contactPage",
+  "termsPage",
+  "navigation",
+  "footer",
+] as const;
+
 describe("keystatic config", () => {
   it("registers all 9 collections per CONTENT-MODEL.md", () => {
     const keys = Object.keys(keystaticConfig.collections ?? {}).sort();
     expect(keys).toEqual([...EXPECTED_COLLECTIONS].sort());
+  });
+
+  it("registers all 8 singletons per CONTENT-MODEL.md", () => {
+    const keys = Object.keys(keystaticConfig.singletons ?? {}).sort();
+    expect(keys).toEqual([...EXPECTED_SINGLETONS].sort());
+  });
+
+  it("each singleton writes to a kebab-case content/<key> path", () => {
+    const singletons = keystaticConfig.singletons ?? {};
+    for (const [_, def] of Object.entries(singletons)) {
+      expect(def.path).toMatch(/^content\/[a-z-]+$/);
+    }
   });
 
   it("uses local storage in v1 (raw git workflow)", () => {
