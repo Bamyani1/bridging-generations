@@ -86,11 +86,11 @@ export function MotionLabSection() {
       <div className="mt-12 border-t border-hairline pt-8">
         <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Card hover</p>
         <p className="mt-2 text-body-sm text-ink-2">
-          Lifts -1 × spacing; swaps shadow-card → shadow-card-hover over 220ms. Reduced motion:
-          shadow swap only.
+          Lifts -0.5 × spacing (2px); swaps shadow-card → shadow-card-hover over 220ms. Reduced
+          motion: shadow swap only.
         </p>
         <div className="mt-4 max-w-sm">
-          <div className="border border-hairline bg-ground-2 p-6 shadow-[var(--shadow-card)] transition-all duration-[var(--motion-sm)] ease-[var(--ease-smooth)] hover:shadow-[var(--shadow-card-hover)] motion-safe:hover:-translate-y-1">
+          <div className="border border-hairline bg-ground-2 p-6 shadow-[var(--shadow-card)] transition-all duration-[var(--motion-sm)] ease-[var(--ease-smooth)] hover:shadow-[var(--shadow-card-hover)] motion-safe:hover:-translate-y-0.5">
             <p className="text-heading-5">Hoverable card</p>
             <p className="mt-1 text-body-sm text-ink-2">Move the cursor over me.</p>
           </div>
