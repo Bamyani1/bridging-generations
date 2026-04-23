@@ -75,7 +75,7 @@ export function HomeHero() {
           <h1
             id="home-hero-title"
             ref={headlineRef}
-            className="text-balance text-display-1 text-ink"
+            className="text-balance text-display-2 text-ink"
           >
             {headlineLines.map((line) => (
               <span key={line} className="block">
