@@ -10,6 +10,27 @@ type GivebutterEmbedProps = {
 export function GivebutterEmbed({ campaignId }: GivebutterEmbedProps) {
   const [loaded, setLoaded] = useState(false);
 
+  if (!campaignId) {
+    return (
+      <div className="bg-ground-2 p-6">
+        <p className="text-body text-ink-2">
+          Our donation widget is being set up. In the meantime, email{" "}
+          <a
+            href="mailto:info@bridginggenerations.org"
+            className="text-accent underline underline-offset-[3px]"
+          >
+            info@bridginggenerations.org
+          </a>{" "}
+          and a board member will help you give.
+        </p>
+      </div>
+    );
+  }
+
+  const scriptSrc = `https://widgets.givebutter.com/latest.umd.cjs?acct=${encodeURIComponent(
+    campaignId,
+  )}&p=other`;
+
   return (
     <div className="relative min-h-[560px] bg-ground-2">
       {!loaded ? (
@@ -24,11 +45,7 @@ export function GivebutterEmbed({ campaignId }: GivebutterEmbedProps) {
           <div className="mt-auto h-12 w-full bg-ground-3" />
         </div>
       ) : null}
-      <Script
-        src="https://widgets.givebutter.com/latest.umd.cjs?acct=loading&p=other"
-        strategy="afterInteractive"
-        onLoad={() => setLoaded(true)}
-      />
+      <Script src={scriptSrc} strategy="afterInteractive" onLoad={() => setLoaded(true)} />
       {createElement("givebutter-widget", { id: campaignId, className: "block w-full" })}
       <noscript>
         <p className="p-6 text-body text-ink-2">
