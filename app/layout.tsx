@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
 import "./globals.css";
 
@@ -27,8 +28,10 @@ export default function RootLayout({
     <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-ground text-body text-ink">
         <SkipLink />
-        <header>{/* Nav lands here in PR 3.2 */}</header>
-        <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+        <header>
+          <Nav />
+        </header>
+        <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
           {children}
         </main>
         <footer>{/* Footer lands here in PR 3.3 */}</footer>

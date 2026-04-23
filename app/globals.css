@@ -136,6 +136,28 @@
   /* §3 inline: 8 / 12 / 16 / 24 — pick from Tailwind 4px grid: gap-2 gap-3 gap-4 gap-6 */
 }
 
+/* Nav mobile menu — staggered item slide-in, 60ms per index (see Nav component). */
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.menu-item-in {
+  animation: menu-item-in var(--motion-sm) var(--ease-smooth) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-item-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* §9 Reveal-on-scroll. JS toggles .is-visible (see Reveal component) — opacity-only on reduced motion. */
 .reveal-on-scroll {
   opacity: 0;
