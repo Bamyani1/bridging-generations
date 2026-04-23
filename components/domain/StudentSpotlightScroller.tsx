@@ -57,7 +57,7 @@ export function StudentSpotlightScroller({
         // biome-ignore lint/a11y/noNoninteractiveTabindex: scroll region needs keyboard focus so arrow keys scroll horizontally
         tabIndex={0}
         aria-label={ariaLabel}
-        className="overflow-x-auto scroll-smooth focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="overflow-x-auto scroll-smooth focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
       >
         <ul className="flex snap-x snap-mandatory gap-5 px-4 pb-6 sm:px-6 lg:px-[6%]">
           {students.map((student) => (

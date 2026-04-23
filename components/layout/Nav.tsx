@@ -90,7 +90,7 @@ export function Nav() {
             <li>
               <Link
                 href={donateCta.href}
-                className="inline-flex items-center bg-accent-2 px-4 py-2 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover motion-safe:hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent-3"
+                className="inline-flex items-center bg-accent-2 px-4 py-2 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover motion-safe:hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
               >
                 {donateCta.label}
               </Link>

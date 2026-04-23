@@ -14,7 +14,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
       {items.map((item) => (
         <li key={item.question}>
           <details className="group">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-6 text-heading-5 text-ink transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-6 text-heading-5 text-ink transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent">
               <span className="text-balance">{item.question}</span>
               <span
                 aria-hidden="true"

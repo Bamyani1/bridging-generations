@@ -22,7 +22,7 @@ export function BlogPagination({ currentPage, pageCount }: BlogPaginationProps) 
               <Link
                 href={href}
                 aria-current={isCurrent ? "page" : undefined}
-                className={`inline-flex size-10 items-center justify-center border border-hairline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                className={`inline-flex size-10 items-center justify-center border border-hairline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent ${
                   isCurrent ? "bg-accent text-white" : "text-ink-2 transition hover:text-accent"
                 }`}
               >
