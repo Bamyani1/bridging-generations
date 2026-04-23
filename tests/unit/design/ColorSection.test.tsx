@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ColorSection } from "@/app/design/_components/ColorSection";
+import { ColorSection } from "@/app/(site)/design/_components/ColorSection";
 
 describe("ColorSection", () => {
   it("renders all ten color tokens with hex values and text-safety badges", () => {

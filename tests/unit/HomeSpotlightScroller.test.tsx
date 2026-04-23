@@ -8,7 +8,7 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-import { HomeSpotlightScroller } from "@/app/_components/HomeSpotlightScroller";
+import { HomeSpotlightScroller } from "@/app/(site)/_components/HomeSpotlightScroller";
 
 describe("HomeSpotlightScroller", () => {
   it("renders section landmark wired via aria-labelledby", () => {

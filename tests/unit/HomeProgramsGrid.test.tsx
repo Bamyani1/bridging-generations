@@ -8,7 +8,7 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-import { HomeProgramsGrid } from "@/app/_components/HomeProgramsGrid";
+import { HomeProgramsGrid } from "@/app/(site)/_components/HomeProgramsGrid";
 import { getFeaturedProjects } from "@/content/fixtures/projects";
 
 describe("HomeProgramsGrid", () => {

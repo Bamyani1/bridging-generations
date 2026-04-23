@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { ShadowSection } from "@/app/design/_components/ShadowSection";
-import { ShapeSection } from "@/app/design/_components/ShapeSection";
-import { SpacingSection } from "@/app/design/_components/SpacingSection";
+import { ShadowSection } from "@/app/(site)/design/_components/ShadowSection";
+import { ShapeSection } from "@/app/(site)/design/_components/ShapeSection";
+import { SpacingSection } from "@/app/(site)/design/_components/SpacingSection";
 
 describe("SpacingSection", () => {
   it("renders all section-rhythm tokens", () => {

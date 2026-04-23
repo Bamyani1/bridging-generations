@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { TypographySection } from "@/app/design/_components/TypographySection";
+import { TypographySection } from "@/app/(site)/design/_components/TypographySection";
 
 describe("TypographySection", () => {
   it("renders all 14 type tier labels", () => {

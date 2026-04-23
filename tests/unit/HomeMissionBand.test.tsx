@@ -8,7 +8,7 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-import { HomeMissionBand } from "@/app/_components/HomeMissionBand";
+import { HomeMissionBand } from "@/app/(site)/_components/HomeMissionBand";
 import { siteSettings } from "@/content/fixtures/siteSettings";
 
 describe("HomeMissionBand", () => {

@@ -8,7 +8,7 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-import { HomeActivities } from "@/app/_components/HomeActivities";
+import { HomeActivities } from "@/app/(site)/_components/HomeActivities";
 import { getRecentActivities } from "@/content/fixtures/activities";
 
 describe("HomeActivities", () => {
