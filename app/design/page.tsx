@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ColorSection } from "./_components/ColorSection";
 
 export const metadata: Metadata = {
   title: "Design System — Bridging Generations",
@@ -6,8 +7,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-const sectionStubs: Array<{ id: string; title: string; note: string }> = [
-  { id: "color", title: "Color", note: "Swatch grid ships in PR 2.2." },
+const stubSections: Array<{ id: string; title: string; note: string }> = [
   { id: "typography", title: "Typography", note: "Full scale ships in PR 2.3." },
   { id: "spacing", title: "Spacing", note: "Rhythm visualization ships in PR 2.4." },
   { id: "radius", title: "Radius", note: "Samples ship in PR 2.4." },
@@ -37,7 +37,8 @@ export default function DesignPage() {
           fill in as their PRs land.
         </p>
       </header>
-      {sectionStubs.map((section) => (
+      <ColorSection />
+      {stubSections.map((section) => (
         <section key={section.id} id={section.id} className="scroll-mt-8">
           <h2 className="text-heading-2">{section.title}</h2>
           <p className="mt-2 text-body-sm text-ink-2">{section.note}</p>
