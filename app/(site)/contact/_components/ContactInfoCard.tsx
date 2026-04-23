@@ -20,14 +20,14 @@ export function ContactInfoCard({
         <Eyebrow>Mail us directly</Eyebrow>
         <a
           href={`mailto:${contactEmail}`}
-          className="text-heading-5 text-ink transition hover:text-accent"
+          className="break-words text-heading-5 text-ink transition hover:text-accent"
         >
           {contactEmail}
         </a>
       </div>
       <div className="flex flex-col gap-2">
         <Eyebrow>Mailing address</Eyebrow>
-        <address className="whitespace-pre-line not-italic text-body text-ink-2">
+        <address className="whitespace-pre-line break-words not-italic text-body text-ink-2">
           {mailingAddress}
         </address>
       </div>

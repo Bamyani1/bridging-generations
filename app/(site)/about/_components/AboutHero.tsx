@@ -14,10 +14,11 @@ export function AboutHero({ foundingYear }: AboutHeroProps) {
       <Reveal>
         <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
           <Eyebrow>About us</Eyebrow>
-          <h1 id="about-hero-title" className="max-w-[22ch] text-balance text-display-1 text-ink">
-            Empowering
-            <br />
-            the Hill Tracts.
+          <h1
+            id="about-hero-title"
+            className="max-w-[22ch] text-balance text-display-2 text-ink sm:text-display-1"
+          >
+            Empowering the Hill Tracts.
           </h1>
           <p className="max-w-[60ch] text-body-lg text-ink-2">
             Since {foundingYear}, Bridging Generations has sponsored students across the Chittagong

@@ -107,7 +107,7 @@ export function AboutTransparency({
               )}
               <a
                 href={`mailto:${contactEmail}`}
-                className="text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
+                className="break-words text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
               >
                 {contactEmail}
               </a>

@@ -85,8 +85,10 @@ export function ContactForm() {
         )}
       </Field>
 
-      {/* Honeypot — hidden from real users, filled by bots */}
-      <div aria-hidden="true" className="absolute left-[-9999px]">
+      {/* Honeypot — hidden from real users, filled by bots.
+          `sr-only` removes it from layout (clip: rect(0,0,0,0)) so the
+          -9999px offset that used to inflate document.scrollWidth is gone. */}
+      <div aria-hidden="true" className="sr-only">
         <label htmlFor="contact-company">
           Company
           <input
