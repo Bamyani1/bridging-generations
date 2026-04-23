@@ -55,6 +55,13 @@ describe("HomeHero", () => {
     expect(heading).toHaveAttribute("id", "home-hero-title");
   });
 
+  it("wires the hero section landmark to the h1 via aria-labelledby", () => {
+    const { container } = render(<HomeHero />);
+    const section = container.querySelector("section");
+    expect(section).toHaveAttribute("aria-labelledby", "home-hero-title");
+    expect(container.querySelector("#home-hero-title")).not.toBeNull();
+  });
+
   it("renders the subhead copy", () => {
     render(<HomeHero />);
     expect(screen.getByText(statsSnapshot.homeHeroSubhead)).toBeInTheDocument();

@@ -53,7 +53,7 @@ export function HomeHero() {
 
   return (
     <section aria-labelledby="home-hero-title" className="relative bg-ground">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:h-[min(80vh,720px)] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
+      <div className="mx-auto grid min-h-[90vh] max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:min-h-[600px] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
         <div
           ref={imageRef}
           className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full"
@@ -65,6 +65,7 @@ export function HomeHero() {
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
+            style={{ filter: "grayscale(20%) sepia(10%) saturate(1.02)" }}
           />
         </div>
         <div className="flex flex-col justify-center gap-6 lg:order-2 lg:max-w-[56ch] lg:py-16">
