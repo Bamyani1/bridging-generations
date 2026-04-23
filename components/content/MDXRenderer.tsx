@@ -16,7 +16,7 @@ function MDXAnchor({ href, children, ...rest }: AnchorProps) {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="text-accent underline-offset-4 transition hover:underline"
+      className="text-accent underline underline-offset-4 transition hover:text-accent-2-text"
       {...rest}
     >
       {children}
