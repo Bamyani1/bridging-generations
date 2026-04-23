@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ActivityCard } from "@/components/domain/ActivityCard";
+import { type FilterChipOption, FilterChips } from "@/components/ui/FilterChips";
 import type { Activity } from "@/lib/content/activities";
 import { ACTIVITY_TAG_LABELS, ACTIVITY_TAGS, type ActivityTag } from "@/lib/content/activityTags";
 
@@ -26,24 +27,22 @@ export function ActivityFilter({ activities }: ActivityFilterProps) {
     return activities.filter((a) => a.tag === selection);
   }, [activities, selection]);
 
+  const options: FilterChipOption<Selection>[] = useMemo(
+    () => [
+      { value: ALL, label: "All", count: activities.length },
+      ...availableTags.map((tag) => ({ value: tag, label: ACTIVITY_TAG_LABELS[tag] })),
+    ],
+    [activities.length, availableTags],
+  );
+
   return (
     <>
-      <fieldset className="flex flex-wrap gap-2 border-0 p-0">
-        <legend className="sr-only">Filter activities by type</legend>
-        <FilterChip
-          label={`All (${activities.length})`}
-          selected={selection === ALL}
-          onSelect={() => setSelection(ALL)}
-        />
-        {availableTags.map((tag) => (
-          <FilterChip
-            key={tag}
-            label={ACTIVITY_TAG_LABELS[tag]}
-            selected={selection === tag}
-            onSelect={() => setSelection(tag)}
-          />
-        ))}
-      </fieldset>
+      <FilterChips
+        options={options}
+        value={selection}
+        onChange={setSelection}
+        ariaLabel="Filter activities by type"
+      />
       {filtered.length === 0 ? (
         <p className="text-body text-ink-2">No activities match this filter yet.</p>
       ) : (
@@ -56,26 +55,5 @@ export function ActivityFilter({ activities }: ActivityFilterProps) {
         </ul>
       )}
     </>
-  );
-}
-
-type FilterChipProps = {
-  label: string;
-  selected: boolean;
-  onSelect: () => void;
-};
-
-function FilterChip({ label, selected, onSelect }: FilterChipProps) {
-  return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      onClick={onSelect}
-      className={`inline-flex items-center gap-1 border border-hairline px-4 py-2 text-body-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
-        selected ? "bg-accent text-white" : "bg-ground text-ink-2 hover:text-accent"
-      }`}
-    >
-      {label}
-    </button>
   );
 }
