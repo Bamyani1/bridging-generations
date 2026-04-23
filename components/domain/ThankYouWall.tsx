@@ -18,7 +18,7 @@ export function ThankYouWall({ messages }: ThankYouWallProps) {
         const variant = index % 2 === 0 ? "cream" : "light";
         const size = pickTileSize(item.message.length);
         return (
-          <Reveal key={`${index}-${item.message.slice(0, 16)}`} delay={delay}>
+          <Reveal key={item.message} delay={delay}>
             <ThankYouTile message={item.message} year={item.year} size={size} variant={variant} />
           </Reveal>
         );
