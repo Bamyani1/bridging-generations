@@ -1,5 +1,6 @@
 import { HomeHero } from "./_components/HomeHero";
 import { HomeMissionBand } from "./_components/HomeMissionBand";
+import { HomeProgramsGrid } from "./_components/HomeProgramsGrid";
 import { HomeStatsTrio } from "./_components/HomeStatsTrio";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
       <HomeHero />
       <HomeMissionBand />
       <HomeStatsTrio />
+      <HomeProgramsGrid />
     </>
   );
 }
