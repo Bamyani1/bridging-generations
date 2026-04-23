@@ -38,9 +38,9 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
       aria-labelledby="giving-options-title"
       className="bg-ground-2 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
     >
-      <div className="mx-auto flex max-w-[1280px] flex-col gap-8">
-        <h2 id="giving-options-title" className="sr-only">
-          Ways to give
+      <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
+        <h2 id="giving-options-title" className="max-w-[20ch] text-balance text-heading-1 text-ink">
+          Other ways to give
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {tiles.map((tile) => (

@@ -34,7 +34,7 @@ export function AboutTransparency({
           <Eyebrow>Transparency</Eyebrow>
           <h2
             id="about-transparency-title"
-            className="max-w-[24ch] text-balance text-heading-2 text-ink"
+            className="max-w-[24ch] text-balance text-heading-1 text-ink"
           >
             Where your donation goes.
           </h2>

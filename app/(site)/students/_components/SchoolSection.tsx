@@ -18,7 +18,7 @@ export function SchoolSection({ school, students, index }: SchoolSectionProps) {
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <header className="mb-8 flex flex-col gap-2 lg:mb-10">
           <p className="text-meta uppercase text-ink-2">{school.location}</p>
-          <h2 id={titleId} className="text-balance text-heading-3 text-ink">
+          <h2 id={titleId} className="text-balance text-heading-2 text-ink">
             {school.name}
           </h2>
           {school.description ? (

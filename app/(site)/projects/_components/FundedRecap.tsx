@@ -13,7 +13,7 @@ export function FundedRecap({ projects }: FundedRecapProps) {
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
         <header className="flex flex-col gap-2">
-          <h2 id="projects-funded-title" className="text-balance text-heading-3 text-ink">
+          <h2 id="projects-funded-title" className="text-balance text-heading-1 text-ink">
             Fully funded — thank you
           </h2>
           <p className="max-w-[56ch] text-body text-ink-2">
