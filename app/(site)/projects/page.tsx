@@ -56,8 +56,12 @@ export default async function ProjectsPage() {
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
       >
         <div className="mx-auto flex max-w-[1280px] flex-col gap-10 lg:gap-14">
-          {list.map((project) => (
-            <ProjectListItem key={project.id} project={project} />
+          {list.map((project, index) => (
+            <ProjectListItem
+              key={project.id}
+              project={project}
+              variant={index === 0 ? "breakout" : "default"}
+            />
           ))}
         </div>
       </section>

@@ -5,6 +5,7 @@ import type { Project } from "@/lib/content/projects";
 
 type ProjectListItemProps = {
   project: Project;
+  variant?: "default" | "breakout";
 };
 
 const dollars = new Intl.NumberFormat("en-US", {
@@ -13,7 +14,7 @@ const dollars = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-export function ProjectListItem({ project }: ProjectListItemProps) {
+export function ProjectListItem({ project, variant = "default" }: ProjectListItemProps) {
   const { heroImage, title, summary, body, fundingGoal, fundingRaised, status } = project;
   const percentage = fundingGoal > 0 ? Math.round((fundingRaised / fundingGoal) * 100) : 0;
   const isPaused = status === "paused";
@@ -23,13 +24,17 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
       : `Raised ${dollars.format(fundingRaised)} of ${dollars.format(fundingGoal)}`;
   const progressTone = isPaused ? "paused" : status === "funded" ? "funded" : "default";
   const titleId = `project-${project.id}-title`;
+  const isBreakout = variant === "breakout";
+  const imageWrapperClass = isBreakout
+    ? "relative aspect-[4/3] w-full overflow-hidden bg-ground-3 lg:-ml-[6%]"
+    : "relative aspect-[4/3] w-full overflow-hidden bg-ground-3";
 
   return (
     <article
       aria-labelledby={titleId}
       className="grid grid-cols-1 items-start gap-6 bg-ground-2 p-6 sm:p-8 lg:grid-cols-[5fr_7fr] lg:gap-10 lg:p-10"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
+      <div className={imageWrapperClass}>
         <Image
           src={heroImage.src}
           alt={heroImage.alt}

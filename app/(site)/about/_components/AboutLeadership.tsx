@@ -27,7 +27,10 @@ export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
         </div>
         <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {boardMembers.map((member, index) => (
-            <li key={member.id}>
+            <li
+              key={member.id}
+              className={index === 0 ? "lg:-translate-x-4 lg:translate-y-4" : undefined}
+            >
               <Reveal delay={Math.min(index * 150, 600)}>
                 <BoardMemberCard member={member} />
               </Reveal>
