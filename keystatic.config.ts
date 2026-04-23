@@ -10,6 +10,16 @@ import {
   successStoryCollection,
   testimonialCollection,
 } from "./keystatic/collections";
+import {
+  contactPageSingleton,
+  donatePageSingleton,
+  donorsPageSingleton,
+  footerSingleton,
+  navigationSingleton,
+  siteSettingsSingleton,
+  statsSnapshotSingleton,
+  termsPageSingleton,
+} from "./keystatic/singletons";
 
 export default config({
   storage: { kind: "local" },
@@ -27,5 +37,14 @@ export default config({
     galleryImage: galleryImageCollection,
     boardMember: boardMemberCollection,
   },
-  singletons: {},
+  singletons: {
+    siteSettings: siteSettingsSingleton,
+    statsSnapshot: statsSnapshotSingleton,
+    donorsPage: donorsPageSingleton,
+    donatePage: donatePageSingleton,
+    contactPage: contactPageSingleton,
+    termsPage: termsPageSingleton,
+    navigation: navigationSingleton,
+    footer: footerSingleton,
+  },
 });
