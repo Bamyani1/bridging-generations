@@ -8,8 +8,9 @@ type AboutHeroProps = {
 export function AboutHero({ foundingYear }: AboutHeroProps) {
   return (
     <section
+      id="hero"
       aria-labelledby="about-hero-title"
-      className="bg-ground-3 px-4 pt-24 pb-16 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-24"
+      className="scroll-mt-20 bg-ground-3 px-4 pt-24 pb-16 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-24"
     >
       <Reveal>
         <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
