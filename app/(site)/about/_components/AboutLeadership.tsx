@@ -12,8 +12,9 @@ export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
 
   return (
     <section
+      id="leadership"
       aria-labelledby="about-leadership-title"
-      className="bg-ground px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
+      className="scroll-mt-20 bg-ground px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10 lg:gap-14">
         <div className="flex flex-col gap-4">

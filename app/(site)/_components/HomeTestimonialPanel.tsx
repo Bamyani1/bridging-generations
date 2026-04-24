@@ -6,5 +6,7 @@ type HomeTestimonialPanelProps = {
 };
 
 export function HomeTestimonialPanel({ testimonial }: HomeTestimonialPanelProps) {
-  return <TestimonialPanel testimonial={testimonial} titleId="home-testimonial-title" />;
+  return (
+    <TestimonialPanel testimonial={testimonial} titleId="home-testimonial-title" id="testimonial" />
+  );
 }

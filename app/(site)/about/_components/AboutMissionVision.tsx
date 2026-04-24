@@ -8,8 +8,9 @@ type AboutMissionVisionProps = {
 export function AboutMissionVision({ missionFull, visionFull }: AboutMissionVisionProps) {
   return (
     <section
+      id="mission"
       aria-labelledby="about-mission-title"
-      className="bg-ground px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
+      className="scroll-mt-20 bg-ground px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>

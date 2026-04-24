@@ -60,8 +60,9 @@ export default async function AboutPage() {
     <>
       <AboutHero foundingYear={siteSettings.foundingYear} />
       <section
+        id="reach"
         aria-label="Bridging Generations at a glance"
-        className="bg-ground px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
+        className="scroll-mt-20 bg-ground px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
       >
         <div className="mx-auto max-w-[1280px] border-t border-hairline pt-12">
           <Reveal
@@ -95,6 +96,7 @@ export default async function AboutPage() {
           titleId="about-partner-quote-title"
           ctaLabel="Partner with us"
           ctaHref="/contact"
+          id="partners"
         />
       ) : null}
       <CTAFooterPanel
@@ -104,6 +106,7 @@ export default async function AboutPage() {
         ctaHref="/donate"
         tone="cream"
         titleId="about-cta-title"
+        id="join"
       />
       <JsonLd id="ld-about-breadcrumb" data={ldBreadcrumb} />
       <JsonLd id="ld-about-org" data={ldOrg} />
