@@ -100,6 +100,15 @@
   --text-nav-link--letter-spacing: 0.08em;
   --text-nav-link--font-weight: 600;
 
+  /* §2 Typography — the "note" voice. One italic inflection per page (signed aside,
+     teacher note, caption). Font-style is layered via the .text-note rule below
+     @theme, because Tailwind v4's --text-* sub-properties cover size/line-height/
+     letter-spacing/weight but not font-style. */
+  --text-note: 22px;
+  --text-note--line-height: 1.35;
+  --text-note--letter-spacing: 0.005em;
+  --text-note--font-weight: 500;
+
   /* §4 Shape — editorial sharp. Baseline is 0 for cards, buttons, inputs, and containers.
      --radius-full is the only named radius; it backs avatars, status dots, and pill tags.
      See §4 SHAPE on /design for the corner-shape progressive enhancement demo. */
@@ -413,6 +422,14 @@
     --text-body-lg: 18px;
     --text-body: 16px;
     --text-body-sm: 14px;
+    --text-note: 20px;
     /* meta / eyebrow / nav-link are identical on both breakpoints */
   }
+}
+
+/* §2 Typography — "note" voice carries font-style. Tailwind v4 auto-generates
+   the .text-note utility with size/line-height/letter-spacing/weight from @theme,
+   but font-style is not a recognized --text-* sub-property; it rides here. */
+.text-note {
+  font-style: italic;
 }

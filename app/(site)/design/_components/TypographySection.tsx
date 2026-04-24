@@ -9,6 +9,8 @@ type Tier = {
   tracking: string;
   usage: string;
   sample: string;
+  italic?: boolean;
+  note?: string;
 };
 
 const tiers: Tier[] = [
@@ -153,6 +155,18 @@ const tiers: Tier[] = [
     usage: "Uppercase nav link",
     sample: "STUDENTS",
   },
+  {
+    name: "note",
+    desktopPx: 22,
+    mobilePx: 20,
+    weight: 500,
+    lineHeight: 1.35,
+    tracking: "0.005em",
+    italic: true,
+    usage: "Handwritten voice inflection",
+    sample: "— starts any 1st of the month",
+    note: "Used once per page as a handwritten voice inflection. Never for UI.",
+  },
 ];
 
 function TypeSample({ tier, size }: { tier: Tier; size: "desktop" | "mobile" }) {
@@ -168,6 +182,7 @@ function TypeSample({ tier, size }: { tier: Tier; size: "desktop" | "mobile" }) 
           lineHeight: tier.lineHeight,
           letterSpacing: tier.tracking === "normal" ? undefined : tier.tracking,
           fontWeight: tier.weight,
+          fontStyle: tier.italic ? "italic" : undefined,
           textWrap: "balance",
         }}
       >
@@ -188,6 +203,7 @@ function TypographyRow({ tier }: { tier: Tier }) {
         <span className="font-mono text-meta uppercase text-ink-2">
           {tier.desktopPx}/{tier.mobilePx}px · w{tier.weight} · lh {tier.lineHeight} · tracking{" "}
           {tier.tracking}
+          {tier.italic ? " · italic" : ""}
         </span>
         <span aria-hidden="true" className="text-hairline">
           /
@@ -198,6 +214,7 @@ function TypographyRow({ tier }: { tier: Tier }) {
         <TypeSample tier={tier} size="desktop" />
         <TypeSample tier={tier} size="mobile" />
       </div>
+      {tier.note ? <p className="mt-6 max-w-2xl text-body-sm text-ink-2">{tier.note}</p> : null}
     </div>
   );
 }
@@ -209,13 +226,14 @@ export function TypographySection() {
       number="§2"
       label="Typography"
       meta={[
-        { key: "tiers", value: "14" },
+        { key: "tiers", value: "15" },
         { key: "family", value: "jakarta sans" },
       ]}
     >
       <p className="max-w-2xl text-body text-ink-2">
-        One family, four weights, fourteen tiers. Samples force the pixel size inline so both
-        desktop and mobile render regardless of viewport.
+        One family, four weights, fifteen tiers — fourteen roman plus a single italic voice reserved
+        for one handwritten inflection per page. Samples force the pixel size inline so both desktop
+        and mobile render regardless of viewport.
       </p>
       <div className="mt-10">
         {tiers.map((tier) => (
