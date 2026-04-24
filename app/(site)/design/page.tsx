@@ -7,6 +7,7 @@ import { ColorSection } from "./_components/ColorSection";
 import { EyebrowTagPillSection } from "./_components/EyebrowTagPillSection";
 import { FormSection } from "./_components/FormSection";
 import { IconGridSection } from "./_components/IconGridSection";
+import { MotifSection } from "./_components/MotifSection";
 import { MotionLabSection } from "./_components/MotionLabSection";
 import { ProgressBarSection } from "./_components/ProgressBarSection";
 import { ShadowSection } from "./_components/ShadowSection";
@@ -45,12 +46,12 @@ export default function DesignPage() {
           Warm, editorial, confident. Sharp corners; warmth from color and type.
         </p>
         <ul className="mt-8 flex flex-wrap items-baseline gap-3 font-mono text-meta uppercase text-ink-2">
-          <li>13 sections</li>
+          <li>14 sections</li>
           <li aria-hidden="true" className="text-hairline">
             /
           </li>
           <li>
-            <span>4 chapters</span>
+            <span>5 chapters</span>
           </li>
           <li aria-hidden="true" className="text-hairline">
             /
@@ -83,6 +84,9 @@ export default function DesignPage() {
       <ChapterDivider index="IV" label="System" />
       <MotionLabSection />
       <BreakpointSection />
+
+      <ChapterDivider index="V" label="Motifs" />
+      <MotifSection />
     </div>
   );
 }
