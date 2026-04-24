@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { CoralArc } from "@/components/motif/CoralArc";
 import { Button } from "@/components/ui/Button";
 import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
@@ -12,23 +13,35 @@ type HomeHeroProps = {
 };
 
 const SMOOTH = [0.16, 1, 0.3, 1] as const;
+const EIN_PLACEHOLDER = "00-0000000";
 
 export function HomeHero({ stats, ein }: HomeHeroProps) {
   const shouldReduceMotion = useReducedMotion();
   const [hasHydrated, setHasHydrated] = useState(false);
-  const headlineLines = stats.homeHeroHeadline.split("\n");
   const canAnimate = hasHydrated && !shouldReduceMotion;
 
   useEffect(() => {
     setHasHydrated(true);
   }, []);
 
-  const slideUp = (delay: number, duration: number) =>
+  const headlineLines = stats.homeHeroHeadline
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+  const closingLine = headlineLines[headlineLines.length - 1] ?? "";
+  const leadingLines = headlineLines.slice(0, -1);
+
+  const einHasRealValue = Boolean(ein) && ein !== EIN_PLACEHOLDER;
+  const einTrustLine = einHasRealValue
+    ? `501(c)(3) · EIN ${ein} · Tax-deductible`
+    : "501(c)(3) · Tax-deductible";
+
+  const fadeUp = (delayMs: number, durationMs = 600) =>
     canAnimate
       ? {
-          initial: false,
-          animate: { opacity: [0, 1], y: [12, 0] },
-          transition: { duration, delay, ease: SMOOTH },
+          initial: { opacity: 0, y: 10 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: durationMs / 1000, delay: delayMs / 1000, ease: SMOOTH },
         }
       : undefined;
 
@@ -38,8 +51,14 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
       aria-labelledby="home-hero-title"
       className="relative scroll-mt-20 bg-ground"
     >
-      <div className="mx-auto grid min-h-[90vh] max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:min-h-[600px] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
-        <div className="kenburns relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-[6%] py-16 sm:py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:py-24">
+        {/* LEFT — the image, nothing else */}
+        <motion.div
+          className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-[4/5]"
+          initial={canAnimate ? { opacity: 0, y: 12 } : false}
+          animate={canAnimate ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.7, ease: SMOOTH }}
+        >
           <Image
             src="/home-hero.jpg"
             alt="Students in a Bangladesh classroom hold up their drawings beside their teacher"
@@ -47,50 +66,52 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
-            style={{ filter: "grayscale(20%) sepia(10%) saturate(1.02)" }}
           />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(to_top_right,var(--color-ground-3)_0%,transparent_45%)]"
-          />
-        </div>
-        <div className="flex flex-col justify-center gap-6 lg:order-2 lg:max-w-[56ch] lg:py-16">
-          <motion.p className="text-eyebrow uppercase text-accent" {...slideUp(0.1, 0.6)}>
+        </motion.div>
+
+        {/* RIGHT — four elements, generous breathing room */}
+        <div className="flex flex-col gap-7 lg:order-2 lg:gap-8">
+          <motion.p className="text-eyebrow uppercase text-accent" {...fadeUp(200, 500)}>
             {stats.homeHeroEyebrow}
           </motion.p>
+
           <motion.h1
             id="home-hero-title"
-            className="text-balance text-display-1 text-ink"
-            {...slideUp(0.2, 0.7)}
+            className="text-pretty text-display-2 leading-[1.05] text-ink"
+            {...fadeUp(300, 700)}
           >
-            {headlineLines.map((line) => (
+            {leadingLines.map((line) => (
               <span key={line} className="block">
                 {line}
               </span>
             ))}
+            <span className="inline-block max-w-full">
+              <span className="block whitespace-nowrap">{closingLine}</span>
+              <motion.span
+                aria-hidden="true"
+                className="-mt-1 block"
+                style={{ transformOrigin: "left" }}
+                initial={canAnimate ? { scaleX: 0 } : false}
+                animate={canAnimate ? { scaleX: 1 } : undefined}
+                transition={{ duration: 0.8, delay: 0.95, ease: SMOOTH }}
+              >
+                <CoralArc className="block w-full" />
+              </motion.span>
+            </span>
           </motion.h1>
-          <motion.p className="max-w-[28ch] text-body-lg text-ink-2" {...slideUp(0.4, 0.6)}>
+
+          <motion.p className="max-w-[44ch] text-body-lg text-ink-2" {...fadeUp(500, 600)}>
             {stats.homeHeroSubhead}
           </motion.p>
-          <motion.div className="flex flex-wrap gap-3" {...slideUp(0.55, 0.5)}>
+
+          <motion.div {...fadeUp(650, 500)}>
             <Button variant="primary" href="/donate">
               Sponsor a Student
             </Button>
-            <Button variant="secondary" href="/projects">
-              Our Programs
-            </Button>
           </motion.div>
-          <motion.p
-            className="text-meta uppercase text-ink-2"
-            {...(canAnimate
-              ? {
-                  initial: false,
-                  animate: { opacity: [0, 1] },
-                  transition: { duration: 0.5, delay: 0.8, ease: SMOOTH },
-                }
-              : undefined)}
-          >
-            501(c)(3) · EIN {ein} · Tax-deductible · No personal-data cookies
+
+          <motion.p className="text-meta uppercase text-ink-2" {...fadeUp(800, 500)}>
+            {einTrustLine}
           </motion.p>
         </div>
       </div>
