@@ -14,8 +14,6 @@ import {
   contactPageSingleton,
   donatePageSingleton,
   donorsPageSingleton,
-  footerSingleton,
-  navigationSingleton,
   siteSettingsSingleton,
   statsSnapshotSingleton,
   termsPageSingleton,
@@ -54,7 +52,5 @@ export default config({
     donatePage: donatePageSingleton,
     contactPage: contactPageSingleton,
     termsPage: termsPageSingleton,
-    navigation: navigationSingleton,
-    footer: footerSingleton,
   },
 });
