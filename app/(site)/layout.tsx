@@ -5,6 +5,7 @@ import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ViewTransitionRoot } from "@/components/layout/ViewTransitionRoot";
+import { SITE_URL } from "@/lib/seo/siteUrl";
 import "../globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -14,6 +15,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Bridging Generations",
     template: "%s — Bridging Generations",
