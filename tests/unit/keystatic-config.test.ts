@@ -20,8 +20,6 @@ const EXPECTED_SINGLETONS = [
   "donatePage",
   "contactPage",
   "termsPage",
-  "navigation",
-  "footer",
 ] as const;
 
 describe("keystatic config", () => {
@@ -30,7 +28,7 @@ describe("keystatic config", () => {
     expect(keys).toEqual([...EXPECTED_COLLECTIONS].sort());
   });
 
-  it("registers all 8 singletons per CONTENT-MODEL.md", () => {
+  it("registers the 6 keystatic-managed singletons (nav + footer are fixture-driven)", () => {
     const keys = Object.keys(keystaticConfig.singletons ?? {}).sort();
     expect(keys).toEqual([...EXPECTED_SINGLETONS].sort());
   });
