@@ -54,25 +54,33 @@ describe("HomeHero", () => {
     mockUseReducedMotion.mockReturnValue(false);
   });
 
-  it("renders each headline line", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
-    for (const line of stats.homeHeroHeadline.split("\n")) {
-      expect(screen.getByText(line)).toBeInTheDocument();
-    }
-  });
-
-  it("renders the headline as the page h1", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
-    const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveAttribute("id", "home-hero-title");
-    expect(heading).toHaveClass("text-display-1");
-  });
-
-  it("wires the hero section landmark to the h1 via aria-labelledby", () => {
+  it("wires the hero landmark to the h1 via aria-labelledby", () => {
     const { container } = render(<HomeHero stats={stats} ein={ein} />);
     const section = container.querySelector("section");
     expect(section).toHaveAttribute("aria-labelledby", "home-hero-title");
     expect(container.querySelector("#home-hero-title")).not.toBeNull();
+  });
+
+  it("renders the dispatch number badge and the eyebrow", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    expect(screen.getByText(/Dispatch 01/i)).toBeInTheDocument();
+    expect(screen.getByText(stats.homeHeroEyebrow)).toBeInTheDocument();
+  });
+
+  it("renders numerals and their paired nouns for the first two headline lines", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    expect(screen.getByText("156")).toBeInTheDocument();
+    expect(screen.getByText("5")).toBeInTheDocument();
+    expect(screen.getByText("students.")).toBeInTheDocument();
+    expect(screen.getByText("schools.")).toBeInTheDocument();
+  });
+
+  it("renders the closing headline line with a CoralArc underneath", () => {
+    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+    expect(screen.getByText("One promise kept.")).toBeInTheDocument();
+    const arc = container.querySelector('svg[viewBox="0 0 280 40"]');
+    expect(arc).not.toBeNull();
+    expect(arc).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders the subhead copy", () => {
@@ -80,21 +88,45 @@ describe("HomeHero", () => {
     expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
   });
 
-  it("renders dual CTAs linking to /donate and /projects", () => {
+  it("renders the primary CTA linking to /donate and the Our programs text link", () => {
     render(<HomeHero stats={stats} ein={ein} />);
-    expect(screen.getByRole("link", { name: "Sponsor a Student" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Sponsor a Student/i })).toHaveAttribute(
       "href",
       "/donate",
     );
-    expect(screen.getByRole("link", { name: "Our Programs" })).toHaveAttribute("href", "/projects");
+    expect(screen.getByRole("link", { name: "Our programs" })).toHaveAttribute("href", "/projects");
   });
 
-  it("renders the 501(c)(3) reassurance line with the prop EIN", () => {
-    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+  it("omits the EIN number when the placeholder value is in use", () => {
+    const { container } = render(<HomeHero stats={stats} ein="00-0000000" />);
     expect(container.textContent).toContain("501(c)(3)");
-    expect(container.textContent).toContain(`EIN ${ein}`);
     expect(container.textContent).toContain("Tax-deductible");
-    expect(container.textContent).toContain("No personal-data cookies");
+    expect(container.textContent).not.toContain("EIN");
+    expect(container.textContent).not.toContain("00-0000000");
+  });
+
+  it("prints the real EIN when a non-placeholder value is provided", () => {
+    const { container } = render(<HomeHero stats={stats} ein="12-3456789" />);
+    expect(container.textContent).toContain("EIN 12-3456789");
+  });
+
+  it("renders the italic voice inflection with the text-note class", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    const line = screen.getByText(/Written from Rangamati/);
+    expect(line).toHaveClass("text-note");
+  });
+
+  it("renders the TealPaperclip, CornerBracket, and AmberMark motifs", () => {
+    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+    expect(container.querySelector('svg[viewBox="0 0 24 40"]')).not.toBeNull();
+    expect(container.querySelectorAll('svg[viewBox="0 0 28 28"]').length).toBe(4);
+    expect(container.querySelector('svg[viewBox="0 0 400 14"]')).not.toBeNull();
+  });
+
+  it("renders the N°1 postmark badge and the polaroid dateline", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    expect(screen.getByText(/N°01/)).toBeInTheDocument();
+    expect(screen.getByText(/RANGAMATI — MARCH '26/i)).toBeInTheDocument();
   });
 
   it("gives the hero image a descriptive alt", () => {
@@ -105,22 +137,11 @@ describe("HomeHero", () => {
     expect(img).toBeInTheDocument();
   });
 
-  it("applies the signature image motion and depth overlay", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
-    const img = screen.getByAltText(
-      "Students in a Bangladesh classroom hold up their drawings beside their teacher",
-    );
-    const imagePanel = img.parentElement;
-    expect(imagePanel).toHaveClass("kenburns");
-    const overlay = imagePanel?.querySelector('[aria-hidden="true"]');
-    expect(overlay).not.toBeNull();
-    expect(overlay?.getAttribute("class")).toContain("linear-gradient");
-  });
-
   it("renders correctly when reduced motion is preferred", () => {
     mockUseReducedMotion.mockReturnValue(true);
     render(<HomeHero stats={stats} ein={ein} />);
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
     expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
+    expect(screen.getByText(/Written from Rangamati/)).toBeInTheDocument();
   });
 });
