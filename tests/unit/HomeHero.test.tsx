@@ -54,6 +54,18 @@ describe("HomeHero", () => {
     mockUseReducedMotion.mockReturnValue(false);
   });
 
+  it("wires the hero landmark to the h1 via aria-labelledby", () => {
+    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+    const section = container.querySelector("section");
+    expect(section).toHaveAttribute("aria-labelledby", "home-hero-title");
+    expect(container.querySelector("#home-hero-title")).not.toBeNull();
+  });
+
+  it("renders the eyebrow", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    expect(screen.getByText(stats.homeHeroEyebrow)).toBeInTheDocument();
+  });
+
   it("renders each headline line", () => {
     render(<HomeHero stats={stats} ein={ein} />);
     for (const line of stats.homeHeroHeadline.split("\n")) {
@@ -61,18 +73,18 @@ describe("HomeHero", () => {
     }
   });
 
-  it("renders the headline as the page h1", () => {
+  it("renders the headline as the page h1 with text-display-2", () => {
     render(<HomeHero stats={stats} ein={ein} />);
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveAttribute("id", "home-hero-title");
-    expect(heading).toHaveClass("text-display-1");
+    expect(heading).toHaveClass("text-display-2");
   });
 
-  it("wires the hero section landmark to the h1 via aria-labelledby", () => {
+  it("renders a CoralArc under the closing headline line", () => {
     const { container } = render(<HomeHero stats={stats} ein={ein} />);
-    const section = container.querySelector("section");
-    expect(section).toHaveAttribute("aria-labelledby", "home-hero-title");
-    expect(container.querySelector("#home-hero-title")).not.toBeNull();
+    const arc = container.querySelector('svg[viewBox="0 0 280 40"]');
+    expect(arc).not.toBeNull();
+    expect(arc).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders the subhead copy", () => {
@@ -80,21 +92,26 @@ describe("HomeHero", () => {
     expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
   });
 
-  it("renders dual CTAs linking to /donate and /projects", () => {
+  it("renders a single primary CTA linking to /donate", () => {
     render(<HomeHero stats={stats} ein={ein} />);
     expect(screen.getByRole("link", { name: "Sponsor a Student" })).toHaveAttribute(
       "href",
       "/donate",
     );
-    expect(screen.getByRole("link", { name: "Our Programs" })).toHaveAttribute("href", "/projects");
+    expect(screen.queryByRole("link", { name: /Our Programs/i })).toBeNull();
   });
 
-  it("renders the 501(c)(3) reassurance line with the prop EIN", () => {
-    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+  it("omits the EIN number when the placeholder value is in use", () => {
+    const { container } = render(<HomeHero stats={stats} ein="00-0000000" />);
     expect(container.textContent).toContain("501(c)(3)");
-    expect(container.textContent).toContain(`EIN ${ein}`);
     expect(container.textContent).toContain("Tax-deductible");
-    expect(container.textContent).toContain("No personal-data cookies");
+    expect(container.textContent).not.toContain("EIN");
+    expect(container.textContent).not.toContain("00-0000000");
+  });
+
+  it("prints the real EIN when a non-placeholder value is provided", () => {
+    const { container } = render(<HomeHero stats={stats} ein="12-3456789" />);
+    expect(container.textContent).toContain("EIN 12-3456789");
   });
 
   it("gives the hero image a descriptive alt", () => {
@@ -103,18 +120,6 @@ describe("HomeHero", () => {
       "Students in a Bangladesh classroom hold up their drawings beside their teacher",
     );
     expect(img).toBeInTheDocument();
-  });
-
-  it("applies the signature image motion and depth overlay", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
-    const img = screen.getByAltText(
-      "Students in a Bangladesh classroom hold up their drawings beside their teacher",
-    );
-    const imagePanel = img.parentElement;
-    expect(imagePanel).toHaveClass("kenburns");
-    const overlay = imagePanel?.querySelector('[aria-hidden="true"]');
-    expect(overlay).not.toBeNull();
-    expect(overlay?.getAttribute("class")).toContain("linear-gradient");
   });
 
   it("renders correctly when reduced motion is preferred", () => {
