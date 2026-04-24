@@ -290,6 +290,49 @@
   }
 }
 
+/* §9 Reveal kind="develop" — image filter transition; overrides default fade+translate. */
+.reveal-on-scroll[data-reveal-kind="develop"] {
+  opacity: 0.85;
+  filter: saturate(0.4) sepia(0.25) brightness(1.02);
+  transform: none;
+  transition:
+    opacity 900ms var(--ease-smooth),
+    filter 900ms var(--ease-smooth);
+}
+.reveal-on-scroll[data-reveal-kind="develop"].is-visible {
+  opacity: 1;
+  filter: saturate(1.02) sepia(0) brightness(1);
+  transform: none;
+}
+
+/* §9 Reveal kind="draw-underline" — wrapper keeps default fade, appended underline
+   scales in left→right on visibility. The main HandDrawnUnderline path is a filled
+   lenticular shape (not a stroke), so scaleX + transform-origin yields the draw-in. */
+.reveal-on-scroll[data-reveal-kind="draw-underline"] .reveal-underline {
+  display: block;
+  margin-top: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease-smooth);
+}
+.reveal-on-scroll[data-reveal-kind="draw-underline"].is-visible .reveal-underline {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll[data-reveal-kind="develop"],
+  .reveal-on-scroll[data-reveal-kind="develop"].is-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+  .reveal-on-scroll[data-reveal-kind="draw-underline"] .reveal-underline {
+    transform: scaleX(1);
+    transition: none;
+  }
+}
+
 /* §9 Imagery variety — optional hero duotone and portrait vignette on hover. */
 .hero-duotone::after {
   content: "";
