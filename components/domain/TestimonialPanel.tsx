@@ -6,6 +6,7 @@ type TestimonialPanelProps = {
   ctaLabel?: string;
   ctaHref?: string;
   titleId?: string;
+  id?: string;
 };
 
 export function TestimonialPanel({
@@ -13,6 +14,7 @@ export function TestimonialPanel({
   ctaLabel = "Join our mission",
   ctaHref = "/donate",
   titleId = "testimonial-title",
+  id,
 }: TestimonialPanelProps) {
   const { quote, speakerName, speakerTitle, speakerRole } = testimonial;
   const role =
@@ -21,7 +23,11 @@ export function TestimonialPanel({
       : `${speakerRole.charAt(0).toUpperCase()}${speakerRole.slice(1)}`;
 
   return (
-    <section aria-labelledby={titleId} className="teal-panel py-20 lg:py-32">
+    <section
+      aria-labelledby={titleId}
+      {...(id ? { id } : {})}
+      className={`teal-panel py-20 lg:py-32${id ? " scroll-mt-20" : ""}`}
+    >
       <span aria-hidden="true" className="teal-panel-glyph" />
       <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <blockquote className="flex flex-col gap-10">
