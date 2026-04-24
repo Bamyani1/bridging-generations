@@ -1,13 +1,14 @@
 import { OG_CONTENT_TYPE, OG_SIZE, renderOGImage } from "@/lib/og/card";
 
 export const runtime = "nodejs";
-export const alt = "Bridging Generations — sponsoring 156 students in the Chittagong Hill Tracts";
+export const alt = "Donate — Bridging Generations";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
 export default function Image() {
   return renderOGImage({
-    title: "Bridging Generations",
-    subtitle: "Sponsoring 156 students across 5 schools in the Chittagong Hill Tracts, Bangladesh.",
+    eyebrow: "Donate",
+    title: "Sponsor a student",
+    subtitle: "Recurring or one-time — your gift goes directly to tuition, meals, and books.",
   });
 }

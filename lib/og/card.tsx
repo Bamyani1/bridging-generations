@@ -1,3 +1,4 @@
+import { ImageResponse } from "next/og";
 import type { ReactElement } from "react";
 
 export const OG_SIZE = { width: 1200, height: 630 } as const;
@@ -112,4 +113,8 @@ export function OGCard({ title, subtitle, eyebrow }: OGCardProps): ReactElement 
       </div>
     </div>
   );
+}
+
+export function renderOGImage(props: OGCardProps): ImageResponse {
+  return new ImageResponse(<OGCard {...props} />, { ...OG_SIZE });
 }
