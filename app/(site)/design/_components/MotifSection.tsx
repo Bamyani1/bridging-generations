@@ -50,7 +50,7 @@ export function MotifSection() {
           name="HandDrawnUnderline"
           caption="Inline link hover state and full-width chapter breaks."
         >
-          <span className="inline-flex flex-col items-start text-accent">
+          <span className="inline-flex flex-col items-start text-ink">
             <span className="text-body">Read more</span>
             <HandDrawnUnderline className="mt-0.5 w-full" />
           </span>
