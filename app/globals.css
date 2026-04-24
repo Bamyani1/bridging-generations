@@ -409,7 +409,7 @@
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .card-hover:hover,
   .card-hover:focus-within {
-    transform: translateY(-4px);
+    transform: translateY(-4px) rotate(-0.4deg);
     box-shadow: var(--shadow-card-hover);
   }
   .card-hover:hover .card-title,
