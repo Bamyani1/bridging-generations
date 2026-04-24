@@ -54,11 +54,15 @@ describe("HomeHero", () => {
     mockUseReducedMotion.mockReturnValue(false);
   });
 
-  it("renders each headline line", () => {
+  it("renders each headline word inside its own inline-block span", () => {
     render(<HomeHero stats={stats} ein={ein} />);
-    for (const line of stats.homeHeroHeadline.split("\n")) {
-      expect(screen.getByText(line)).toBeInTheDocument();
-    }
+    const heading = screen.getByRole("heading", { level: 1 });
+    const wordSpans = heading.querySelectorAll("span.inline-block");
+    // Fixture headline "156 students.\n5 schools.\nOne promise kept." → 7 words.
+    expect(wordSpans).toHaveLength(7);
+    expect(wordSpans[0]).toHaveTextContent("156");
+    expect(wordSpans[1]).toHaveTextContent("students.");
+    expect(wordSpans[6]).toHaveTextContent("kept.");
   });
 
   it("renders the headline as the page h1", () => {
@@ -89,12 +93,31 @@ describe("HomeHero", () => {
     expect(screen.getByRole("link", { name: "Our Programs" })).toHaveAttribute("href", "/projects");
   });
 
-  it("renders the 501(c)(3) reassurance line with the prop EIN", () => {
-    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+  it("omits the EIN number when the placeholder value is in use", () => {
+    const { container } = render(<HomeHero stats={stats} ein="00-0000000" />);
     expect(container.textContent).toContain("501(c)(3)");
-    expect(container.textContent).toContain(`EIN ${ein}`);
     expect(container.textContent).toContain("Tax-deductible");
     expect(container.textContent).toContain("No personal-data cookies");
+    expect(container.textContent).not.toContain("EIN");
+    expect(container.textContent).not.toContain("00-0000000");
+  });
+
+  it("prints the real EIN when a non-placeholder value is provided", () => {
+    const { container } = render(<HomeHero stats={stats} ein="12-3456789" />);
+    expect(container.textContent).toContain("EIN 12-3456789");
+  });
+
+  it("renders a CoralArc motif under the headline", () => {
+    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+    const arc = container.querySelector('svg[viewBox="0 0 280 40"]');
+    expect(arc).not.toBeNull();
+    expect(arc).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("renders the italic voice inflection with the text-note class", () => {
+    render(<HomeHero stats={stats} ein={ein} />);
+    const line = screen.getByText(/Written from Rangamati/);
+    expect(line).toHaveClass("text-note");
   });
 
   it("gives the hero image a descriptive alt", () => {
