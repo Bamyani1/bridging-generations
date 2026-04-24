@@ -30,9 +30,11 @@ function SetupFallback() {
         >
           Email the board
         </Button>
-        <Button variant="secondary" href="mailto:info@bridginggenerations.org">
-          info@bridginggenerations.org
-        </Button>
+        <div className="hidden sm:block">
+          <Button variant="secondary" href="mailto:info@bridginggenerations.org">
+            info@bridginggenerations.org
+          </Button>
+        </div>
       </div>
     </div>
   );
