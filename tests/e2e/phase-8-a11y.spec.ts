@@ -27,12 +27,15 @@ for (const route of ROUTES) {
   });
 }
 
-test("/donate renders the Givebutter embed container and FAQ toggles without JS", async ({
-  page,
-}) => {
+test("/donate renders the donate surface and FAQ toggles without JS", async ({ page }) => {
   await page.goto("/donate");
-  const embedContainer = page.locator("givebutter-widget");
-  await expect(embedContainer).toHaveCount(1);
+  // The donate surface is either the Givebutter widget (when real credentials
+  // are wired) or the setup fallback CTA (when the campaign id is a placeholder
+  // — current state as of PRs #82, #83). Accept either.
+  const donateSurface = page
+    .locator("main givebutter-widget, main a[href^='mailto:info@bridginggenerations.org']")
+    .first();
+  await expect(donateSurface).toBeVisible();
 
   const firstSummary = page.locator("details summary").first();
   await firstSummary.click();
