@@ -15,14 +15,30 @@ export function AmberMark({ className }: AmberMarkProps) {
       className={className}
       style={{ color: "var(--color-accent-3)" }}
     >
+      <defs>
+        {/* Fade opacity at both ends — highlighter feathering, no hard rect edges. */}
+        <linearGradient id="motif-amber-fade" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0" />
+          <stop offset="6%" stopColor="currentColor" stopOpacity="0.38" />
+          <stop offset="50%" stopColor="currentColor" stopOpacity="0.52" />
+          <stop offset="94%" stopColor="currentColor" stopOpacity="0.38" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* Main swipe — path with slight top/bottom wobble; skewed for marker-stroke diagonal. */}
+      <path
+        d="M 2 2.4 Q 100 1.6, 200 2.2 T 398 2 L 398 11.6 Q 300 12.6, 200 11.8 T 2 11.6 Z"
+        fill="url(#motif-amber-fade)"
+        transform="skewX(-3)"
+      />
+      {/* Reload stripe — thinner secondary pass, offset up. Mimics marker re-dipped. */}
       <rect
-        x="2"
-        y="1"
-        width="396"
-        height="10"
-        rx="5"
+        x="20"
+        y="3"
+        width="360"
+        height="2.6"
         fill="currentColor"
-        opacity="0.42"
+        opacity="0.22"
         transform="skewX(-3)"
       />
     </svg>
