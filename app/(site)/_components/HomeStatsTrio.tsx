@@ -8,7 +8,11 @@ type HomeStatsTrioProps = {
 
 export function HomeStatsTrio({ stats }: HomeStatsTrioProps) {
   return (
-    <section aria-label="Program reach at a glance" className="bg-ground-3 pb-20 lg:pb-32">
+    <section
+      id="stats"
+      aria-label="Program reach at a glance"
+      className="scroll-mt-20 bg-ground-3 pb-20 lg:pb-32"
+    >
       <div className="mx-auto max-w-[1280px] border-t border-hairline px-4 pt-16 sm:px-6 lg:px-[6%] lg:pt-24">
         <Reveal
           cascade

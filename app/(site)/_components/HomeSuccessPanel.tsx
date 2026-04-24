@@ -11,8 +11,9 @@ type HomeSuccessPanelProps = {
 export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
   return (
     <section
+      id="success"
       aria-labelledby="home-success-title"
-      className="grid grid-cols-1 items-stretch bg-ground-3 lg:grid-cols-2"
+      className="grid scroll-mt-20 grid-cols-1 items-stretch bg-ground-3 lg:grid-cols-2"
     >
       <Reveal className="relative aspect-[4/5] w-full overflow-hidden bg-ground-2 lg:aspect-auto lg:min-h-[640px]">
         <Image

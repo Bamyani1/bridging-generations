@@ -9,6 +9,7 @@ export function HomeCTAFooter() {
       ctaHref="/donate"
       tone="cream"
       titleId="home-cta-footer-title"
+      id="join"
     />
   );
 }

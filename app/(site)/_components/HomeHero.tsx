@@ -33,7 +33,11 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
       : undefined;
 
   return (
-    <section aria-labelledby="home-hero-title" className="relative bg-ground">
+    <section
+      id="hero"
+      aria-labelledby="home-hero-title"
+      className="relative scroll-mt-20 bg-ground"
+    >
       <div className="mx-auto grid min-h-[90vh] max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 sm:px-6 lg:min-h-[600px] lg:grid-cols-2 lg:gap-16 lg:px-[6%] lg:py-0">
         <div className="kenburns relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-auto lg:h-full">
           <Image
