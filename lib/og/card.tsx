@@ -118,3 +118,8 @@ export function OGCard({ title, subtitle, eyebrow }: OGCardProps): ReactElement 
 export function renderOGImage(props: OGCardProps): ImageResponse {
   return new ImageResponse(<OGCard {...props} />, { ...OG_SIZE });
 }
+
+export function truncate(text: string, max: number): string {
+  if (text.length <= max) return text;
+  return `${text.slice(0, max - 1).trimEnd()}…`;
+}
