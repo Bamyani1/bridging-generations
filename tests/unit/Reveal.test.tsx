@@ -168,6 +168,7 @@ describe("Reveal", () => {
   it("does not append an underline for other kinds", () => {
     const { container } = render(
       <Reveal kind="develop">
+        {/* biome-ignore lint/performance/noImgElement: plain img is sufficient for jsdom unit test */}
         <img alt="" src="/x" />
       </Reveal>,
     );
