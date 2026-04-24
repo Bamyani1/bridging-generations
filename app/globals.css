@@ -386,6 +386,27 @@
   }
 }
 
+/* §9 Scroll-progress rule — scroll-driven scaleX on supporting browsers
+   (Chrome 115+), rAF-driven JS fallback lives in ScrollProgressRule.tsx.
+   The fixed 2px teal line mounts at top-16 (under the 64px Nav). */
+@supports (animation-timeline: scroll(root)) {
+  .scroll-progress-rule {
+    animation: scroll-progress-rule linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes scroll-progress-rule {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress-rule {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
 /* Ken-Burns motion — slow scale loop for editorial success-story heroes. */
 @keyframes kenburns {
   0% {

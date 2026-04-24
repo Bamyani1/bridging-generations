@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/layout/Nav";
+import { ScrollProgressRule } from "@/components/layout/ScrollProgressRule";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ViewTransitionRoot } from "@/components/layout/ViewTransitionRoot";
@@ -38,6 +39,7 @@ export default function SiteLayout({
           <link rel="dns-prefetch" href="https://givebutter.com" />
         </head>
         <body className="flex min-h-full flex-col bg-ground text-body text-ink">
+          <ScrollProgressRule />
           <SmoothScroll />
           <SkipLink />
           <header>
