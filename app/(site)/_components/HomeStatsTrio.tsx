@@ -16,7 +16,7 @@ export function HomeStatsTrio({ stats }: HomeStatsTrioProps) {
       <div className="mx-auto max-w-[1280px] border-t border-hairline px-4 pt-16 sm:px-6 lg:px-[6%] lg:pt-24">
         <Reveal
           cascade
-          cascadeDelay={150}
+          cascadeDelay={180}
           className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8 lg:gap-16"
         >
           <StatCard value={stats.studentCount} label="Students sponsored" />

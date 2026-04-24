@@ -15,18 +15,21 @@ export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
       aria-labelledby="home-success-title"
       className="grid scroll-mt-20 grid-cols-1 items-stretch bg-ground-3 lg:grid-cols-2"
     >
-      <Reveal className="relative aspect-[4/5] w-full overflow-hidden bg-ground-2 lg:aspect-auto lg:min-h-[640px]">
+      <Reveal
+        kind="develop"
+        className="relative aspect-[4/5] w-full overflow-hidden bg-ground-2 lg:aspect-auto lg:min-h-[640px]"
+      >
         <Image
           src={story.portrait.src}
           alt={story.portrait.alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover"
-          style={{ filter: "saturate(1.02)" }}
         />
       </Reveal>
       <Reveal
-        delay={150}
+        stagger="left"
+        delay={300}
         className="flex flex-col justify-center gap-6 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-24"
       >
         <Eyebrow>A success story</Eyebrow>
