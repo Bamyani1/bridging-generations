@@ -15,7 +15,7 @@ export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
+          <Reveal stagger="up">
             <div className="flex flex-col gap-5">
               <Eyebrow>Our mission</Eyebrow>
               <h2 id="home-mission-title" className="text-balance text-heading-3 text-ink">
@@ -23,7 +23,7 @@ export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
               </h2>
             </div>
           </Reveal>
-          <Reveal delay={150}>
+          <Reveal stagger="right" delay={150}>
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-ground-2">
               <Image
                 src="/home-mission.jpg"

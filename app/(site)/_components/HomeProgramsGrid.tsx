@@ -38,6 +38,7 @@ export function HomeProgramsGrid({ projects }: HomeProgramsGridProps) {
         </header>
         <Reveal
           cascade
+          cascadeDelay={150}
           stagger="scale-in"
           className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10"
         >

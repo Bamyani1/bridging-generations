@@ -129,4 +129,49 @@ describe("Reveal", () => {
     expect(root.classList.contains("grid")).toBe(true);
     expect(root.classList.contains("grid-cols-3")).toBe(true);
   });
+
+  it("omits data-reveal-kind for the default kind", () => {
+    const { container } = render(<Reveal>x</Reveal>);
+    const root = container.querySelector(".reveal-on-scroll") as HTMLElement;
+    expect(root.hasAttribute("data-reveal-kind")).toBe(false);
+  });
+
+  it("emits data-reveal-kind for non-default kinds", () => {
+    const { container: develop } = render(<Reveal kind="develop">x</Reveal>);
+    expect((develop.querySelector(".reveal-on-scroll") as HTMLElement).dataset.revealKind).toBe(
+      "develop",
+    );
+    const { container: underline } = render(<Reveal kind="draw-underline">x</Reveal>);
+    expect((underline.querySelector(".reveal-on-scroll") as HTMLElement).dataset.revealKind).toBe(
+      "draw-underline",
+    );
+    const { container: wrapper } = render(<Reveal kind="count-up-wrapper">x</Reveal>);
+    expect((wrapper.querySelector(".reveal-on-scroll") as HTMLElement).dataset.revealKind).toBe(
+      "count-up-wrapper",
+    );
+  });
+
+  it("appends a HandDrawnUnderline with the reveal-underline class for kind='draw-underline'", () => {
+    const { container } = render(
+      <Reveal kind="draw-underline">
+        <h2>Heading</h2>
+      </Reveal>,
+    );
+    const root = container.querySelector(".reveal-on-scroll") as HTMLElement;
+    const svg = root.querySelector("svg.reveal-underline");
+    expect(svg).not.toBeNull();
+    expect(svg).toHaveAttribute("aria-hidden", "true");
+    // Heading child still renders
+    expect(root.querySelector("h2")?.textContent).toBe("Heading");
+  });
+
+  it("does not append an underline for other kinds", () => {
+    const { container } = render(
+      <Reveal kind="develop">
+        <img alt="" src="/x" />
+      </Reveal>,
+    );
+    const svg = container.querySelector("svg.reveal-underline");
+    expect(svg).toBeNull();
+  });
 });
