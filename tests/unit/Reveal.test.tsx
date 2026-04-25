@@ -174,4 +174,44 @@ describe("Reveal", () => {
     const svg = container.querySelector("svg.reveal-underline");
     expect(svg).toBeNull();
   });
+
+  it("latches a `developed` class 900ms after kind='develop' becomes visible", () => {
+    vi.useFakeTimers();
+    const { container } = render(
+      <Reveal kind="develop">
+        <span data-testid="develop-child" />
+      </Reveal>,
+    );
+    const root = container.querySelector(".reveal-on-scroll") as HTMLElement;
+    expect(root.classList.contains("developed")).toBe(false);
+
+    act(() => {
+      observers[0]?.([{ isIntersecting: true }]);
+    });
+    expect(root.classList.contains("is-visible")).toBe(true);
+    expect(root.classList.contains("developed")).toBe(false);
+
+    act(() => {
+      vi.advanceTimersByTime(900);
+    });
+    expect(root.classList.contains("developed")).toBe(true);
+
+    vi.useRealTimers();
+  });
+
+  it("never adds `developed` for non-develop kinds", () => {
+    vi.useFakeTimers();
+    const { container } = render(<Reveal>default kind</Reveal>);
+    const root = container.querySelector(".reveal-on-scroll") as HTMLElement;
+
+    act(() => {
+      observers[0]?.([{ isIntersecting: true }]);
+    });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+    expect(root.classList.contains("developed")).toBe(false);
+
+    vi.useRealTimers();
+  });
 });

@@ -31,6 +31,7 @@ export function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [developed, setDeveloped] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -51,9 +52,17 @@ export function Reveal({
     return () => observer.disconnect();
   }, []);
 
+  // After the 900ms develop transition settles, latch a `developed` class.
+  // Per Prompt 6 spec: animation runs once per session; this is the marker.
+  useEffect(() => {
+    if (!visible || kind !== "develop") return;
+    const t = window.setTimeout(() => setDeveloped(true), 900);
+    return () => window.clearTimeout(t);
+  }, [visible, kind]);
+
   const classes = `reveal-on-scroll${visible ? " is-visible" : ""}${
-    className ? ` ${className}` : ""
-  }`;
+    developed ? " developed" : ""
+  }${className ? ` ${className}` : ""}`;
   const style = delay ? { transitionDelay: `${delay}ms` } : undefined;
   const dataAttrs: Record<string, string> = {};
   if (stagger) dataAttrs["data-reveal-stagger"] = stagger;
