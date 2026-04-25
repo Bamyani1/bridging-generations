@@ -440,11 +440,17 @@
 }
 /* Touch fallback: hover gate above excludes touch devices (hover: hover), so taps yielded
    no Prompt 4 lift. Reduced-intensity active state mirrors the card pick-up at half travel
-   on a quick 150ms ramp — perceptible feedback without lingering once the link fires. */
+   on a quick 150ms ramp — perceptible feedback without lingering once the link fires.
+   The transition lives on the BASE rule so press and release are both 150ms — putting
+   it on :active alone would let release fall back to motion-sm (220ms) and feel sluggish. */
 @media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .card-hover {
+    transition:
+      transform 150ms var(--ease-smooth),
+      box-shadow 150ms var(--ease-smooth);
+  }
   .card-hover:active {
     transform: translateY(-2px) rotate(-0.2deg);
-    transition: transform 150ms var(--ease-smooth);
   }
 }
 @media (prefers-reduced-motion: reduce) {
