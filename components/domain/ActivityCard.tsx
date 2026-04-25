@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Reveal } from "@/components/ui/Reveal";
 import { TagPill } from "@/components/ui/TagPill";
 import type { Activity } from "@/lib/content/activities";
 
@@ -23,7 +24,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
   const { coverImage, title, excerpt, tag, publishedAt } = activity;
   return (
     <article className="card-hover group flex h-full flex-col gap-4 bg-ground-2">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
+      <Reveal kind="develop" className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
         <Image
           src={coverImage.src}
           alt={coverImage.alt}
@@ -31,7 +32,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
         />
-      </div>
+      </Reveal>
       <div className="flex flex-col gap-3 p-6 lg:p-8">
         <div className="flex items-center justify-between gap-3">
           <TagPill>{tag}</TagPill>

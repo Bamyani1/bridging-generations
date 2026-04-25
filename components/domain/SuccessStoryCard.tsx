@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Link } from "next-view-transitions";
+import { Reveal } from "@/components/ui/Reveal";
 import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
 import type { SuccessStory } from "@/lib/content/successStories";
 
@@ -19,8 +20,11 @@ export function SuccessStoryCard({ story, showPortrait, headingLevel = 3 }: Succ
         href={href}
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
       >
-        <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
-          {showPortrait ? (
+        {showPortrait ? (
+          <Reveal
+            kind="develop"
+            className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3"
+          >
             <Image
               src={story.portrait.src}
               alt={story.portrait.alt}
@@ -28,10 +32,12 @@ export function SuccessStoryCard({ story, showPortrait, headingLevel = 3 }: Succ
               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
             />
-          ) : (
+          </Reveal>
+        ) : (
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
             <StudentPlaceholder />
-          )}
-        </div>
+          </div>
+        )}
       </Link>
       <div className="flex flex-col gap-3 p-6">
         <p className="text-meta uppercase text-ink-2">
