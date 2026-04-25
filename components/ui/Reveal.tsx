@@ -52,12 +52,33 @@ export function Reveal({
     return () => observer.disconnect();
   }, []);
 
-  // After the 900ms develop transition settles, latch a `developed` class.
-  // Per Prompt 6 spec: animation runs once per session; this is the marker.
+  // Latch `developed` when the filter transition actually settles. Listening for
+  // transitionend keeps us in sync with whatever duration CSS gives the animation
+  // (900ms desktop, 720ms mobile per the Prompt 7 motion-tier override) — a
+  // hardcoded timeout would fire late on mobile and miss any future tweak.
   useEffect(() => {
     if (!visible || kind !== "develop") return;
-    const t = window.setTimeout(() => setDeveloped(true), 900);
-    return () => window.clearTimeout(t);
+    const el = ref.current;
+    if (!el) return;
+    // Reduced-motion: CSS sets `transition: none`, so transitionend never fires.
+    // Latch immediately so the spec marker still arrives.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDeveloped(true);
+      return;
+    }
+    const onEnd = (e: TransitionEvent) => {
+      if (e.propertyName !== "filter") return;
+      setDeveloped(true);
+      el.removeEventListener("transitionend", onEnd);
+    };
+    el.addEventListener("transitionend", onEnd);
+    // Safety net: if transitionend is dropped (interrupted animation, GC'd node),
+    // latch within a window comfortably past both the desktop and mobile durations.
+    const fallback = window.setTimeout(() => setDeveloped(true), 1500);
+    return () => {
+      el.removeEventListener("transitionend", onEnd);
+      window.clearTimeout(fallback);
+    };
   }, [visible, kind]);
 
   const classes = `reveal-on-scroll${visible ? " is-visible" : ""}${

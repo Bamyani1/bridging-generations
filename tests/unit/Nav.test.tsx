@@ -1,11 +1,16 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/projects",
 }));
 
 import { Nav } from "@/components/layout/Nav";
+
+afterEach(() => {
+  document.body.style.overflow = "";
+});
 
 describe("Nav", () => {
   it("renders a brand link to home", () => {
@@ -35,5 +40,30 @@ describe("Nav", () => {
     const hamburger = screen.getByRole("button", { name: /open menu/i });
     expect(hamburger).toHaveAttribute("aria-expanded", "false");
     expect(hamburger).not.toHaveAttribute("aria-controls");
+  });
+
+  it("locks body scroll while the mobile menu is open and restores on close", async () => {
+    document.body.style.overflow = "scroll";
+    const user = userEvent.setup();
+    render(<Nav />);
+
+    await user.click(screen.getByRole("button", { name: /open menu/i }));
+    expect(document.body.style.overflow).toBe("hidden");
+
+    const dialog = screen.getByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: /close menu/i }));
+    expect(document.body.style.overflow).toBe("scroll");
+  });
+
+  it("restores prior body overflow when unmounted with the menu open", async () => {
+    document.body.style.overflow = "auto";
+    const user = userEvent.setup();
+    const { unmount } = render(<Nav />);
+
+    await user.click(screen.getByRole("button", { name: /open menu/i }));
+    expect(document.body.style.overflow).toBe("hidden");
+
+    unmount();
+    expect(document.body.style.overflow).toBe("auto");
   });
 });

@@ -320,6 +320,11 @@
   filter: saturate(1.02) sepia(0) brightness(1);
   transform: none;
 }
+@media (max-width: 767px) {
+  .reveal-on-scroll[data-reveal-kind="develop"] {
+    transition-duration: 720ms;
+  }
+}
 
 /* §9 Reveal kind="draw-underline" — wrapper keeps default fade, appended underline
    scales in left→right on visibility. The main HandDrawnUnderline path is a filled
@@ -433,6 +438,21 @@
     color: var(--color-accent);
   }
 }
+/* Touch fallback: hover gate above excludes touch devices (hover: hover), so taps yielded
+   no Prompt 4 lift. Reduced-intensity active state mirrors the card pick-up at half travel
+   on a quick 150ms ramp — perceptible feedback without lingering once the link fires.
+   The transition lives on the BASE rule so press and release are both 150ms — putting
+   it on :active alone would let release fall back to motion-sm (220ms) and feel sluggish. */
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .card-hover {
+    transition:
+      transform 150ms var(--ease-smooth),
+      box-shadow 150ms var(--ease-smooth);
+  }
+  .card-hover:active {
+    transform: translateY(-2px) rotate(-0.2deg);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .card-hover:hover,
   .card-hover:focus-within {
@@ -539,6 +559,16 @@
     --text-body-sm: 14px;
     --text-note: 20px;
     /* meta / eyebrow / nav-link are identical on both breakpoints */
+  }
+}
+
+/* §9 Motion — mobile duration override (<768px). Reveal default consumes var(--motion-lg)
+   so a token redefinition reaches every default reveal at once (700 → 560ms, ~20% faster).
+   Develop reveal hardcodes 900ms (Prompt 6 baseline) and is overridden at the rule level
+   below the develop block. */
+@media (max-width: 767px) {
+  :root {
+    --motion-lg: 560ms;
   }
 }
 

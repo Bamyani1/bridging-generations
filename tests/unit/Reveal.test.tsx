@@ -175,8 +175,21 @@ describe("Reveal", () => {
     expect(svg).toBeNull();
   });
 
-  it("latches a `developed` class 900ms after kind='develop' becomes visible", () => {
-    vi.useFakeTimers();
+  it("latches `developed` when the filter transition ends (motion-OK)", () => {
+    // Override the default reduced-motion-true matchMedia stub for this test so
+    // the effect waits on transitionend instead of latching immediately.
+    const original = window.matchMedia;
+    window.matchMedia = ((q: string) => ({
+      matches: false,
+      media: q,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    })) as unknown as typeof window.matchMedia;
+
     const { container } = render(
       <Reveal kind="develop">
         <span data-testid="develop-child" />
@@ -191,12 +204,32 @@ describe("Reveal", () => {
     expect(root.classList.contains("is-visible")).toBe(true);
     expect(root.classList.contains("developed")).toBe(false);
 
+    // Fire transitionend for opacity first — should NOT latch (we listen for filter).
     act(() => {
-      vi.advanceTimersByTime(900);
+      root.dispatchEvent(new TransitionEvent("transitionend", { propertyName: "opacity" }));
+    });
+    expect(root.classList.contains("developed")).toBe(false);
+
+    act(() => {
+      root.dispatchEvent(new TransitionEvent("transitionend", { propertyName: "filter" }));
     });
     expect(root.classList.contains("developed")).toBe(true);
 
-    vi.useRealTimers();
+    window.matchMedia = original;
+  });
+
+  it("latches `developed` immediately when prefers-reduced-motion (no transitionend fires)", () => {
+    // Default setup matchMedia returns matches=true for reduce.
+    const { container } = render(
+      <Reveal kind="develop">
+        <span data-testid="develop-child" />
+      </Reveal>,
+    );
+    const root = container.querySelector(".reveal-on-scroll") as HTMLElement;
+    act(() => {
+      observers[0]?.([{ isIntersecting: true }]);
+    });
+    expect(root.classList.contains("developed")).toBe(true);
   });
 
   it("never adds `developed` for non-develop kinds", () => {
