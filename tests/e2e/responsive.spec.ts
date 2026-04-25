@@ -21,6 +21,7 @@ const ROUTES = [
 
 const VIEWPORTS = [
   { width: 320, height: 640, label: "320w" },
+  { width: 375, height: 812, label: "375w" },
   { width: 768, height: 1024, label: "768w" },
   { width: 1280, height: 800, label: "1280w" },
 ] as const;
