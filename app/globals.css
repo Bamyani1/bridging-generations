@@ -142,6 +142,22 @@
 
   /* §3 stack: 16 / 24 / 32 / 40 / 56 — pick from Tailwind 4px grid: p-4 p-6 p-8 p-10 p-14 */
   /* §3 inline: 8 / 12 / 16 / 24 — pick from Tailwind 4px grid: gap-2 gap-3 gap-4 gap-6 */
+
+  /* §1 Paper grain — feTurbulence tile applied to cream surfaces; rect opacity baked at 0.008. */
+  --bg-paper-grain: url("/textures/paper-grain.svg");
+}
+
+/* §1 Paper grain — unlayered rule with :where() (specificity 0). Unlayered CSS beats all
+   layered rules per cascade spec, so background-image lands; Tailwind's utility .bg-ground*
+   only sets background-color, so the two stack without conflict. Teal panels use
+   background-color directly (not .bg-accent), so this selector doesn't catch them — they
+   keep only their own .teal-panel::before noise. */
+:where(.bg-ground),
+:where(.bg-ground-2),
+:where(.bg-ground-3) {
+  background-image: var(--bg-paper-grain);
+  background-size: 320px 320px;
+  background-repeat: repeat;
 }
 
 /* §4 Shape — corner-shape progressive enhancement. Baseline border-radius renders a rounded
@@ -426,6 +442,41 @@
   .card-hover:hover .card-title,
   .card-hover:focus-within .card-title {
     color: var(--color-accent);
+  }
+}
+
+/* §9 Chapter break — hand-drawn coral mark between major sections.
+   IntersectionObserver in ChapterBreak.tsx adds .is-visible to trigger the scaleX draw-in.
+   accent-2-text (4.5:1) over spec-literal accent-2 (1.7:1) — reads as intentional gesture.
+   width: 100% (not margin auto) so flex-column parents don't collapse the cross-axis stretch. */
+.chapter-break {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 40px 0;
+}
+@media (min-width: 768px) {
+  .chapter-break {
+    margin: 64px 0;
+  }
+}
+.chapter-break__mark {
+  display: block;
+  width: 60%;
+  max-width: 480px;
+  height: 12px;
+  color: var(--color-accent-2-text);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease-smooth);
+}
+.chapter-break.is-visible .chapter-break__mark {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-break__mark {
+    transform: scaleX(1);
+    transition: none;
   }
 }
 
