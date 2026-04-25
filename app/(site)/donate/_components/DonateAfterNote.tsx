@@ -9,7 +9,7 @@ export function DonateAfterNote({ note }: DonateAfterNoteProps) {
   return (
     <section
       aria-labelledby="donate-after-title"
-      className="bg-ground px-4 py-12 sm:px-6 lg:px-[6%] lg:py-16"
+      className="bg-ground-3 px-4 py-12 sm:px-6 lg:px-[6%] lg:py-16"
     >
       <div className="mx-auto flex max-w-[900px] flex-col gap-3 text-body text-ink-2">
         <h2 id="donate-after-title" className="text-eyebrow uppercase tracking-[0.1em] text-accent">
