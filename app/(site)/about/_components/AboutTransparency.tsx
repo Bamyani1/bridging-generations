@@ -1,3 +1,4 @@
+import { ChapterBreak } from "@/components/motif/ChapterBreak";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
@@ -31,6 +32,7 @@ export function AboutTransparency({
       className="scroll-mt-20 bg-ground-2 px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10 lg:gap-14">
+        <ChapterBreak />
         <div className="flex flex-col gap-4">
           <Eyebrow>Transparency</Eyebrow>
           <h2

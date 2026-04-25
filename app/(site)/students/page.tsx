@@ -67,7 +67,7 @@ export default async function StudentsPage() {
       <ConsentStatement />
       <section
         aria-label="Student sponsorships at a glance"
-        className="bg-ground-2 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
+        className="bg-ground px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
       >
         <div className="mx-auto max-w-[1280px] border-t border-hairline pt-12">
           <Reveal

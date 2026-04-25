@@ -1,4 +1,5 @@
 import { StatCard } from "@/components/domain/StatCard";
+import { ChapterBreak } from "@/components/motif/ChapterBreak";
 import { Reveal } from "@/components/ui/Reveal";
 import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
@@ -13,7 +14,8 @@ export function HomeStatsTrio({ stats }: HomeStatsTrioProps) {
       aria-label="Program reach at a glance"
       className="scroll-mt-20 bg-ground-3 pb-20 lg:pb-32"
     >
-      <div className="mx-auto max-w-[1280px] border-t border-hairline px-4 pt-16 sm:px-6 lg:px-[6%] lg:pt-24">
+      <div className="mx-auto max-w-[1280px] px-4 pt-16 sm:px-6 lg:px-[6%] lg:pt-24">
+        <ChapterBreak />
         <Reveal
           cascade
           cascadeDelay={180}

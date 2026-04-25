@@ -13,7 +13,7 @@ export function HomeActivities({ activities }: HomeActivitiesProps) {
     <section
       id="activities"
       aria-labelledby="home-activities-title"
-      className="scroll-mt-20 bg-ground py-20 lg:py-32"
+      className="scroll-mt-20 bg-ground-2 py-20 lg:py-32"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <header className="mb-12 flex flex-col gap-4 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">

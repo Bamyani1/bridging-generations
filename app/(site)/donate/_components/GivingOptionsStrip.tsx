@@ -36,7 +36,7 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
   return (
     <section
       aria-labelledby="giving-options-title"
-      className="bg-ground-2 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
+      className="bg-ground-3 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-10">
         <h2 id="giving-options-title" className="max-w-[20ch] text-balance text-heading-1 text-ink">
@@ -47,7 +47,7 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
             <Link
               key={tile.eyebrow}
               href={tile.href}
-              className="group flex flex-col gap-3 bg-ground p-6 transition hover:bg-ground-3 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+              className="group flex flex-col gap-3 bg-ground p-6 transition hover:bg-ground-2 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
             >
               <Eyebrow>{tile.eyebrow}</Eyebrow>
               <span className="text-balance text-heading-4 text-ink transition group-hover:text-accent">

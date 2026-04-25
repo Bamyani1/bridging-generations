@@ -49,7 +49,7 @@ export default async function DonatePage({ searchParams }: { searchParams: Searc
     <>
       <section
         aria-labelledby="donate-hero-title"
-        className="bg-ground-3 px-4 pt-24 pb-16 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-24"
+        className="bg-ground px-4 pt-24 pb-16 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-24"
       >
         <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
           <div id="donate-hero-title">
