@@ -20,8 +20,6 @@ async function readDurations(page: import("@playwright/test").Page) {
   });
 }
 
-test.describe.configure({ mode: "serial" });
-
 test("desktop Reveal transition-duration is 700ms (default) / 900ms (develop) at 1280px", async ({
   page,
 }) => {
@@ -31,8 +29,10 @@ test("desktop Reveal transition-duration is 700ms (default) / 900ms (develop) at
   expect(r.innerWidth, "viewport").toBe(DESKTOP.width);
   expect(r.matchesMobile, "matchMedia").toBe(false);
   expect(r.motionLg, "--motion-lg").toMatch(/^(\.7s|0\.7s|700ms)$/);
-  expect(r.defaultDuration, "default reveal").toMatch(/0\.7s/);
-  expect(r.developDuration, "develop reveal").toMatch(/0\.9s/);
+  expect(r.defaultDuration, "default reveal — found a default Reveal on /").not.toBeNull();
+  expect(r.defaultDuration).toMatch(/0\.7s/);
+  expect(r.developDuration, "develop reveal — found a develop Reveal on /").not.toBeNull();
+  expect(r.developDuration).toMatch(/0\.9s/);
 });
 
 test("mobile Reveal transition-duration drops to 560ms (default) / 720ms (develop) at 375px", async ({
@@ -45,6 +45,8 @@ test("mobile Reveal transition-duration drops to 560ms (default) / 720ms (develo
   expect(r.innerWidth, "viewport").toBe(MOBILE.width);
   expect(r.matchesMobile, "matchMedia").toBe(true);
   expect(r.motionLg, "--motion-lg").toMatch(/^(\.56s|0\.56s|560ms)$/);
-  expect(r.defaultDuration, "default reveal").toMatch(/0\.56s/);
-  expect(r.developDuration, "develop reveal").toMatch(/0\.72s/);
+  expect(r.defaultDuration, "default reveal — found a default Reveal on /").not.toBeNull();
+  expect(r.defaultDuration).toMatch(/0\.56s/);
+  expect(r.developDuration, "develop reveal — found a develop Reveal on /").not.toBeNull();
+  expect(r.developDuration).toMatch(/0\.72s/);
 });
