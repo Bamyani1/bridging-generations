@@ -11,7 +11,7 @@ export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
     <section
       id="mission"
       aria-labelledby="home-mission-title"
-      className="scroll-mt-20 bg-ground-3 py-20 lg:py-32"
+      className="scroll-mt-20 overflow-hidden bg-ground-3 py-20 lg:py-32"
     >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">

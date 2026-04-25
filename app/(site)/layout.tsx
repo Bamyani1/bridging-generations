@@ -45,11 +45,7 @@ export default function SiteLayout({
           <header>
             <Nav />
           </header>
-          <main
-            id="main-content"
-            tabIndex={-1}
-            className="flex-1 overflow-x-clip pt-16 outline-none"
-          >
+          <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
             {children}
           </main>
           <footer>

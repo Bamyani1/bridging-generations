@@ -49,7 +49,7 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
     <section
       id="hero"
       aria-labelledby="home-hero-title"
-      className="relative scroll-mt-20 bg-ground"
+      className="relative scroll-mt-20 overflow-hidden bg-ground"
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-[6%] py-16 sm:py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:py-24">
         {/* LEFT — the image, nothing else */}
