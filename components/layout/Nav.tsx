@@ -59,10 +59,18 @@ export function Nav() {
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // <html> is the scrolling element in standards mode, so locking only body
+    // leaves the page scrollable. Lock both — restore both — so the menu doesn't
+    // double as a wormhole that lets the underlying page scroll on tap.
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.overflow;
+    const prevBody = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = prev;
+      html.style.overflow = prevHtml;
+      body.style.overflow = prevBody;
     };
   }, [open]);
 
@@ -75,7 +83,7 @@ export function Nav() {
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-[6%]">
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center text-nav-link uppercase text-white transition hover:text-accent-3"
+            className="inline-flex min-h-[44px] items-center text-nav-link uppercase text-white transition hover:text-accent-3"
           >
             Bridging Generations
           </Link>
@@ -162,7 +170,7 @@ export function Nav() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       aria-current={active ? "page" : undefined}
-                      className={`flex min-h-11 items-center text-heading-5 ${
+                      className={`flex min-h-[44px] items-center text-heading-5 ${
                         active ? "text-accent" : "text-ink"
                       }`}
                     >
@@ -178,7 +186,7 @@ export function Nav() {
                 <Link
                   href={donateCta.href}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-11 items-center justify-center bg-accent-2 px-4 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)]"
+                  className="flex min-h-[44px] items-center justify-center bg-accent-2 px-4 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)]"
                 >
                   {donateCta.label}
                 </Link>
