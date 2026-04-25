@@ -13,7 +13,7 @@ export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
     <section
       id="success"
       aria-labelledby="home-success-title"
-      className="grid scroll-mt-20 grid-cols-1 items-stretch bg-ground-3 lg:grid-cols-2"
+      className="teal-panel grid scroll-mt-20 grid-cols-1 items-stretch text-white lg:grid-cols-2"
     >
       <Reveal
         kind="develop"
@@ -32,19 +32,19 @@ export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
         delay={300}
         className="flex flex-col justify-center gap-6 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-24"
       >
-        <Eyebrow>A success story</Eyebrow>
+        <Eyebrow className="text-white/75!">A success story</Eyebrow>
         <blockquote className="flex flex-col gap-6">
-          <p id="home-success-title" className="text-balance text-heading-2 text-ink">
+          <p id="home-success-title" className="text-balance text-heading-2">
             &ldquo;{story.pullQuote}&rdquo;
           </p>
           <footer className="flex flex-col gap-1">
-            <cite className="not-italic text-heading-5 text-ink">{story.subjectName}</cite>
-            <span className="text-meta uppercase text-ink-2">{story.subjectRole}</span>
+            <cite className="not-italic text-heading-5">{story.subjectName}</cite>
+            <span className="text-meta uppercase text-white/75">{story.subjectRole}</span>
           </footer>
         </blockquote>
         <Link
           href={`/success-stories/${story.slug}`}
-          className="group inline-flex items-center gap-1 text-nav-link uppercase text-accent transition hover:text-accent-2-text"
+          className="group inline-flex items-center gap-1 text-nav-link uppercase text-white transition hover:text-accent-3"
         >
           Read {story.subjectName}&rsquo;s story
           <span
