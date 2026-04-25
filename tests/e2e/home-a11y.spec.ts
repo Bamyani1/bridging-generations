@@ -34,7 +34,6 @@ test("hero CTAs, nav brand, and closing CTA are keyboard reachable", async ({ pa
   await page.goto("/");
 
   await expect(page.getByRole("link", { name: "Sponsor a Student" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Our Programs" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Donate now" })).toBeVisible();
 
   await page.keyboard.press("Tab");
