@@ -12,9 +12,10 @@ export function SuccessStoriesHero({ count }: SuccessStoriesHeroProps) {
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
         <Eyebrow>Lives changed</Eyebrow>
+        {/* per type-tier ledger: narrow two-column hero → display-2 */}
         <h1
           id="success-stories-hero-title"
-          className="max-w-[24ch] text-balance text-display-1 text-ink"
+          className="max-w-[24ch] text-balance text-display-2 text-ink"
         >
           Success stories
         </h1>

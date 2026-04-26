@@ -15,7 +15,8 @@ export function DonorsHero({ headline, subhead }: DonorsHeroProps) {
       <Reveal>
         <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
           <Eyebrow>Gratitude</Eyebrow>
-          <h1 id="donors-hero-title" className="max-w-[22ch] text-balance text-display-1 text-ink">
+          {/* per type-tier ledger: narrow two-column hero → display-2 */}
+          <h1 id="donors-hero-title" className="max-w-[22ch] text-balance text-display-2 text-ink">
             {headline}
           </h1>
           <p className="max-w-[60ch] text-body-lg text-ink-2">{subhead}</p>
