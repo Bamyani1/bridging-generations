@@ -35,7 +35,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
       </Reveal>
       <div className="flex flex-col gap-3 p-6 lg:p-8">
         <div className="flex items-center justify-between gap-3">
-          <TagPill>{tag}</TagPill>
+          <TagPill variant="stamp">{tag}</TagPill>
           <time className="text-meta uppercase text-ink-2" dateTime={publishedAt}>
             {formatDate(publishedAt)}
           </time>

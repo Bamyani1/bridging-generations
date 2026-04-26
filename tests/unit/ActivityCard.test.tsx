@@ -42,4 +42,11 @@ describe("ActivityCard", () => {
     render(<ActivityCard activity={sample} />);
     expect(screen.queryByRole("link")).toBeNull();
   });
+
+  it("renders the tag inside a stamp-variant TagPill", () => {
+    const { container } = render(<ActivityCard activity={sample} />);
+    const tag = container.querySelector("span.border.border-current.bg-transparent");
+    expect(tag).not.toBeNull();
+    expect(tag).toHaveTextContent("distribution");
+  });
 });

@@ -28,9 +28,17 @@ export function ProgramCard({ project }: ProgramCardProps) {
     : isPaused
       ? "Why it's on pause"
       : "Support this project";
+  const ribbonStatus = isFunded ? "funded" : isPaused ? "paused" : "active";
+  const ribbonLabel = isFunded ? "Fully funded" : isPaused ? "Paused" : "Funding";
 
   return (
-    <article className="card-hover group flex flex-col gap-5 bg-ground-2">
+    <article
+      className="card-hover group relative flex flex-col gap-5 bg-ground-2"
+      aria-label={`${title}, ${ribbonLabel.toLowerCase()}`}
+    >
+      <span aria-hidden="true" className="program-ribbon" data-status={ribbonStatus}>
+        {ribbonLabel}
+      </span>
       <Link
         href="/projects"
         className="block focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"

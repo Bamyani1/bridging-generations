@@ -35,6 +35,7 @@ export function EyebrowTagPillSection() {
             <TagPill variant="live" statusVariant="pending">
               Waiting list
             </TagPill>
+            <TagPill variant="stamp">Distribution</TagPill>
           </div>
         </div>
         <div className="border-t border-hairline pt-6">

@@ -47,6 +47,8 @@ const withoutConsent: Student = {
   },
 };
 
+const PAPERCLIP_VIEWBOX = "0 0 24 40";
+
 describe("StudentCard", () => {
   it("renders the displayName as the heading (first name only)", () => {
     render(<StudentCard student={withPortrait} />);
@@ -67,5 +69,30 @@ describe("StudentCard", () => {
   it("renders grade and community meta", () => {
     render(<StudentCard student={withPortrait} />);
     expect(screen.getByText(/Grade 8 · marma/)).toBeInTheDocument();
+  });
+
+  it("renders a TealPaperclip when the student is sponsored", () => {
+    const { container } = render(<StudentCard student={withPortrait} />);
+    expect(container.querySelector(`svg[viewBox="${PAPERCLIP_VIEWBOX}"]`)).not.toBeNull();
+  });
+
+  it("renders no paperclip when the student is awaiting a sponsor", () => {
+    const { container } = render(
+      <StudentCard student={{ ...withPortrait, sponsorshipStatus: "waiting" }} />,
+    );
+    expect(container.querySelector(`svg[viewBox="${PAPERCLIP_VIEWBOX}"]`)).toBeNull();
+  });
+
+  it("labels the article with name + sponsorship status + grade", () => {
+    render(<StudentCard student={withPortrait} />);
+    const article = screen.getByRole("article", { name: /Anika.*sponsored.*grade 8/i });
+    expect(article).toBeInTheDocument();
+  });
+
+  it("uses 'awaiting sponsor' phrasing when not sponsored", () => {
+    render(<StudentCard student={{ ...withPortrait, sponsorshipStatus: "waiting" }} />);
+    expect(
+      screen.getByRole("article", { name: /Anika.*awaiting sponsor.*grade 8/i }),
+    ).toBeInTheDocument();
   });
 });
