@@ -3,6 +3,7 @@ import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
 import { StatCard } from "@/components/domain/StatCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 import { getAllSchools } from "@/lib/content/schools";
 import { getStudentsGroupedBySchool } from "@/lib/content/students";
 import { getAllTestimonials } from "@/lib/content/testimonials";
@@ -20,11 +21,18 @@ export const metadata: Metadata = {
 };
 
 export default async function StudentsPage() {
-  const [schools, grouped, testimonials] = await Promise.all([
+  const [allSchools, grouped, testimonials] = await Promise.all([
     getAllSchools(),
     getStudentsGroupedBySchool(),
     getAllTestimonials(),
   ]);
+
+  // Schools whose description starts with [CONFIRM:] are unverified — the
+  // marker indicates the school's identity itself is unconfirmed, not just
+  // its prose. Suppress them site-wide rather than render a partial entry.
+  const schools = allSchools.filter(
+    (school) => !school.description || !isPlaceholder(school.description),
+  );
 
   const pullQuote =
     testimonials.find((t) => t.speakerRole === "student") ??

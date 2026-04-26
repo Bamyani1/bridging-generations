@@ -23,12 +23,19 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [siteSettings, boardMembers, schools, testimonials] = await Promise.all([
+  const [siteSettings, boardMembers, allSchools, testimonials] = await Promise.all([
     getSiteSettings(),
     getAllBoardMembers(),
     getAllSchools(),
     getAllTestimonials(),
   ]);
+
+  // Same filter as /students: a school whose description starts with
+  // [CONFIRM:] has an unverified identity. Suppress it from the count so
+  // the "Partner schools" stat matches what actually renders site-wide.
+  const schools = allSchools.filter(
+    (school) => !school.description || !isPlaceholder(school.description),
+  );
 
   const yearsActive = Math.max(1, new Date().getUTCFullYear() - siteSettings.foundingYear);
 
