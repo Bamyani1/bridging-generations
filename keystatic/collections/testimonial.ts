@@ -32,6 +32,12 @@ export const testimonialCollection = collection({
       label: "Speaker title",
       description: 'Free-form full title — e.g. "Principal, Thanchi High School".',
     }),
+    highlightWord: fields.text({
+      label: "Highlight word",
+      description:
+        "Optional. One word or short phrase from the quote — receives an amber-highlighter background in the panel.",
+      validation: { length: { min: 0, max: 40 } },
+    }),
     speakerPhoto: optionalImageWithAlt({ label: "Speaker photo", dir: "testimonials" }),
     speakerRole: fields.select({
       label: "Speaker role",

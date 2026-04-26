@@ -10,6 +10,7 @@ const base: Testimonial = {
   speakerTitle: "",
   speakerRole: "student",
   speakerPhoto: { src: null, alt: "" },
+  highlightWord: "",
 };
 
 describe("StudentsPullQuote", () => {

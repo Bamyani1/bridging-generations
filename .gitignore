@@ -29,6 +29,9 @@
 *.pem
 .permcheck
 
+# perf-audit raw runs (Lighthouse JSON, build logs) — ephemeral, not committed
+/tmp-audit/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
