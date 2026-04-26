@@ -5,6 +5,7 @@ import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { ViewTransitionRoot } from "@/components/layout/ViewTransitionRoot";
 import { Button } from "@/components/ui/Button";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -18,7 +19,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function NotFound() {
+export default async function NotFound() {
+  const siteSettings = await getSiteSettings();
+
   return (
     <ViewTransitionRoot>
       <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
@@ -46,7 +49,7 @@ export default function NotFound() {
             </div>
           </main>
           <footer>
-            <Footer />
+            <Footer ein={siteSettings.ein} mailingAddress={siteSettings.mailingAddress} />
           </footer>
         </body>
       </html>

@@ -5,6 +5,7 @@ import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
 import { getAllBoardMembers } from "@/lib/content/boardMembers";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 import { getAllSchools } from "@/lib/content/schools";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { getAllTestimonials } from "@/lib/content/testimonials";
@@ -22,12 +23,19 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [siteSettings, boardMembers, schools, testimonials] = await Promise.all([
+  const [siteSettings, boardMembers, allSchools, testimonials] = await Promise.all([
     getSiteSettings(),
     getAllBoardMembers(),
     getAllSchools(),
     getAllTestimonials(),
   ]);
+
+  // Same filter as /students: a school whose description starts with
+  // [CONFIRM:] has an unverified identity. Suppress it from the count so
+  // the "Partner schools" stat matches what actually renders site-wide.
+  const schools = allSchools.filter(
+    (school) => !school.description || !isPlaceholder(school.description),
+  );
 
   const yearsActive = Math.max(1, new Date().getUTCFullYear() - siteSettings.foundingYear);
 
@@ -44,13 +52,15 @@ export default async function AboutPage() {
     { name: "Home", url: "/" },
     { name: "About", url: "/about" },
   ]);
+  const einIsReal = !isPlaceholder(siteSettings.ein) && siteSettings.ein !== "00-0000000";
+  const mailingAddressIsReal = !isPlaceholder(siteSettings.mailingAddress);
   const ldOrg = nonprofitOrganization({
     siteUrl: SITE_URL,
     url: "/about",
     orgName: siteSettings.orgName,
     foundingDate: siteSettings.foundingYear,
-    taxID: siteSettings.ein,
-    address: siteSettings.mailingAddress,
+    taxID: einIsReal ? siteSettings.ein : undefined,
+    address: mailingAddressIsReal ? siteSettings.mailingAddress : undefined,
     email: siteSettings.contactEmail,
     sameAs,
     boardMembers: boardMembers.map((m) => ({ name: m.name, jobTitle: m.role })),

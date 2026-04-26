@@ -25,11 +25,15 @@ function MDXAnchor({ href, children, ...rest }: AnchorProps) {
 }
 
 const components = {
-  h2: ({ children }: { children?: ReactNode }) => (
-    <h2 className="mt-12 mb-4 text-balance text-heading-3 text-ink">{children}</h2>
+  h2: ({ children, id }: { children?: ReactNode; id?: string }) => (
+    <h2 id={id} className="mt-12 mb-4 text-balance text-heading-3 text-ink">
+      {children}
+    </h2>
   ),
-  h3: ({ children }: { children?: ReactNode }) => (
-    <h3 className="mt-8 mb-3 text-balance text-heading-4 text-ink">{children}</h3>
+  h3: ({ children, id }: { children?: ReactNode; id?: string }) => (
+    <h3 id={id} className="mt-8 mb-3 text-balance text-heading-4 text-ink">
+      {children}
+    </h3>
   ),
   h4: ({ children }: { children?: ReactNode }) => (
     <h4 className="mt-6 mb-2 text-heading-5 text-ink">{children}</h4>

@@ -18,7 +18,7 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
       eyebrow: "Sponsor one child",
       heading: `$${monthlySuggestion}/month`,
       body: "Tuition, books, meals, and materials — everything one student needs for a full school year.",
-      href: `/donate?amount=${monthlySuggestion}&frequency=monthly`,
+      href: "/donate",
     },
     {
       eyebrow: "Fund a program",

@@ -54,7 +54,7 @@ export default async function SiteLayout({
             {children}
           </main>
           <footer>
-            <Footer ein={siteSettings.ein} />
+            <Footer ein={siteSettings.ein} mailingAddress={siteSettings.mailingAddress} />
           </footer>
         </body>
       </html>

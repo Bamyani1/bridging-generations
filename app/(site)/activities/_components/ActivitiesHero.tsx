@@ -19,8 +19,8 @@ export function ActivitiesHero({ count }: ActivitiesHeroProps) {
           Recent activities
         </h1>
         <p className="max-w-[60ch] text-body-lg text-ink-2">
-          {count} short field updates across our five partner schools — distribution days,
-          milestones, board visits, and fundraiser news. Filter below to focus in.
+          {count} short field updates across our partner schools — distribution days, milestones,
+          board visits, and fundraiser news. Filter below to focus in.
         </p>
       </div>
     </section>

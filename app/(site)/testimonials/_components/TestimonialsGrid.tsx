@@ -4,7 +4,6 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TestimonialCard } from "@/components/domain/TestimonialCard";
-import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
 import { type FilterChipOption, FilterChips } from "@/components/ui/FilterChips";
 import type { Testimonial } from "@/lib/content/testimonials";
 
@@ -34,8 +33,6 @@ const ROLE_LABELS: Record<RoleValue, string> = {
   volunteer: "Volunteers",
   donor: "Donors",
 };
-
-const HERO_EVERY = 8;
 
 type TestimonialsGridProps = {
   testimonials: Testimonial[];
@@ -85,23 +82,6 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
     return testimonials.filter((t) => t.speakerRole === selection);
   }, [selection, testimonials]);
 
-  const cards = filtered.map((t) => ({ kind: "card" as const, testimonial: t }));
-  const interleaved: Array<
-    | { kind: "card"; testimonial: Testimonial }
-    | { kind: "panel"; testimonial: Testimonial; key: string }
-  > = [];
-  for (const [i, card] of cards.entries()) {
-    interleaved.push(card);
-    if ((i + 1) % HERO_EVERY === 0 && i + 1 < cards.length) {
-      const heroTarget = cards[i + 1]?.testimonial ?? card.testimonial;
-      interleaved.push({
-        kind: "panel",
-        testimonial: heroTarget,
-        key: `panel-${heroTarget.id}-${i}`,
-      });
-    }
-  }
-
   const transition = prefersReduced
     ? { duration: 0 }
     : { duration: 0.3, ease: [0.16, 1, 0.3, 1] as const };
@@ -121,40 +101,18 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
       ) : (
         <div className="columns-1 gap-4 md:columns-2 lg:columns-3" aria-live="polite">
           <AnimatePresence mode="popLayout" initial={false}>
-            {interleaved.map((entry) => {
-              if (entry.kind === "card") {
-                return (
-                  <motion.div
-                    key={entry.testimonial.id}
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={transition}
-                  >
-                    <TestimonialCard testimonial={entry.testimonial} />
-                  </motion.div>
-                );
-              }
-              return (
-                <motion.div
-                  key={entry.key}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={transition}
-                  className="mb-4 break-inside-avoid"
-                >
-                  <TestimonialPanel
-                    testimonial={entry.testimonial}
-                    titleId={entry.key}
-                    ctaLabel="Donate"
-                    ctaHref="/donate"
-                  />
-                </motion.div>
-              );
-            })}
+            {filtered.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </motion.div>
+            ))}
           </AnimatePresence>
         </div>
       )}

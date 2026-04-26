@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { getDonatePage } from "@/lib/content/donatePage";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 import { getAllProjects } from "@/lib/content/projects";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { getAllTestimonials } from "@/lib/content/testimonials";
@@ -63,8 +64,14 @@ export default async function DonatePage() {
               <DonateProjectParam projects={projects} />
             </Suspense>
             <GivebutterEmbed
-              accountId={donatePage.givebutterAccountId}
-              campaignId={donatePage.givebutterCampaignId}
+              accountId={
+                isPlaceholder(donatePage.givebutterAccountId) ? "" : donatePage.givebutterAccountId
+              }
+              campaignId={
+                isPlaceholder(donatePage.givebutterCampaignId)
+                  ? ""
+                  : donatePage.givebutterCampaignId
+              }
             />
           </div>
         </div>

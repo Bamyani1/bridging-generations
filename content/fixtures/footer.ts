@@ -5,7 +5,6 @@ export const footerContent = {
   brand: {
     name: "Bridging Generations",
     tagline: "Sponsoring 156 students across the Chittagong Hill Tracts.",
-    address: "[CONFIRM: mailing address]",
   },
   columns: [
     {

@@ -1,5 +1,6 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type DonateHeroProps = {
   headline: string;
@@ -9,6 +10,7 @@ type DonateHeroProps = {
 };
 
 export function DonateHero({ headline, intro, ein, orgName }: DonateHeroProps) {
+  const einIsReal = !isPlaceholder(ein) && ein !== "00-0000000";
   return (
     <Reveal>
       <div className="flex flex-col gap-5">
@@ -20,14 +22,12 @@ export function DonateHero({ headline, intro, ein, orgName }: DonateHeroProps) {
             <dt className="sr-only">Organization</dt>
             <dd>{orgName}</dd>
           </div>
-          <div className="flex gap-2">
-            <dt>501(c)(3)</dt>
-            <dd className="tabular-nums">EIN {ein}</dd>
-          </div>
-          <div className="flex gap-2">
-            <dt className="sr-only">Processor</dt>
-            <dd>Processed securely by Givebutter</dd>
-          </div>
+          {einIsReal ? (
+            <div className="flex gap-2">
+              <dt>501(c)(3)</dt>
+              <dd className="tabular-nums">EIN {ein}</dd>
+            </div>
+          ) : null}
         </dl>
       </div>
     </Reveal>

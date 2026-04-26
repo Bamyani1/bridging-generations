@@ -102,7 +102,7 @@ const tiers: Tier[] = [
     lineHeight: 1.6,
     tracking: "normal",
     usage: "Hero subhead, About intro",
-    sample: "We sponsor 156 students across five partner schools in the Chittagong Hill Tracts.",
+    sample: "We sponsor 156 students across our partner schools in the Chittagong Hill Tracts.",
   },
   {
     name: "body",
