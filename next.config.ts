@@ -4,13 +4,18 @@ import type { NextConfig } from "next";
 // Report-only until Phase 12.5 flips this to an enforcing `Content-Security-Policy`.
 // Allowlist covers Givebutter embed (Phase 8). Analytics deferred.
 // Resend is server-side only and does not require CSP entries.
+//
+// connect-src is intentionally narrow today — Givebutter widget fetches must be
+// captured from a real /donate network trace once accountId/campaignId stop being
+// [CONFIRM:] stubs. R3.2 added widgets.givebutter.com (the script host); api.* /
+// stripe.* / analytics endpoints will be appended once verifiable in the browser.
 const contentSecurityPolicy = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://givebutter.com https://widgets.givebutter.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  "connect-src 'self' https://widgets.givebutter.com",
   "frame-src 'self' https://givebutter.com https://widgets.givebutter.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
@@ -30,6 +35,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   async headers() {
     return [
       {
