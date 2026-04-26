@@ -427,6 +427,43 @@
   content: "\201C";
 }
 
+/* §9 Program ribbon — top-right index mark on ProgramCard. Deeper-coral fill (accent-2-text,
+   5.8:1 white) marks "Fully funded" as the celebratory rare state. The lighter --color-accent-2
+   (3.09:1) was tried first per the editorial loudness argument but failed both small + large
+   text AA — accent-2-text keeps the coral identity while passing AA-strict. Active + paused
+   use a quiet ink-2 outline so the default reads as restraint, not chrome. */
+.program-ribbon {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  z-index: 1;
+  transform: translateY(-0.375rem);
+  padding: 0.25rem 0.75rem;
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: var(--text-eyebrow--font-weight);
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.program-ribbon[data-status="funded"] {
+  background-color: var(--color-accent-2-text);
+  color: #ffffff;
+}
+.program-ribbon[data-status="active"] {
+  background-color: transparent;
+  border-color: color-mix(in srgb, var(--color-ink-2) 40%, transparent);
+  color: var(--color-ink-2);
+}
+.program-ribbon[data-status="paused"] {
+  background-color: transparent;
+  border-color: color-mix(in srgb, var(--color-ink-2) 40%, transparent);
+  color: var(--color-ink-2);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
 /* §9 Card hover — site-wide contract: -4px lift, deeper shadow, title nudges ink → accent. */
 /* Reduced motion keeps the shadow + color affordance but drops the transform. */
 .card-hover {

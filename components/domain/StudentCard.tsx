@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { TealPaperclip } from "@/components/motif/TealPaperclip";
 import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
-import { TagPill } from "@/components/ui/TagPill";
 import { canShowPortrait } from "@/lib/content/canShowPortrait";
 import type { Student } from "@/lib/content/students";
 
@@ -14,9 +14,17 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
   const portraitSrc = portrait?.src ?? null;
   const allowPortrait = canShowPortrait(consent) && !!portraitSrc;
   const isSpotlight = variant === "spotlight";
+  const isSponsored = sponsorshipStatus === "sponsored";
+  const sponsorshipLabel = isSponsored ? "sponsored" : "awaiting sponsor";
 
   return (
-    <article className="card-hover flex h-full flex-col gap-4 bg-ground-2">
+    <article
+      className="card-hover relative flex h-full flex-col gap-4 bg-ground-2"
+      aria-label={`${displayName}, ${sponsorshipLabel}, grade ${grade}`}
+    >
+      {isSponsored ? (
+        <TealPaperclip className="pointer-events-none absolute -top-2 left-4 z-10 h-10 w-6" />
+      ) : null}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
         {allowPortrait && portraitSrc ? (
           <Image
@@ -35,15 +43,7 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
         )}
       </div>
       <div className="flex flex-col gap-3 p-5">
-        <div className="flex items-center justify-between gap-3">
-          <h3 className="card-title text-heading-5 text-ink">{displayName}</h3>
-          <TagPill
-            variant={sponsorshipStatus === "sponsored" ? "live" : "default"}
-            statusVariant={sponsorshipStatus === "sponsored" ? "active" : "pending"}
-          >
-            {sponsorshipStatus}
-          </TagPill>
-        </div>
+        <h3 className="card-title text-heading-5 text-ink">{displayName}</h3>
         <p className="text-meta uppercase text-ink-2">
           Grade {grade}
           {community ? ` · ${community}` : ""}

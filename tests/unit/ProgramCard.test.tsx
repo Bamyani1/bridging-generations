@@ -49,7 +49,8 @@ describe("ProgramCard", () => {
         project={{ ...sample, status: "funded", fundingRaised: 10000, fundingGoal: 10000 }}
       />,
     );
-    expect(screen.getByText(/fully funded/i)).toBeInTheDocument();
+    // ProgressBar label + ribbon both surface "Fully funded" for the funded state.
+    expect(screen.getAllByText(/fully funded/i).length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders a support link pointing at /projects", () => {
@@ -58,5 +59,35 @@ describe("ProgramCard", () => {
     for (const link of links) {
       expect(link).toHaveAttribute("href", "/projects");
     }
+  });
+
+  it("renders an 'active' ribbon for an in-progress project", () => {
+    const { container } = render(<ProgramCard project={sample} />);
+    const ribbon = container.querySelector('.program-ribbon[data-status="active"]');
+    expect(ribbon).not.toBeNull();
+    expect(ribbon).toHaveTextContent(/funding/i);
+    expect(screen.getByRole("article", { name: /Demo project, funding/i })).toBeInTheDocument();
+  });
+
+  it("renders a 'funded' ribbon when status is funded", () => {
+    const { container } = render(
+      <ProgramCard
+        project={{ ...sample, status: "funded", fundingRaised: 10000, fundingGoal: 10000 }}
+      />,
+    );
+    const ribbon = container.querySelector('.program-ribbon[data-status="funded"]');
+    expect(ribbon).not.toBeNull();
+    expect(ribbon).toHaveTextContent(/fully funded/i);
+    expect(
+      screen.getByRole("article", { name: /Demo project, fully funded/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders a 'paused' ribbon when status is paused", () => {
+    const { container } = render(<ProgramCard project={{ ...sample, status: "paused" }} />);
+    const ribbon = container.querySelector('.program-ribbon[data-status="paused"]');
+    expect(ribbon).not.toBeNull();
+    expect(ribbon).toHaveTextContent(/paused/i);
+    expect(screen.getByRole("article", { name: /Demo project, paused/i })).toBeInTheDocument();
   });
 });
