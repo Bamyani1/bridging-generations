@@ -46,8 +46,6 @@ const stats: StatsSnapshot = {
     "Tuition, books, daily meals, and the materials they need — so the classroom stays the place every one of them belongs.",
 };
 
-const ein = "00-0000000";
-
 describe("HomeHero", () => {
   beforeEach(() => {
     mockUseReducedMotion.mockReset();
@@ -55,45 +53,45 @@ describe("HomeHero", () => {
   });
 
   it("wires the hero landmark to the h1 via aria-labelledby", () => {
-    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+    const { container } = render(<HomeHero stats={stats} />);
     const section = container.querySelector("section");
     expect(section).toHaveAttribute("aria-labelledby", "home-hero-title");
     expect(container.querySelector("#home-hero-title")).not.toBeNull();
   });
 
   it("renders the eyebrow", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     expect(screen.getByText(stats.homeHeroEyebrow)).toBeInTheDocument();
   });
 
   it("renders each headline line", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     for (const line of stats.homeHeroHeadline.split("\n")) {
       expect(screen.getByText(line)).toBeInTheDocument();
     }
   });
 
   it("renders the headline as the page h1 with text-display-2", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveAttribute("id", "home-hero-title");
     expect(heading).toHaveClass("text-display-2");
   });
 
   it("renders a CoralArc under the closing headline line", () => {
-    const { container } = render(<HomeHero stats={stats} ein={ein} />);
+    const { container } = render(<HomeHero stats={stats} />);
     const arc = container.querySelector('svg[viewBox="0 0 280 40"]');
     expect(arc).not.toBeNull();
     expect(arc).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders the subhead copy", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
   });
 
   it("renders a single primary CTA linking to /donate", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     expect(screen.getByRole("link", { name: "Sponsor a Student" })).toHaveAttribute(
       "href",
       "/donate",
@@ -101,21 +99,15 @@ describe("HomeHero", () => {
     expect(screen.queryByRole("link", { name: /Our Programs/i })).toBeNull();
   });
 
-  it("omits the EIN number when the placeholder value is in use", () => {
-    const { container } = render(<HomeHero stats={stats} ein="00-0000000" />);
-    expect(container.textContent).toContain("501(c)(3)");
-    expect(container.textContent).toContain("Tax-deductible");
+  it("does not render the EIN trust line in the hero (lives in the footer per restraint)", () => {
+    const { container } = render(<HomeHero stats={stats} />);
+    expect(container.textContent).not.toContain("501(c)(3)");
     expect(container.textContent).not.toContain("EIN");
-    expect(container.textContent).not.toContain("00-0000000");
-  });
-
-  it("prints the real EIN when a non-placeholder value is provided", () => {
-    const { container } = render(<HomeHero stats={stats} ein="12-3456789" />);
-    expect(container.textContent).toContain("EIN 12-3456789");
+    expect(container.textContent).not.toContain("Tax-deductible");
   });
 
   it("gives the hero image a descriptive alt", () => {
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     const img = screen.getByAltText(
       "Students in a Bangladesh classroom hold up their drawings beside their teacher",
     );
@@ -124,7 +116,7 @@ describe("HomeHero", () => {
 
   it("renders correctly when reduced motion is preferred", () => {
     mockUseReducedMotion.mockReturnValue(true);
-    render(<HomeHero stats={stats} ein={ein} />);
+    render(<HomeHero stats={stats} />);
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
     expect(screen.getByText(stats.homeHeroSubhead)).toBeInTheDocument();
   });

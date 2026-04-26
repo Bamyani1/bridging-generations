@@ -38,4 +38,20 @@ describe("Footer", () => {
     const year = new Date().getFullYear();
     expect(screen.getByText(new RegExp(`${year}`))).toBeInTheDocument();
   });
+
+  it("renders a 501(c)(3) trust line without the EIN when no ein is passed", () => {
+    render(<Footer />);
+    expect(screen.getByText(/501\(c\)\(3\) · Tax-deductible/)).toBeInTheDocument();
+  });
+
+  it("renders the EIN in the trust line when a real value is provided", () => {
+    render(<Footer ein="12-3456789" />);
+    expect(screen.getByText(/501\(c\)\(3\) · EIN 12-3456789 · Tax-deductible/)).toBeInTheDocument();
+  });
+
+  it("treats the placeholder ein as no ein in the trust line", () => {
+    render(<Footer ein="00-0000000" />);
+    expect(screen.getByText(/501\(c\)\(3\) · Tax-deductible/)).toBeInTheDocument();
+    expect(screen.queryByText(/EIN/)).toBeNull();
+  });
 });

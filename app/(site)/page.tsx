@@ -28,7 +28,7 @@ export default async function Home() {
 
   return (
     <>
-      <HomeHero stats={stats} ein={settings.ein} />
+      <HomeHero stats={stats} />
       <HomeMissionBand missionFull={settings.missionFull} />
       <HomeStatsTrio stats={stats} />
       <HomeProgramsGrid projects={projects} />
