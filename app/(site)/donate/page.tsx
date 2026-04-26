@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { FaqAccordion } from "@/components/domain/FaqAccordion";
 import { GivebutterEmbed } from "@/components/domain/GivebutterEmbed";
 import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
@@ -13,8 +14,8 @@ import { breadcrumbList } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { DonateAfterNote } from "./_components/DonateAfterNote";
 import { DonateHero } from "./_components/DonateHero";
+import { DonateProjectParam } from "./_components/DonateProjectParam";
 import { GivingOptionsStrip } from "./_components/GivingOptionsStrip";
-import { ProjectBanner } from "./_components/ProjectBanner";
 
 export const metadata: Metadata = {
   title: "Donate",
@@ -22,19 +23,16 @@ export const metadata: Metadata = {
     "Sponsor a student in the Chittagong Hill Tracts. $30 a month covers tuition, books, daily meals, and materials for one child for the full school year.",
 };
 
-type SearchParamsShape = Promise<{ project?: string }>;
+// Reading ?project= would force this route dynamic — we read it from a Client
+// Component (DonateProjectParam) so the shell stays static (○).
+export default async function DonatePage() {
+  const [donatePage, siteSettings, testimonials, projects] = await Promise.all([
+    getDonatePage(),
+    getSiteSettings(),
+    getAllTestimonials(),
+    getAllProjects(),
+  ]);
 
-export default async function DonatePage({ searchParams }: { searchParams: SearchParamsShape }) {
-  const [donatePage, siteSettings, testimonials, projects, { project: projectParam }] =
-    await Promise.all([
-      getDonatePage(),
-      getSiteSettings(),
-      getAllTestimonials(),
-      getAllProjects(),
-      searchParams,
-    ]);
-
-  const project = projectParam ? (projects.find((p) => p.id === projectParam) ?? null) : null;
   const supportTestimonial =
     testimonials.find((t) => t.speakerRole === "parent") ??
     testimonials.find((t) => t.speakerRole === "alum") ??
@@ -61,7 +59,9 @@ export default async function DonatePage({ searchParams }: { searchParams: Searc
             />
           </div>
           <div>
-            {project ? <ProjectBanner project={project} /> : null}
+            <Suspense fallback={null}>
+              <DonateProjectParam projects={projects} />
+            </Suspense>
             <GivebutterEmbed
               accountId={donatePage.givebutterAccountId}
               campaignId={donatePage.givebutterCampaignId}

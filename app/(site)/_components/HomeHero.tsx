@@ -64,6 +64,7 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
             alt="Students in a Bangladesh classroom hold up their drawings beside their teacher"
             fill
             priority
+            fetchPriority="high"
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
           />
