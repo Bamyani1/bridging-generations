@@ -17,21 +17,21 @@ const tiers: Tier[] = [
   {
     name: "display-1",
     desktopPx: 88,
-    mobilePx: 64,
+    mobilePx: 44,
     weight: 700,
     lineHeight: 1.05,
     tracking: "-0.02em",
-    usage: "Hero H1, landing titles",
+    usage: "Full-width landing heroes (homepage, /about, /donate)",
     sample: "Bridging generations",
   },
   {
     name: "display-2",
     desktopPx: 64,
-    mobilePx: 48,
+    mobilePx: 36,
     weight: 700,
     lineHeight: 1.05,
     tracking: "-0.02em",
-    usage: "Secondary hero, CTA panel",
+    usage: "Narrow / two-column heroes + /blog/[slug] H1",
     sample: "Sponsor a student",
   },
   {
@@ -171,23 +171,39 @@ const tiers: Tier[] = [
 
 function TypeSample({ tier, size }: { tier: Tier; size: "desktop" | "mobile" }) {
   const px = size === "desktop" ? tier.desktopPx : tier.mobilePx;
+  // Display tiers use clamp() — render via className so the sample reflects
+  // the actual fluid behavior at the current viewport, not a forced pixel size
+  // that overflows the demo container at 390px (audit fix).
+  const isClamped = tier.name === "display-1" || tier.name === "display-2";
   return (
     <div>
       <p className="mb-3 font-mono text-meta uppercase text-ink-2">
-        {size} · {px}px
+        {size} · {isClamped ? `${tier.mobilePx}–${tier.desktopPx}px` : `${px}px`}
       </p>
-      <p
-        style={{
-          fontSize: `${px}px`,
-          lineHeight: tier.lineHeight,
-          letterSpacing: tier.tracking === "normal" ? undefined : tier.tracking,
-          fontWeight: tier.weight,
-          fontStyle: tier.italic ? "italic" : undefined,
-          textWrap: "balance",
-        }}
-      >
-        {tier.sample}
-      </p>
+      {isClamped ? (
+        <p
+          className={
+            tier.name === "display-1"
+              ? "text-display-1 text-balance"
+              : "text-display-2 text-balance"
+          }
+        >
+          {tier.sample}
+        </p>
+      ) : (
+        <p
+          style={{
+            fontSize: `${px}px`,
+            lineHeight: tier.lineHeight,
+            letterSpacing: tier.tracking === "normal" ? undefined : tier.tracking,
+            fontWeight: tier.weight,
+            fontStyle: tier.italic ? "italic" : undefined,
+            textWrap: "balance",
+          }}
+        >
+          {tier.sample}
+        </p>
+      )}
     </div>
   );
 }
@@ -232,8 +248,9 @@ export function TypographySection() {
     >
       <p className="max-w-2xl text-body text-ink-2">
         One family, four weights, fifteen tiers — fourteen roman plus a single italic voice reserved
-        for one handwritten inflection per page. Samples force the pixel size inline so both desktop
-        and mobile render regardless of viewport.
+        for one handwritten inflection per page. Display tiers (display-1, display-2) clamp fluidly
+        between the listed endpoints; resize the viewport to see the scale. Heading and body tiers
+        force inline px so both desktop and mobile render regardless of viewport.
       </p>
       <div className="mt-10">
         {tiers.map((tier) => (
