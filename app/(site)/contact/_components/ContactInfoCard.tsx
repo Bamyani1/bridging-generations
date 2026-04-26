@@ -1,4 +1,5 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type ContactInfoCardProps = {
   mailingAddress: string;
@@ -25,12 +26,14 @@ export function ContactInfoCard({
           {contactEmail}
         </a>
       </div>
-      <div className="flex flex-col gap-2">
-        <Eyebrow>Mailing address</Eyebrow>
-        <address className="whitespace-pre-line break-words not-italic text-body text-ink-2">
-          {mailingAddress}
-        </address>
-      </div>
+      {!isPlaceholder(mailingAddress) ? (
+        <div className="flex flex-col gap-2">
+          <Eyebrow>Mailing address</Eyebrow>
+          <address className="whitespace-pre-line break-words not-italic text-body text-ink-2">
+            {mailingAddress}
+          </address>
+        </div>
+      ) : null}
       <div className="flex flex-col gap-2">
         <Eyebrow>Response time</Eyebrow>
         <p className="text-body text-ink-2">{responseNote}</p>
