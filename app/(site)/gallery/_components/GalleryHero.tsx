@@ -1,4 +1,3 @@
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
 type GalleryHeroProps = {
@@ -13,8 +12,8 @@ export function GalleryHero({ count }: GalleryHeroProps) {
     >
       <Reveal>
         <div className="mx-auto flex max-w-[1280px] flex-col gap-5">
-          <Eyebrow>Visual archive</Eyebrow>
-          <h1 id="gallery-hero-title" className="max-w-[18ch] text-balance text-display-1 text-ink">
+          {/* per type-tier ledger: narrow two-column hero → display-2 */}
+          <h1 id="gallery-hero-title" className="max-w-[18ch] text-balance text-display-2 text-ink">
             Gallery.
           </h1>
           <p className="text-body-sm text-ink-2">

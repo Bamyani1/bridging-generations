@@ -8,7 +8,8 @@ export function BlogHero() {
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
         <Eyebrow>Notes from the field</Eyebrow>
-        <h1 id="blog-hero-title" className="max-w-[22ch] text-balance text-display-1 text-ink">
+        {/* per type-tier ledger: narrow two-column hero → display-2 */}
+        <h1 id="blog-hero-title" className="max-w-[22ch] text-balance text-display-2 text-ink">
           Our blog
         </h1>
         <p className="max-w-[60ch] text-body-lg text-ink-2">
