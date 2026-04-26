@@ -13,7 +13,7 @@ import { ProjectsHero } from "./_components/ProjectsHero";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "The projects that fund everything a classroom needs at our five partner schools — meals, books, scholarships, labs, and libraries.",
+    "The projects that fund everything a classroom needs at our partner schools — meals, books, scholarships, labs, and libraries.",
 };
 
 export default async function ProjectsPage() {

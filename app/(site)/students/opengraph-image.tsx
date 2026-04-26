@@ -9,6 +9,6 @@ export default function Image() {
   return renderOGImage({
     eyebrow: "Students",
     title: "The 156",
-    subtitle: "Meet the students we sponsor across five schools in the Hill Tracts.",
+    subtitle: "Meet the students we sponsor across the Hill Tracts.",
   });
 }
