@@ -9,13 +9,11 @@ import type { StatsSnapshot } from "@/lib/content/statsSnapshot";
 
 type HomeHeroProps = {
   stats: StatsSnapshot;
-  ein: string;
 };
 
 const SMOOTH = [0.16, 1, 0.3, 1] as const;
-const EIN_PLACEHOLDER = "00-0000000";
 
-export function HomeHero({ stats, ein }: HomeHeroProps) {
+export function HomeHero({ stats }: HomeHeroProps) {
   const shouldReduceMotion = useReducedMotion();
   const [hasHydrated, setHasHydrated] = useState(false);
   const canAnimate = hasHydrated && !shouldReduceMotion;
@@ -30,11 +28,6 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
     .filter(Boolean);
   const closingLine = headlineLines[headlineLines.length - 1] ?? "";
   const leadingLines = headlineLines.slice(0, -1);
-
-  const einHasRealValue = Boolean(ein) && ein !== EIN_PLACEHOLDER;
-  const einTrustLine = einHasRealValue
-    ? `501(c)(3) · EIN ${ein} · Tax-deductible`
-    : "501(c)(3) · Tax-deductible";
 
   const fadeUp = (delayMs: number, durationMs = 600) =>
     canAnimate
@@ -110,10 +103,6 @@ export function HomeHero({ stats, ein }: HomeHeroProps) {
               Sponsor a Student
             </Button>
           </motion.div>
-
-          <motion.p className="text-meta uppercase text-ink-2" {...fadeUp(800, 500)}>
-            {einTrustLine}
-          </motion.p>
         </div>
       </div>
     </section>

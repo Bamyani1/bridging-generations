@@ -6,6 +6,7 @@ import { ScrollProgressRule } from "@/components/layout/ScrollProgressRule";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ViewTransitionRoot } from "@/components/layout/ViewTransitionRoot";
+import { getSiteSettings } from "@/lib/content/siteSettings";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import "../globals.css";
 
@@ -26,11 +27,15 @@ export const metadata: Metadata = {
     "Bridging Generations sponsors 156 students in the Chittagong Hill Tracts, Bangladesh — keeping kids in the classroom through tuition, books, daily meals, and materials.",
 };
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetched once per request and passed to Footer so the EIN trust line lives
+  // site-wide instead of pinned to the home hero (R1.1 honor hero-restraint).
+  const siteSettings = await getSiteSettings();
+
   return (
     <ViewTransitionRoot>
       <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
@@ -49,7 +54,7 @@ export default function SiteLayout({
             {children}
           </main>
           <footer>
-            <Footer />
+            <Footer ein={siteSettings.ein} />
           </footer>
         </body>
       </html>
