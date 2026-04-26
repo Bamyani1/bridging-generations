@@ -701,3 +701,27 @@
     transition: none;
   }
 }
+
+/* Heading-anchor — appended to MDX h2/h3 by rehype-autolink-headings.
+   Hidden at rest; revealed on :focus-visible (keyboard / screen-reader users)
+   so the editorial reading rhythm is preserved on /terms and long-form posts. */
+.heading-anchor {
+  display: inline-block;
+  margin-left: 0.5rem;
+  color: var(--color-accent);
+  font-weight: 400;
+  opacity: 0;
+  text-decoration: none;
+  transition: opacity 150ms var(--ease-smooth);
+}
+.heading-anchor:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .heading-anchor {
+    transition: none;
+  }
+}

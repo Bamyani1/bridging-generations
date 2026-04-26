@@ -1,5 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { Divider } from "@/components/ui/Divider";
 
@@ -75,7 +77,30 @@ export function MDXRenderer({ source }: MDXRendererProps) {
     <MDXRemote
       source={source}
       components={components}
-      options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+          rehypePlugins: [
+            rehypeSlug,
+            [
+              rehypeAutolinkHeadings,
+              {
+                behavior: "append",
+                properties: {
+                  className: "heading-anchor",
+                  ariaLabel: "Link to section",
+                },
+                content: {
+                  type: "element",
+                  tagName: "span",
+                  properties: { ariaHidden: "true" },
+                  children: [{ type: "text", value: "#" }],
+                },
+              },
+            ],
+          ],
+        },
+      }}
     />
   );
 }
