@@ -6,15 +6,14 @@ type GalleryItemProps = {
   priority?: boolean;
 };
 
+// Plain figure with a visible caption — was wrapped in <a target="_blank">
+// to the raw image, presented as a lightbox. That isn't a lightbox; it's a
+// new tab with a bare PNG and no caption. R4.8 will build a real lightbox;
+// until then a figure is the honest shape.
 export function GalleryItem({ item, priority = false }: GalleryItemProps) {
   const { image, width, height, caption, location } = item;
   return (
-    <a
-      href={image.src ?? undefined}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="card-hover group relative mb-4 block break-inside-avoid overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
-    >
+    <figure className="mb-4 block break-inside-avoid">
       <Image
         src={image.src ?? ""}
         alt={image.alt || caption}
@@ -24,17 +23,12 @@ export function GalleryItem({ item, priority = false }: GalleryItemProps) {
         priority={priority}
         className="h-auto w-full object-cover"
       />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 via-ink/30 to-transparent p-4 opacity-0 transition-opacity duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:opacity-100 motion-safe:group-focus-visible:opacity-100"
-      >
-        <span className="block text-body-sm text-white">{caption}</span>
+      <figcaption className="mt-2 flex flex-col gap-1">
+        <span className="text-body-sm text-ink-2">{caption}</span>
         {location ? (
-          <span className="mt-1 block text-meta uppercase tracking-[0.1em] text-white/80">
-            {location}
-          </span>
+          <span className="text-meta uppercase tracking-[0.1em] text-ink-2">{location}</span>
         ) : null}
-      </span>
-    </a>
+      </figcaption>
+    </figure>
   );
 }

@@ -30,7 +30,7 @@ export default async function ActivitiesPage() {
     <>
       <ActivitiesHero count={activities.length} />
       <section
-        aria-label="Activities timeline"
+        aria-label="Recent activities"
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
       >
         <div className="mx-auto flex max-w-[1280px] flex-col gap-10 lg:gap-14">
