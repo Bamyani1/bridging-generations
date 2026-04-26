@@ -1,12 +1,14 @@
 import { BoardMemberCard } from "@/components/domain/BoardMemberCard";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Reveal } from "@/components/ui/Reveal";
 import type { BoardMember } from "@/lib/content/boardMembers";
 
 type AboutLeadershipProps = {
   boardMembers: BoardMember[];
 };
 
+// Cards render developed at first paint — same reasoning as
+// AboutMissionVision: the section sits below the fold on /about and the
+// per-card <Reveal> wrappers stayed at opacity-0 in audit captures.
 export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
   if (boardMembers.length === 0) return null;
 
@@ -32,9 +34,7 @@ export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
               key={member.id}
               className={index === 0 ? "lg:-translate-x-4 lg:translate-y-4" : undefined}
             >
-              <Reveal delay={Math.min(index * 150, 600)}>
-                <BoardMemberCard member={member} />
-              </Reveal>
+              <BoardMemberCard member={member} />
             </li>
           ))}
         </ul>
