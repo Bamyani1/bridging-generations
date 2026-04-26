@@ -10,6 +10,7 @@ const sample: Testimonial = {
   speakerTitle: "Alumna, primary teacher",
   speakerPhoto: { src: null, alt: "" },
   speakerRole: "alum",
+  highlightWord: "",
 };
 
 describe("TestimonialCard", () => {

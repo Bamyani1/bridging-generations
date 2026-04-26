@@ -10,7 +10,11 @@ const sample: Testimonial = {
   speakerTitle: "Founder, Example Org",
   speakerRole: "board",
   speakerPhoto: { src: null, alt: "" },
+  highlightWord: "",
 };
+
+const AMBER_MARK_VIEWBOX = "0 0 400 14";
+const SPEAKER_UNDERLINE_VIEWBOX = "0 0 200 12";
 
 describe("TestimonialPanel", () => {
   it("renders the quote inside a blockquote", () => {
@@ -50,5 +54,38 @@ describe("TestimonialPanel", () => {
     const glyph = container.querySelector(".teal-panel-glyph");
     expect(glyph).not.toBeNull();
     expect(glyph).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("wraps the matched highlightWord in an AmberMark inside the blockquote", () => {
+    const { container } = render(
+      <TestimonialPanel testimonial={{ ...sample, highlightWord: "meaningful" }} />,
+    );
+    const block = screen.getByRole("blockquote");
+    const marks = block.querySelectorAll(`svg[viewBox="${AMBER_MARK_VIEWBOX}"]`);
+    expect(marks).toHaveLength(1);
+    const wrap = container.querySelector(".testimonial-highlight");
+    expect(wrap).not.toBeNull();
+    expect(wrap).toHaveTextContent("meaningful");
+    expect(block).toHaveTextContent(sample.quote);
+  });
+
+  it("renders the quote without an AmberMark when highlightWord is empty or unmatched", () => {
+    const { container, rerender } = render(<TestimonialPanel testimonial={sample} />);
+    expect(container.querySelectorAll(`svg[viewBox="${AMBER_MARK_VIEWBOX}"]`)).toHaveLength(0);
+    rerender(<TestimonialPanel testimonial={{ ...sample, highlightWord: "xylophone" }} />);
+    expect(container.querySelectorAll(`svg[viewBox="${AMBER_MARK_VIEWBOX}"]`)).toHaveLength(0);
+    expect(screen.getByRole("blockquote")).toHaveTextContent(sample.quote);
+  });
+
+  it("renders a HandDrawnUnderline below the speaker name", () => {
+    const { container } = render(<TestimonialPanel testimonial={sample} />);
+    const cite = container.querySelector("cite");
+    const underline = container.querySelector(
+      `.testimonial-speaker-underline[viewBox="${SPEAKER_UNDERLINE_VIEWBOX}"]`,
+    );
+    if (!cite || !underline) {
+      throw new Error("expected both cite and speaker-underline to render");
+    }
+    expect(cite.compareDocumentPosition(underline) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });

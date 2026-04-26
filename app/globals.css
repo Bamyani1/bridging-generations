@@ -145,6 +145,10 @@
 
   /* §1 Paper grain — feTurbulence tile applied to cream surfaces; rect opacity baked at 0.008. */
   --bg-paper-grain: url("/textures/paper-grain.svg");
+
+  /* §1 Linen texture — diagonal crosshatch tile applied to teal panels via .teal-panel::before.
+     Reads like book cloth instead of paper. Stroke-opacity baked at 0.4 in the SVG. */
+  --bg-linen-texture: url("/textures/linen.svg");
 }
 
 /* §1 Paper grain — unlayered rule with :where() (specificity 0). Unlayered CSS beats all
@@ -396,9 +400,15 @@
   content: "";
   position: absolute;
   inset: 0;
+  /* Book-cover composite (R1.2): top-weighted depth gradient + linen weave. The dark-top
+     fade reads as a bound spine; the linen replaces the prior feTurbulence noise. */
   background-image:
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent 60%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.10'/></svg>");
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 50%),
+    var(--bg-linen-texture);
+  background-repeat: no-repeat, repeat;
+  background-size:
+    100% 100%,
+    200px 200px;
   pointer-events: none;
   z-index: -1;
 }
@@ -577,4 +587,45 @@
    but font-style is not a recognized --text-* sub-property; it rides here. */
 .text-note {
   font-style: italic;
+}
+
+/* §9 Testimonial — book-cover detail layer (R1.2):
+   .testimonial-quote-mark lifts the inline curly quotes to editorial scale.
+   .testimonial-highlight wraps a keyword inside the quote with an AmberMark behind it;
+   the 0.6 opacity scales the motif's 52%-peak amber down to ~31% so AA contrast holds
+   on white text over the (teal + amber) composite.
+   .testimonial-speaker-underline draws in left-to-right when Reveal sets `is-visible`
+   on an ancestor. Reduced-motion: render at full immediately, no transition. */
+.testimonial-quote-mark {
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.4);
+}
+.testimonial-highlight {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+.testimonial-highlight__bg {
+  position: absolute;
+  inset: 0.1em -0.1em 0.05em -0.1em;
+  /* SVG intrinsic dimensions (400×14) win over `inset`-derived sizing without explicit
+     width/height. Tying both to the parent box restores the highlighter geometry. */
+  width: calc(100% + 0.2em);
+  height: calc(100% - 0.15em);
+  opacity: 0.6;
+  z-index: -1;
+  pointer-events: none;
+}
+.testimonial-speaker-underline {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 600ms var(--ease-smooth) 200ms;
+}
+.is-visible .testimonial-speaker-underline {
+  clip-path: inset(0 0 0 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-speaker-underline {
+    clip-path: inset(0 0 0 0);
+    transition: none;
+  }
 }
