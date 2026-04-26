@@ -1,4 +1,5 @@
 import { StudentSpotlightScroller } from "@/components/domain/StudentSpotlightScroller";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 import type { School } from "@/lib/content/schools";
 import type { Student } from "@/lib/content/students";
 
@@ -21,7 +22,7 @@ export function SchoolSection({ school, students, index }: SchoolSectionProps) {
           <h2 id={titleId} className="text-balance text-heading-2 text-ink">
             {school.name}
           </h2>
-          {school.description ? (
+          {school.description && !isPlaceholder(school.description) ? (
             <p className="max-w-[60ch] text-body text-ink-2">{school.description}</p>
           ) : null}
           <p className="text-meta uppercase text-ink-2">
