@@ -57,7 +57,7 @@ export default async function AboutPage() {
   });
 
   return (
-    <>
+    <div className="atmospheric-page">
       <AboutHero foundingYear={siteSettings.foundingYear} />
       <section
         id="reach"
@@ -107,9 +107,10 @@ export default async function AboutPage() {
         tone="cream"
         titleId="about-cta-title"
         id="join"
+        withHorizonLine
       />
       <JsonLd id="ld-about-breadcrumb" data={ldBreadcrumb} />
       <JsonLd id="ld-about-org" data={ldOrg} />
-    </>
+    </div>
   );
 }

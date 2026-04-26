@@ -77,7 +77,7 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
   });
 
   return (
-    <>
+    <div className="atmospheric-page">
       <BackToStories />
       <h1 id="success-story-title" className="sr-only">
         {story.subjectName} — Success story
@@ -127,6 +127,6 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
       />
       <JsonLd id={`ld-story-${slug}-breadcrumb`} data={ldBreadcrumb} />
       <JsonLd id={`ld-story-${slug}-article`} data={ldArticle} />
-    </>
+    </div>
   );
 }

@@ -590,6 +590,41 @@
   }
 }
 
+/* §9 Atmospheric page — scroll-driven background-color drift on long narrative
+   routes (/about + /success-stories/[slug]). Same @supports pattern as
+   .scroll-progress-rule above. The base rule sets a stable cream so Firefox
+   (no animation-timeline support) keeps the static ground color. Reduced-motion
+   always cancels the animation regardless of @supports. */
+.atmospheric-page {
+  background-color: var(--color-ground);
+}
+@supports (animation-timeline: scroll()) {
+  .atmospheric-page {
+    animation: bg-atmospheric-shift linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes bg-atmospheric-shift {
+    0% {
+      background-color: var(--color-ground);
+    }
+    40% {
+      background-color: color-mix(in oklab, var(--color-ground) 70%, var(--color-accent-3) 5%);
+    }
+    70% {
+      background-color: var(--color-ground-3);
+    }
+    100% {
+      background-color: var(--color-ground);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atmospheric-page {
+    animation: none;
+    background-color: var(--color-ground);
+  }
+}
+
 /* §2 Typography — mobile size overrides (<768px). Line-height, tracking, weight stay constant. */
 @media (max-width: 767px) {
   :root {
