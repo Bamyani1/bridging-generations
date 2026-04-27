@@ -96,10 +96,10 @@ export default async function SuccessStoriesPage() {
                 <Row as="li" key={story.slug}>
                   {showPortrait ? (
                     <Reveal kind="develop">
-                      <Row.Image src={story.portrait.src} alt={story.portrait.alt} aspect="4/5" />
+                      <Row.Image src={story.portrait.src} alt={story.portrait.alt} aspect="1/1" />
                     </Reveal>
                   ) : (
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
+                    <div className="relative aspect-[1/1] w-full overflow-hidden bg-ground-3">
                       <StudentPlaceholder />
                     </div>
                   )}
