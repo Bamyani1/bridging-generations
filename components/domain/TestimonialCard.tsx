@@ -95,8 +95,8 @@ function RowTestimonial({ t }: { t: Testimonial }) {
 function TileTestimonial({ t }: { t: Testimonial }) {
   const roleLabel = ROLE_LABELS[t.speakerRole];
   return (
-    <blockquote className="relative flex flex-col gap-3 border-t border-hairline py-6">
-      <p className="text-balance text-body-lg text-ink">{highlight(t.quote, t.highlightWord)}</p>
+    <blockquote className="relative flex flex-col gap-3 border-t border-hairline py-5">
+      <p className="text-balance text-body text-ink">{highlight(t.quote, t.highlightWord)}</p>
       <footer className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <cite className="text-meta not-italic text-ink">{t.speakerName}</cite>
         {t.speakerTitle ? <span className="text-meta text-ink-2">{t.speakerTitle}</span> : null}
