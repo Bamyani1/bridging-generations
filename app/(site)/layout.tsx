@@ -48,13 +48,24 @@ export default async function SiteLayout({
           <SmoothScroll />
           <SkipLink />
           <header>
-            <Nav />
+            <Nav
+              tagline={siteSettings.copy.footerTagline}
+              contactEmail={siteSettings.contactEmail}
+            />
           </header>
           <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
             {children}
           </main>
           <footer>
-            <Footer ein={siteSettings.ein} mailingAddress={siteSettings.mailingAddress} />
+            <Footer
+              ein={siteSettings.ein}
+              mailingAddress={siteSettings.mailingAddress}
+              tagline={siteSettings.copy.footerTagline}
+              contactEmail={siteSettings.contactEmail}
+              form990Url={siteSettings.form990Url || undefined}
+              candidProfileUrl={siteSettings.candidProfileUrl || undefined}
+              socialLinks={siteSettings.socialLinks}
+            />
           </footer>
         </body>
       </html>
