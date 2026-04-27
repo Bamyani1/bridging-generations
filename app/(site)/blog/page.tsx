@@ -44,7 +44,13 @@ export default async function BlogPage() {
   const featuredSlug = featured?.slug;
   const rest = posts.filter((p) => p.slug !== featuredSlug);
   const pageCount = Math.max(1, Math.ceil(rest.length / POSTS_PER_PAGE));
-  const pageOne = rest.slice(0, POSTS_PER_PAGE);
+  // R4.8: at total posts < 3, do NOT render a 1-card Row "list" — the
+  // featured Feature carries the page on its own. Avoids the orphan-card
+  // grid the audit flagged.
+  const showRowList = posts.length >= 3;
+  const pageOne = showRowList ? rest.slice(0, POSTS_PER_PAGE) : [];
+
+  const mostRecent = posts[0]?.publishedAt ? formatDate(posts[0].publishedAt) : null;
 
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -59,7 +65,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <BlogHero count={posts.length} />
+      <BlogHero count={posts.length} mostRecent={mostRecent} />
       {featured ? (
         <section
           aria-label="Featured blog post"
@@ -77,10 +83,9 @@ export default async function BlogPage() {
                 />
               </Reveal>
               <Feature.Body>
-                <Feature.Eyebrow>
-                  Field update
-                  {featured.publishedAt ? ` · ${formatDate(featured.publishedAt)}` : ""}
-                </Feature.Eyebrow>
+                {featured.publishedAt ? (
+                  <Feature.Eyebrow>{formatDate(featured.publishedAt)}</Feature.Eyebrow>
+                ) : null}
                 <Feature.Headline as="h2" href={`/blog/${featured.slug}`}>
                   {featured.title}
                 </Feature.Headline>
