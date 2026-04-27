@@ -73,6 +73,12 @@ export const studentCollection = collection({
       label: "Aspiration quote",
       description: 'One-line aspiration shown on the card (e.g. "I want to become a teacher").',
     }),
+    bio: fields.text({
+      label: "Bio (profile page only)",
+      description:
+        "Optional. A short prose bio shown on /students/<slug>. Gated by storyReleaseStatus + Website scope. Leave blank when no consent is on file.",
+      multiline: true,
+    }),
     portrait: optionalImageWithAlt({ label: "Portrait", dir: "students" }),
     consent: fields.object(
       {

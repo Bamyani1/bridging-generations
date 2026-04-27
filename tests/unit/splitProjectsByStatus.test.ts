@@ -12,6 +12,9 @@ function make(id: string, status: Project["status"], order: number): Project {
     status,
     heroImage: { src: "/x.jpg", alt: "x" },
     order,
+    boardOwnerName: "",
+    lastUpdated: null,
+    mathLineItem: "",
   };
 }
 

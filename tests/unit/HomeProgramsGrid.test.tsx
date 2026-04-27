@@ -22,6 +22,9 @@ const projects: Project[] = [
     status: "active",
     heroImage: { src: "/project-meal.jpg", alt: "Meal photo" },
     order: 1,
+    boardOwnerName: "",
+    lastUpdated: null,
+    mathLineItem: "",
   },
   {
     id: "girls-scholarship",
@@ -33,6 +36,9 @@ const projects: Project[] = [
     status: "funded",
     heroImage: { src: "/project-scholarship.jpg", alt: "Scholarship photo" },
     order: 2,
+    boardOwnerName: "",
+    lastUpdated: null,
+    mathLineItem: "",
   },
 ];
 

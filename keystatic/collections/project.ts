@@ -48,5 +48,20 @@ export const projectCollection = collection({
       label: "Sort order",
       description: "Manual sort on /projects; lower = higher in the list.",
     }),
+    boardOwnerName: fields.text({
+      label: "Board owner",
+      description:
+        "Optional. Board member who signed onto the outcome. Shown as a typographic byline on the project list item.",
+    }),
+    lastUpdated: fields.date({
+      label: "Last updated",
+      description: "Optional. Surfaces a relative-time stamp on the project list item.",
+    }),
+    mathLineItem: fields.text({
+      label: "Line-item math",
+      description:
+        'Optional. e.g. "$30 = 1 month of meals". Shown as a single typographic line on the project card.',
+      multiline: true,
+    }),
   },
 });

@@ -29,6 +29,7 @@ const sample: GalleryImage = {
   height: 1067,
   takenAt: "2026-02-14",
   location: "Rangamati",
+  photographerCredit: "",
 };
 
 describe("GalleryItem", () => {
@@ -39,12 +40,11 @@ describe("GalleryItem", () => {
     expect(img).toHaveAttribute("height", "1067");
   });
 
-  it("opens in a new tab with noopener", () => {
-    render(<GalleryItem item={sample} />);
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener noreferrer");
-    expect(link).toHaveAttribute("href", "/images/gallery/classroom-morning.jpg");
+  it("renders as a figure with a visible caption", () => {
+    const { container } = render(<GalleryItem item={sample} />);
+    expect(container.querySelector("figure")).toBeInTheDocument();
+    expect(container.querySelector("figcaption")).toBeInTheDocument();
+    expect(container.querySelector("a")).toBeNull();
   });
 
   it("includes the caption and location in a decorative overlay", () => {

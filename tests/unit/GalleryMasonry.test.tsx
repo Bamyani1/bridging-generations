@@ -20,6 +20,7 @@ const items: GalleryImage[] = [
     height: 600,
     takenAt: "2026-01-01",
     location: "A",
+    photographerCredit: "",
   },
   {
     id: "two",
@@ -29,6 +30,7 @@ const items: GalleryImage[] = [
     height: 800,
     takenAt: "2026-01-02",
     location: "B",
+    photographerCredit: "",
   },
 ];
 
