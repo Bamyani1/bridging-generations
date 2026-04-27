@@ -41,13 +41,19 @@ type MuseumWallTierProps = {
 };
 
 function MuseumWallTier({ label, count, scale = "md" }: MuseumWallTierProps) {
-  const sizeClass = scale === "lg" ? "text-heading-5" : "text-meta";
+  // Princeton honor-roll model: tier headings carry weight as the typographic
+  // monument, not as a small caption above the names. `lg` reaches heading-3
+  // (still uppercase + tracked, but heavy enough to mark a transition);
+  // `md` and `sm` step down to heading-5 / meta for compact compositions.
+  const sizeClass =
+    scale === "lg" ? "text-heading-3" : scale === "md" ? "text-heading-5" : "text-meta";
+  const trackingClass = scale === "lg" ? "tracking-[0.04em]" : "tracking-[0.16em]";
   return (
-    <div className="border-t border-hairline pt-3">
-      <p className={`${sizeClass} uppercase tracking-[0.16em] text-ink`}>
+    <div className="border-t border-ink pt-4">
+      <p className={`${sizeClass} ${trackingClass} uppercase text-ink`}>
         {label}
         {typeof count === "number" ? (
-          <span className="ml-2 text-meta tracking-[0.08em] text-ink-2">{count}</span>
+          <span className="ml-3 text-meta tracking-[0.08em] text-ink-2">{count}</span>
         ) : null}
       </p>
     </div>
