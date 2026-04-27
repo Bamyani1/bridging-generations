@@ -45,8 +45,8 @@ test("/gallery images lazy-load below the fold", async ({ page }) => {
   expect(await lazyImgs.count()).toBeGreaterThan(0);
 });
 
-test("/donors count badge exposes the total via aria-label", async ({ page }) => {
+test("/donors hero H1 names the donor total in accessible text", async ({ page }) => {
   await page.goto("/donors");
-  const badge = page.locator('[role="img"]').first();
-  await expect(badge).toHaveAttribute("aria-label", /\d+\s+donors and counting/);
+  const heroTitle = page.locator("#donors-hero-title");
+  await expect(heroTitle).toContainText(/\d+ anonymous donors so far\./);
 });
