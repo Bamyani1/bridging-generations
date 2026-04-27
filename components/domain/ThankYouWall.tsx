@@ -1,12 +1,14 @@
-import { Row } from "@/components/ui/editorial";
+import { MuseumWall } from "@/components/ui/editorial";
 
 type ThankYouMessage = {
   message: string;
   year?: number | null;
+  tier?: string;
 };
 
 type ThankYouWallProps = {
   messages: readonly ThankYouMessage[];
+  totalCount?: number | null;
 };
 
 const TRUNCATE_LIMIT = 220;
@@ -16,52 +18,104 @@ function truncate(message: string): string {
   return `${message.slice(0, TRUNCATE_LIMIT - 1).trimEnd()}…`;
 }
 
+const TIER_LABEL: Record<string, string> = {
+  founder: "Founder",
+  patron: "Patron",
+  friend: "Friend",
+};
+
+const TIER_ORDER = ["founder", "patron", "friend"] as const;
+
+type Group = { key: string; label: string; messages: ThankYouMessage[] };
+
+function buildGroups(messages: readonly ThankYouMessage[]): Group[] {
+  const hasTier = messages.some((m) => m.tier && TIER_LABEL[m.tier]);
+  if (hasTier) {
+    const buckets = new Map<string, ThankYouMessage[]>();
+    for (const tier of TIER_ORDER) buckets.set(tier, []);
+    buckets.set("untiered", []);
+    for (const m of messages) {
+      const key = m.tier && TIER_LABEL[m.tier] ? m.tier : "untiered";
+      buckets.get(key)?.push(m);
+    }
+    const groups: Group[] = [];
+    for (const tier of TIER_ORDER) {
+      const list = buckets.get(tier) ?? [];
+      if (list.length > 0) groups.push({ key: tier, label: TIER_LABEL[tier], messages: list });
+    }
+    const untiered = buckets.get("untiered") ?? [];
+    if (untiered.length > 0) {
+      groups.push({ key: "untiered", label: "Friends of the work", messages: untiered });
+    }
+    return groups;
+  }
+
+  // No tier data — chronological monument by year (R4.8 fallback).
+  const byYear = new Map<string, ThankYouMessage[]>();
+  for (const m of messages) {
+    const key = m.year ? String(m.year) : "undated";
+    const bucket = byYear.get(key) ?? [];
+    bucket.push(m);
+    byYear.set(key, bucket);
+  }
+  const groups: Group[] = Array.from(byYear.entries())
+    .map(([key, list]) => ({
+      key,
+      label: key === "undated" ? "Undated" : key,
+      messages: list,
+    }))
+    .sort((a, b) => {
+      if (a.key === "undated") return 1;
+      if (b.key === "undated") return -1;
+      return Number(b.key) - Number(a.key);
+    });
+  return groups;
+}
+
 /**
- * Chronology axis only — most recent (first in `thankYouMessages`) gets a
- * museum-style oversized opening glyph + heading-2 quote treatment; the
- * remainder render as Row entries on a hairline rail. Long messages truncate
- * at ~220 chars; they don't grow the tile.
- *
- * The lead-message treatment intentionally reuses the FeatureTestimonial
- * silhouette (1fr/11fr glyph + body grid). It signals "this is the most
- * prominent thank-you", not just "another paragraph after the hero." The
- * `pickTileSize`-by-message-length variant is gone — sizing was editorially
- * backwards.
+ * Anonymous thank-you wall, museum-roll typography. When any message has a
+ * tier, the wall groups by Founder / Patron / Friend; otherwise it falls back
+ * to chronological-by-year per R4.8 ("treat the wall as a chronological
+ * monument" when no tier data). The first message in each group gets the
+ * larger heading-5 weight so the column has internal scale.
  */
-export function ThankYouWall({ messages }: ThankYouWallProps) {
+export function ThankYouWall({ messages, totalCount }: ThankYouWallProps) {
   if (messages.length === 0) {
     return (
       <p className="text-body text-ink-2">No thank-you messages yet — yours could be the first.</p>
     );
   }
-  const [feature, ...rest] = messages;
+  const groups = buildGroups(messages);
+  const captionCount = totalCount ?? messages.length;
+
   return (
-    <div className="flex flex-col gap-12 lg:gap-16">
-      <blockquote className="relative grid grid-cols-1 gap-6 border-t border-hairline pt-12 lg:grid-cols-[1fr_11fr] lg:gap-10 lg:pt-16">
-        <span
-          aria-hidden="true"
-          className="font-display text-[88px] leading-[0.6] text-accent-2-text lg:text-[112px]"
-        >
-          &ldquo;
-        </span>
-        <div className="flex flex-col gap-6">
-          <p className="text-meta uppercase tracking-[0.08em] text-ink-2">
-            Most recent{feature.year ? ` · ${feature.year}` : ""}
-          </p>
-          <p className="text-balance text-heading-2 text-ink">{truncate(feature.message)}</p>
-          <footer className="text-meta uppercase tracking-[0.08em] text-ink-2">Anonymous</footer>
+    <MuseumWall ariaLabel="Anonymous thank-you wall">
+      <MuseumWall.Caption>
+        {captionCount} {captionCount === 1 ? "thank-you" : "thank-yous"} so far
+      </MuseumWall.Caption>
+      {groups.map((group) => (
+        <div key={group.key} className="break-inside-avoid">
+          <MuseumWall.Tier label={group.label} count={group.messages.length} scale="lg" />
+          <ul className="mt-4 flex flex-col gap-5">
+            {group.messages.map((m, i) => (
+              <li key={`${group.key}-${m.message.slice(0, 32)}`} className="flex flex-col gap-1">
+                <p
+                  className={
+                    i === 0
+                      ? "text-balance text-heading-5 text-ink"
+                      : "text-balance text-body text-ink"
+                  }
+                >
+                  {truncate(m.message)}
+                </p>
+                <p className="text-meta uppercase tracking-[0.08em] text-ink-2">
+                  Anonymous{m.year ? ` · ${m.year}` : ""}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
-      </blockquote>
-      {rest.length > 0 ? (
-        <ul className="flex flex-col">
-          {rest.map((m) => (
-            <Row as="li" key={m.message} noImage>
-              <Row.Eyebrow>Anonymous{m.year ? ` · ${m.year}` : ""}</Row.Eyebrow>
-              <p className="text-balance text-heading-5 text-ink">{truncate(m.message)}</p>
-            </Row>
-          ))}
-        </ul>
-      ) : null}
-    </div>
+      ))}
+    </MuseumWall>
   );
 }
