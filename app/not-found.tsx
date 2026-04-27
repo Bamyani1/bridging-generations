@@ -34,13 +34,16 @@ export default async function NotFound() {
             />
           </header>
           <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
-            <div className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-start justify-center gap-5 px-6 py-24 lg:px-[6%]">
-              <p className="text-eyebrow uppercase text-accent">404</p>
+            <div className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-start justify-center gap-6 px-6 py-24 lg:px-[6%]">
               <h1 className="text-display-2 text-ink">We can't find this page</h1>
-              <p className="max-w-xl text-body text-ink-2">
+              <p className="max-w-[44ch] text-body-lg text-ink-2">
                 The link may be stale, or the page may have moved. The rest of the site is here —
                 start with our students, or head back to the home page.
               </p>
+              <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-hairline pt-4 text-meta uppercase tracking-[0.1em] text-ink-2">
+                <li>Page not found</li>
+                <li>404</li>
+              </ul>
               <div className="mt-2 flex flex-wrap items-center gap-4">
                 <Button href="/students" variant="primary">
                   Meet our students

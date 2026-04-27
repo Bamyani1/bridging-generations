@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { getDonatePage } from "@/lib/content/donatePage";
 import { getSiteSettings } from "@/lib/content/siteSettings";
@@ -22,7 +21,6 @@ export default async function DonateThankYouPage() {
       >
         <Reveal>
           <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
-            <Eyebrow>Thank you</Eyebrow>
             <h1
               id="thank-you-hero-title"
               className="max-w-[22ch] text-balance text-display-2 text-ink"
@@ -32,6 +30,10 @@ export default async function DonateThankYouPage() {
             <p className="max-w-[60ch] whitespace-pre-line text-body-lg text-ink-2">
               {donatePage.thankYouBody}
             </p>
+            <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-hairline pt-4 text-meta uppercase tracking-[0.1em] text-ink-2">
+              <li>Receipt sent</li>
+              <li className="lowercase">{siteSettings.contactEmail}</li>
+            </ul>
           </div>
         </Reveal>
       </section>

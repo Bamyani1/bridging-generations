@@ -45,7 +45,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <BlogHero />
+      <BlogHero count={posts.length} />
       {featured ? (
         <section
           aria-label="Featured blog post"
