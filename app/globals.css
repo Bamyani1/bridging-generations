@@ -389,14 +389,14 @@
   transition: opacity var(--motion-sm) var(--ease-smooth);
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .card-hover:hover .portrait-vignette,
-  .card-hover:focus-within .portrait-vignette {
+  .group:hover .portrait-vignette,
+  .group:focus-within .portrait-vignette {
     opacity: 1;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card-hover:hover .portrait-vignette,
-  .card-hover:focus-within .portrait-vignette {
+  .group:hover .portrait-vignette,
+  .group:focus-within .portrait-vignette {
     opacity: 1;
   }
 }
