@@ -34,7 +34,7 @@ export default async function ProjectsPage() {
 
   return (
     <>
-      <ProjectsHero activeCount={active.length} fundedCount={funded.length} />
+      <ProjectsHero activeCount={active.length} totalRaised={totalRaised} />
       <section
         aria-label="Projects funding at a glance"
         className="bg-ground-3 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"

@@ -12,7 +12,6 @@ import { SITE_URL } from "@/lib/seo/siteUrl";
 import { ConsentStatement } from "./_components/ConsentStatement";
 import { SchoolSection } from "./_components/SchoolSection";
 import { StudentsHero } from "./_components/StudentsHero";
-import { StudentsPullQuote } from "./_components/StudentsPullQuote";
 
 export const metadata: Metadata = {
   title: "Students",
@@ -68,10 +67,11 @@ export default async function StudentsPage() {
 
   return (
     <>
-      <div className="relative">
-        <StudentsHero studentCount={studentCount} schoolCount={schools.length} />
-        {pullQuote ? <StudentsPullQuote testimonial={pullQuote} /> : null}
-      </div>
+      <StudentsHero
+        studentCount={studentCount}
+        schoolCount={schools.length}
+        pullQuote={pullQuote}
+      />
       <ConsentStatement />
       <section
         aria-label="Student sponsorships at a glance"

@@ -1,12 +1,13 @@
+import { AmberMark } from "@/components/motif/AmberMark";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
 type DonorsHeroProps = {
-  headline: string;
+  donorCount: number;
   subhead: string;
 };
 
-export function DonorsHero({ headline, subhead }: DonorsHeroProps) {
+export function DonorsHero({ donorCount, subhead }: DonorsHeroProps) {
   return (
     <section
       aria-labelledby="donors-hero-title"
@@ -15,11 +16,16 @@ export function DonorsHero({ headline, subhead }: DonorsHeroProps) {
       <Reveal>
         <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
           <Eyebrow>Gratitude</Eyebrow>
-          {/* per type-tier ledger: narrow two-column hero → display-2 */}
           <h1 id="donors-hero-title" className="max-w-[22ch] text-balance text-display-2 text-ink">
-            {headline}
+            <span className="relative inline-block">
+              <span className="relative z-10">{donorCount}</span>
+              <span aria-hidden="true" className="absolute inset-x-0 bottom-[0.12em] z-0">
+                <AmberMark className="block h-[0.35em] w-full" />
+              </span>
+            </span>{" "}
+            anonymous donors so far.
           </h1>
-          <p className="max-w-[60ch] text-body-lg text-ink-2">{subhead}</p>
+          <p className="max-w-[44ch] text-body-lg text-ink-2">{subhead}</p>
         </div>
       </Reveal>
     </section>

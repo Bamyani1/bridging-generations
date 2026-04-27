@@ -12,10 +12,7 @@ export function StudentsPullQuote({ testimonial }: StudentsPullQuoteProps) {
       : `${speakerRole.charAt(0).toUpperCase()}${speakerRole.slice(1)}`;
 
   return (
-    <aside
-      aria-label="Student pull quote"
-      className="mx-auto mt-6 max-w-[1280px] px-4 sm:px-6 lg:absolute lg:right-[6%] lg:bottom-10 lg:mt-0 lg:mr-0 lg:ml-auto lg:max-w-[34ch] lg:px-0"
-    >
+    <aside aria-label="Student pull quote" className="lg:max-w-[34ch] lg:justify-self-end">
       <figure className="flex flex-col gap-3 border-accent-2-text border-l-2 pl-4 lg:pl-5">
         <blockquote className="text-balance text-body-lg text-ink">
           &ldquo;{quote}&rdquo;

@@ -33,7 +33,7 @@ export default async function DonorsPage() {
 
   return (
     <>
-      <DonorsHero headline={donorsPage.headline} subhead={donorsPage.subhead} />
+      <DonorsHero donorCount={stats.donorCount} subhead={donorsPage.subhead} />
       <section
         aria-labelledby="donors-count-title"
         className="bg-ground px-4 py-12 sm:px-6 lg:px-[6%] lg:py-16"
