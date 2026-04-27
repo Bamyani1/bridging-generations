@@ -9,7 +9,7 @@ import { getAllTestimonials } from "@/lib/content/testimonials";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { ConsentStatement } from "./_components/ConsentStatement";
-import { SchoolSection } from "./_components/SchoolSection";
+import { StudentDirectory } from "./_components/StudentDirectory";
 import { StudentsHero } from "./_components/StudentsHero";
 
 export const metadata: Metadata = {
@@ -37,20 +37,12 @@ export default async function StudentsPage() {
     testimonials.find((t) => t.speakerRole === "parent") ??
     null;
 
-  const schoolById = new Map(schools.map((school) => [school.id, school]));
-  type Section = {
-    school: NonNullable<ReturnType<typeof schoolById.get>>;
-    students: (typeof grouped)[number]["students"];
-  };
-  const sections: Section[] = grouped
-    .map((group) => {
-      const school = schoolById.get(group.schoolId);
-      return school ? { school, students: group.students } : null;
-    })
-    .filter((entry): entry is Section => entry !== null);
-
-  const studentCount = sections.reduce((sum, section) => sum + section.students.length, 0);
-  const allStudents = sections.flatMap((section) => section.students);
+  const knownSchoolIds = new Set(schools.map((s) => s.id));
+  const allStudents = grouped
+    .filter((g) => knownSchoolIds.has(g.schoolId))
+    .flatMap((g) => g.students);
+  const studentCount = allStudents.length;
+  const schoolCount = new Set(allStudents.map((s) => s.schoolId)).size;
   const waitingCount = allStudents.filter((s) => s.sponsorshipStatus === "waiting").length;
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -65,11 +57,7 @@ export default async function StudentsPage() {
 
   return (
     <>
-      <StudentsHero
-        studentCount={studentCount}
-        schoolCount={schools.length}
-        pullQuote={pullQuote}
-      />
+      <StudentsHero studentCount={studentCount} schoolCount={schoolCount} pullQuote={pullQuote} />
       <ConsentStatement />
       <section
         aria-label="Sponsorship status"
@@ -84,14 +72,7 @@ export default async function StudentsPage() {
           </Reveal>
         </div>
       </section>
-      {sections.map((section, index) => (
-        <SchoolSection
-          key={section.school.id}
-          school={section.school}
-          students={section.students}
-          index={index}
-        />
-      ))}
+      <StudentDirectory students={allStudents} schools={schools} />
       <CTAFooterPanel
         headline="Your sponsorship puts a name on this page."
         body="Every $30 / month sponsorship covers tuition, books, daily meals, and materials for one student. The next sponsorship pays for the next name on this list."
