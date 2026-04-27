@@ -1,12 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-
-vi.mock("next/image", () => ({
-  default: ({ alt, src }: { alt: string; src: string }) => (
-    // biome-ignore lint/performance/noImgElement: next/image is stubbed to a plain img for jsdom tests
-    <img alt={alt} src={typeof src === "string" ? src : ""} />
-  ),
-}));
+import { describe, expect, it } from "vitest";
 
 import { HomeMissionBand } from "@/app/(site)/_components/HomeMissionBand";
 
@@ -33,18 +26,9 @@ describe("HomeMissionBand", () => {
     expect(screen.getByText("Our mission")).toBeInTheDocument();
   });
 
-  it("renders the image with a descriptive alt", () => {
-    render(<HomeMissionBand missionFull={missionFull} />);
-    expect(
-      screen.getByAltText("A schoolboy in uniform sits in a library corner reading a book"),
-    ).toBeInTheDocument();
-  });
-
-  it("wraps copy and image in two Reveal containers with a 150ms stagger", () => {
+  it("wraps copy in a single Reveal container", () => {
     const { container } = render(<HomeMissionBand missionFull={missionFull} />);
     const reveals = container.querySelectorAll(".reveal-on-scroll");
-    expect(reveals).toHaveLength(2);
-    const second = reveals[1] as HTMLElement;
-    expect(second.style.transitionDelay).toBe("150ms");
+    expect(reveals).toHaveLength(1);
   });
 });

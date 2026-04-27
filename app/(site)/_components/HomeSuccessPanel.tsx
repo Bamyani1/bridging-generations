@@ -13,7 +13,7 @@ export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
     <section
       id="success"
       aria-labelledby="home-success-title"
-      className="teal-panel grid scroll-mt-20 grid-cols-1 items-stretch text-white lg:grid-cols-2"
+      className="teal-panel grid scroll-mt-20 grid-cols-1 items-stretch text-white lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1fr)]"
     >
       <Reveal
         kind="develop"
