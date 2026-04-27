@@ -1,4 +1,3 @@
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type ContactInfoCardProps = {
@@ -12,32 +11,38 @@ export function ContactInfoCard({
   contactEmail,
   responseNote,
 }: ContactInfoCardProps) {
+  const showAddress = !isPlaceholder(mailingAddress);
   return (
-    <aside
-      aria-label="Direct contact details"
-      className="flex flex-col gap-6 bg-ground-2 p-8 lg:p-10"
-    >
-      <div className="flex flex-col gap-2">
-        <Eyebrow>Mail us directly</Eyebrow>
-        <a
-          href={`mailto:${contactEmail}`}
-          className="break-words text-heading-5 text-ink transition hover:text-accent"
-        >
-          {contactEmail}
-        </a>
-      </div>
-      {!isPlaceholder(mailingAddress) ? (
-        <div className="flex flex-col gap-2">
-          <Eyebrow>Mailing address</Eyebrow>
-          <address className="whitespace-pre-line break-words not-italic text-body text-ink-2">
-            {mailingAddress}
-          </address>
+    <aside aria-label="Direct contact details" className="flex flex-col">
+      <dl className="border-t border-hairline">
+        <div className="grid grid-cols-1 gap-2 border-b border-hairline py-5 lg:py-6">
+          <dt className="text-meta uppercase tracking-[0.1em] text-ink-2">Email us</dt>
+          <dd>
+            <a
+              href={`mailto:${contactEmail}`}
+              className="break-words text-body-lg text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
+            >
+              {contactEmail}
+            </a>
+          </dd>
         </div>
-      ) : null}
-      <div className="flex flex-col gap-2">
-        <Eyebrow>Response time</Eyebrow>
-        <p className="text-body text-ink-2">{responseNote}</p>
-      </div>
+        {showAddress ? (
+          <div className="grid grid-cols-1 gap-2 border-b border-hairline py-5 lg:py-6">
+            <dt className="text-meta uppercase tracking-[0.1em] text-ink-2">Mailing address</dt>
+            <dd>
+              <address className="whitespace-pre-line break-words not-italic text-body text-ink-2">
+                {mailingAddress}
+              </address>
+            </dd>
+          </div>
+        ) : null}
+        <div className="grid grid-cols-1 gap-2 border-b border-hairline py-5 lg:py-6">
+          <dt className="text-meta uppercase tracking-[0.1em] text-ink-2">Response time</dt>
+          <dd>
+            <p className="text-body text-ink-2">{responseNote}</p>
+          </dd>
+        </div>
+      </dl>
     </aside>
   );
 }

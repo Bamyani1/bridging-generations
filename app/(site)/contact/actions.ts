@@ -3,10 +3,19 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { getContactPage } from "@/lib/content/contactPage";
-import type { ContactActionState } from "./actions.types";
+import {
+  AUDIENCE_VALUES,
+  type AudienceValue,
+  type ContactActionState,
+  SUBJECT_PREFIX,
+} from "./actions.types";
 
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+
+function parseAudience(raw: string): AudienceValue | undefined {
+  return (AUDIENCE_VALUES as readonly string[]).includes(raw) ? (raw as AudienceValue) : undefined;
+}
 
 type Bucket = { count: number; resetAt: number };
 const rateBucket = new Map<string, Bucket>();
@@ -31,9 +40,13 @@ export async function submitContactForm(
   _prev: ContactActionState,
   formData: FormData,
 ): Promise<ContactActionState> {
-  const name = String(formData.get("name") ?? "").trim();
+  const audienceRaw = String(formData.get("audience") ?? "").trim();
+  const audience = parseAudience(audienceRaw);
+  const isSubscribe = audience === "subscriber";
+
+  const nameInput = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
-  const message = String(formData.get("message") ?? "").trim();
+  const messageInput = String(formData.get("message") ?? "").trim();
   const honeypot = String(formData.get("company") ?? "");
 
   if (honeypot.length > 0) {
@@ -44,13 +57,24 @@ export async function submitContactForm(
     };
   }
 
+  // Subscribe path synthesizes name/message so the donor needs to give only an email.
+  const name = isSubscribe ? nameInput || "Newsletter subscriber" : nameInput;
+  const message = isSubscribe
+    ? messageInput || "Subscribed via /donate/thank-you quarterly-update form."
+    : messageInput;
+
   const fieldErrors: ContactActionState["fieldErrors"] = {};
-  if (!name) fieldErrors.name = "Please tell us your name.";
-  else if (name.length > 100) fieldErrors.name = "Name must be 100 characters or less.";
+  if (!isSubscribe) {
+    if (!name) fieldErrors.name = "Please tell us your name.";
+    else if (name.length > 100) fieldErrors.name = "Name must be 100 characters or less.";
+  }
   if (!email) fieldErrors.email = "Please enter an email.";
   else if (!isValidEmail(email)) fieldErrors.email = "Please enter a valid email.";
-  if (!message) fieldErrors.message = "Please include a message.";
-  else if (message.length > 2000) fieldErrors.message = "Message must be 2000 characters or less.";
+  if (!isSubscribe) {
+    if (!message) fieldErrors.message = "Please include a message.";
+    else if (message.length > 2000)
+      fieldErrors.message = "Message must be 2000 characters or less.";
+  }
 
   if (Object.keys(fieldErrors).length > 0) {
     return {
@@ -78,18 +102,20 @@ export async function submitContactForm(
   const apiKey = process.env.RESEND_API_KEY;
   const fromAddress = process.env.RESEND_FROM_EMAIL ?? "contact@bridginggenerations.org";
 
+  const subjectPrefix = audience ? `${SUBJECT_PREFIX[audience]} ` : "";
+  const subject = `${subjectPrefix}Contact form — ${name}`;
+  const audienceLine = audience ? `Audience: ${audience}\n` : "";
+  const body = `${audienceLine}From: ${name} <${email}>\n\n${message}`;
+  const successMessage = isSubscribe
+    ? "Thanks — you're on the quarterly-update list. The board will follow up within two business days."
+    : "Thanks — your message is in. We reply within two business days.";
+
   if (!apiKey) {
     console.warn("[contact] RESEND_API_KEY is not set; form submission logged but not sent.");
-    console.info(
-      "[contact] from %s <%s> → %s\n%s",
-      name,
-      email,
-      contactPage.destinationEmail,
-      message,
-    );
+    console.info("[contact] %s → %s\n%s", subject, contactPage.destinationEmail, body);
     return {
       status: "success",
-      message: "Thanks — your message is in. We reply within two business days.",
+      message: successMessage,
       fieldErrors: {},
     };
   }
@@ -100,8 +126,8 @@ export async function submitContactForm(
       from: fromAddress,
       to: contactPage.destinationEmail,
       replyTo: email,
-      subject: `Contact form — ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
+      subject,
+      text: body,
     });
   } catch (err) {
     console.error("[contact] resend failed", err);
@@ -115,7 +141,7 @@ export async function submitContactForm(
 
   return {
     status: "success",
-    message: "Thanks — your message is in. We reply within two business days.",
+    message: successMessage,
     fieldErrors: {},
   };
 }

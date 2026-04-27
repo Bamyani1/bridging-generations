@@ -2,7 +2,6 @@
 
 import Script from "next/script";
 import { createElement, useState } from "react";
-import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
@@ -13,29 +12,20 @@ type GivebutterEmbedProps = {
 
 function SetupFallback() {
   return (
-    <div className="flex min-h-[560px] flex-col justify-center gap-5 border border-hairline bg-ground-2 p-8 sm:p-10">
-      <Eyebrow>Give by email</Eyebrow>
-      <p className="text-balance text-heading-4 text-ink">
-        While we finish wiring up our Givebutter campaign, write us and a board member will send
-        secure payment details the same day.
+    <div className="flex flex-col gap-4 border-t border-hairline pt-6">
+      <Eyebrow>Setup pending</Eyebrow>
+      <p className="max-w-[42ch] text-body-lg text-ink-2">
+        Gifts are routed by hand while we stand up the Givebutter campaign — every contribution is
+        confirmed and routed personally within two business days.
       </p>
-      <p className="max-w-[52ch] text-body text-ink-2">
-        Check, wire transfer, or a direct Givebutter link — whichever works for you. Monthly or
-        one-time, any amount helps keep a student in the classroom.
-      </p>
-      <div className="flex flex-wrap gap-3">
-        <Button
-          variant="primary"
-          href="mailto:info@bridginggenerations.org?subject=I'd%20like%20to%20donate"
+      <p>
+        <a
+          href="mailto:info@bridginggenerations.org?subject=I%27d%20like%20to%20donate"
+          className="text-heading-4 text-accent underline decoration-2 underline-offset-[4px] transition hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
         >
-          Email the board
-        </Button>
-        <div className="hidden sm:block">
-          <Button variant="secondary" href="mailto:info@bridginggenerations.org">
-            info@bridginggenerations.org
-          </Button>
-        </div>
-      </div>
+          info@bridginggenerations.org
+        </a>
+      </p>
     </div>
   );
 }

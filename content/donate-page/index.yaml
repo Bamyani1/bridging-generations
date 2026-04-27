@@ -4,10 +4,17 @@ intro: |-
 givebutterAccountId: "[CONFIRM: acct= value from Givebutter dashboard embed code]"
 givebutterCampaignId: "[CONFIRM: six-character campaign code from Givebutter dashboard — ZbQ0n2 was a stub, not a real campaign]"
 monthlySuggestion: 30
+transactionSource: placeholder
 afterDonateNote: |-
   Givebutter emails your tax-deductible receipt automatically. Questions, changes, or a preference to give by check? Reach out and the board will route it.
+afterDonateNoteFallback: |-
+  We're standing up the Givebutter campaign now. To give in the meantime, write to info@bridginggenerations.org — the board confirms receipt and routes the gift by hand. Checks made out to "Bridging Generations" are also welcome; reply for mailing instructions.
 thankYouBody: |-
   If you just gave, thank you — your contribution keeps one more student in the classroom. A tax-deductible receipt will arrive from Givebutter within the next few minutes.
+thankYouBodyFallback: |-
+  Thank you for getting in touch about giving. Once the Givebutter campaign is live, sponsorships flow through it directly; until then, the board confirms receipt of every gift personally and emails you within two business days.
+transactionSourceNote: |-
+  Heads up — the answers below describe how giving works through Givebutter. We're standing up the campaign now; in the meantime, write to info@bridginggenerations.org and the board will route your gift by hand.
 faq:
   - question: Is my donation tax-deductible?
     answer: |-

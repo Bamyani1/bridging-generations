@@ -1,8 +1,8 @@
-import { Feature, Row } from "@/components/ui/editorial";
+import { Feature } from "@/components/ui/editorial";
 
-type GivingTile = {
-  eyebrow: string;
-  heading: string;
+type SecondaryOption = {
+  label: string;
+  amount: string;
   body: string;
   href: string;
 };
@@ -12,23 +12,23 @@ type GivingOptionsStripProps = {
 };
 
 export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProps) {
-  const lead: GivingTile = {
-    eyebrow: "Sponsor one child",
-    heading: `$${monthlySuggestion}/month`,
-    body: "Tuition, books, meals, and materials — everything one student needs for a full school year. The single most leveraged way to give.",
-    href: "/donate",
-  };
-  const alternates: GivingTile[] = [
+  const secondaries: SecondaryOption[] = [
     {
-      eyebrow: "Fund a program",
-      heading: "One-time gift",
+      label: "Give once",
+      amount: "Any amount",
+      body: "Use the form above and choose Give once at checkout — every dollar still routes to program costs.",
+      href: "#donate-hero-title",
+    },
+    {
+      label: "Designate a project",
+      amount: "Project-tied",
       body: "Back the meal program, the girls' scholarship fund, or a school-supply delivery.",
       href: "/projects",
     },
     {
-      eyebrow: "Leave a legacy",
-      heading: "Planned giving",
-      body: "Make Bridging Generations part of your will or charitable trust. Write us and we'll share the language to use.",
+      label: "Honor or memorial gift",
+      amount: "Card included",
+      body: "Mark a birthday, a teacher, or a family member. Write us and we'll send a card to whomever you name.",
       href: "/contact",
     },
   ];
@@ -43,20 +43,36 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
         </h2>
         <Feature breakout={false}>
           <Feature.Body>
-            <Feature.Eyebrow>{lead.eyebrow}</Feature.Eyebrow>
-            <Feature.Headline as="h3" href={lead.href}>
-              {lead.heading}
+            <Feature.Eyebrow>Sponsor monthly</Feature.Eyebrow>
+            <Feature.Headline as="h3" href="#donate-hero-title">
+              ${monthlySuggestion}/mo keeps one student in the classroom
             </Feature.Headline>
-            <Feature.Lede>{lead.body}</Feature.Lede>
+            <Feature.Lede>
+              Tuition, books, daily meals, and materials for the full school year. The single most
+              leveraged way to give — recurring sponsors are how the program plans staffing.
+            </Feature.Lede>
           </Feature.Body>
         </Feature>
-        <ul className="flex flex-col">
-          {alternates.map((tile) => (
-            <Row as="li" key={tile.eyebrow} noImage>
-              <Row.Eyebrow>{tile.eyebrow}</Row.Eyebrow>
-              <Row.Headline href={tile.href}>{tile.heading}</Row.Headline>
-              <Row.Lede>{tile.body}</Row.Lede>
-            </Row>
+        <ul className="flex flex-col border-t border-hairline">
+          {secondaries.map((option) => (
+            <li key={option.label} className="border-b border-hairline">
+              <a
+                href={option.href}
+                className="group block py-6 transition focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent lg:py-8"
+              >
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,9rem)_minmax(0,1fr)] lg:items-baseline lg:gap-10">
+                  <span className="text-meta uppercase tracking-[0.1em] text-ink-2">
+                    {option.amount}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <span className="text-balance text-heading-3 text-ink transition-colors group-hover:text-accent">
+                      {option.label}
+                    </span>
+                    <span className="max-w-[60ch] text-body text-ink-2">{option.body}</span>
+                  </div>
+                </div>
+              </a>
+            </li>
           ))}
         </ul>
       </div>

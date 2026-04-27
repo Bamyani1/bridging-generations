@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { submitContactForm } from "../actions";
 import { type ContactActionState, initialContactState } from "../actions.types";
+import { AudienceTriage } from "./AudienceTriage";
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -15,9 +16,7 @@ function SubmitButton({ pending }: { pending: boolean }) {
       aria-busy={pending}
       className="inline-flex min-h-[44px] items-center justify-center gap-2 bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50"
     >
-      <span className="text-[19px] font-bold leading-none">
-        {pending ? "Sending…" : "Send message"}
-      </span>
+      <span className="text-[19px] font-bold leading-none">{pending ? "Sending…" : "Send"}</span>
     </button>
   );
 }
@@ -60,6 +59,8 @@ export function ContactForm() {
         </div>
       ) : null}
 
+      <AudienceTriage name="audience" error={fieldErrors.audience} />
+
       <Field label="Your name" error={fieldErrors.name}>
         {(fieldProps) => (
           <Input
@@ -75,13 +76,30 @@ export function ContactForm() {
 
       <Field label="Your email" error={fieldErrors.email}>
         {(fieldProps) => (
-          <Input {...fieldProps} name="email" type="email" autoComplete="email" required />
+          <Input
+            {...fieldProps}
+            name="email"
+            type="email"
+            autoComplete="email"
+            inputMode="email"
+            autoCorrect="off"
+            autoCapitalize="off"
+            required
+          />
         )}
       </Field>
 
       <Field label="Message" error={fieldErrors.message}>
         {(fieldProps) => (
-          <Textarea {...fieldProps} name="message" rows={6} maxLength={2000} required />
+          <Textarea
+            {...fieldProps}
+            name="message"
+            rows={6}
+            maxLength={2000}
+            enterKeyHint="send"
+            autoCapitalize="sentences"
+            required
+          />
         )}
       </Field>
 
@@ -101,6 +119,10 @@ export function ContactForm() {
           />
         </label>
       </div>
+
+      <p className="text-meta text-ink-2">
+        We use your email only to reply. No list, no automation.
+      </p>
 
       <SubmitButton pending={pending} />
     </form>

@@ -30,15 +30,47 @@ export const donatePageSingleton = singleton({
       description: 'e.g. 30 — used in CTAs like "$30/month sponsors one student".',
       validation: { min: 0 },
     }),
+    transactionSource: fields.select({
+      label: "Transaction source",
+      description:
+        "How donations actually flow today. 'Givebutter' = embed IDs are real and the widget mounts; receipt-promise copy renders. 'Mailto' / 'Placeholder' = donations route through the contact email; receipt-promise copy is suppressed and the fallback copy below renders instead.",
+      options: [
+        { label: "Givebutter (live widget)", value: "givebutter" },
+        { label: "Mailto fallback", value: "mailto" },
+        { label: "Placeholder (setup pending)", value: "placeholder" },
+      ],
+      defaultValue: "placeholder",
+    }),
     afterDonateNote: fields.text({
-      label: "After-donate note",
-      description: "Shown below the embed.",
+      label: "After-donate note (Givebutter path)",
+      description: "Shown below the embed when transaction source is 'givebutter'.",
       multiline: true,
     }),
-    thankYouBody: fields.text({
-      label: "Thank-you body",
+    afterDonateNoteFallback: fields.text({
+      label: "After-donate note (mailto / placeholder path)",
       description:
-        "Body copy for /donate/thank-you. Avoid assuming donation completion — some visitors type the URL without donating.",
+        "Shown below the embed when transaction source is not 'givebutter'. Should describe the mailto path honestly.",
+      multiline: true,
+      validation: { isRequired: true, length: { min: 1 } },
+    }),
+    thankYouBody: fields.text({
+      label: "Thank-you body (Givebutter path)",
+      description:
+        "Body copy for /donate/thank-you when transaction source is 'givebutter'. Avoid assuming donation completion — some visitors type the URL without donating.",
+      multiline: true,
+      validation: { isRequired: true, length: { min: 1 } },
+    }),
+    thankYouBodyFallback: fields.text({
+      label: "Thank-you body (mailto / placeholder path)",
+      description:
+        "Body copy for /donate/thank-you when transaction source is not 'givebutter'. No Givebutter receipt promise.",
+      multiline: true,
+      validation: { isRequired: true, length: { min: 1 } },
+    }),
+    transactionSourceNote: fields.text({
+      label: "Transaction-source note (above FAQ)",
+      description:
+        "Shown above the FAQ when transaction source is not 'givebutter' — flags that the FAQ describes the Givebutter path that isn't live yet.",
       multiline: true,
       validation: { isRequired: true, length: { min: 1 } },
     }),
