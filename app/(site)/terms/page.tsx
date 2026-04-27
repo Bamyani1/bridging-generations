@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { StoryToc } from "@/components/content/StoryToc";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { extractHeadings } from "@/lib/content/extractHeadings";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { getTermsPage } from "@/lib/content/termsPage";
 import { breadcrumbList } from "@/lib/seo/jsonLd";
@@ -31,6 +33,7 @@ function formatDate(iso: string | null): string {
 export default async function TermsPage() {
   const [terms, siteSettings] = await Promise.all([getTermsPage(), getSiteSettings()]);
   const body = await terms.body();
+  const headings = extractHeadings(body, [2]);
 
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -44,7 +47,7 @@ export default async function TermsPage() {
         className="bg-ground px-4 pt-24 pb-12 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-16"
       >
         <Reveal>
-          <div className="mx-auto flex max-w-[1280px] flex-col gap-4">
+          <div className="mx-auto flex max-w-[65ch] flex-col gap-4">
             <Eyebrow>Legal</Eyebrow>
             <h1 id="terms-hero-title" className="max-w-[22ch] text-balance text-display-2 text-ink">
               Terms &amp; Conditions.
@@ -64,18 +67,21 @@ export default async function TermsPage() {
         <h2 id="terms-body-title" className="sr-only">
           Terms body
         </h2>
-        <TermsBody source={body} />
+        <div className="longform-spine">
+          <StoryToc headings={headings} />
+          <TermsBody source={body} />
+        </div>
       </section>
       <section
         aria-labelledby="terms-contact-title"
         className="bg-ground-2 px-4 py-12 sm:px-6 lg:px-[6%] lg:py-16"
       >
-        <div className="mx-auto flex max-w-[70ch] flex-col gap-3 text-body text-ink-2">
+        <div className="mx-auto flex max-w-[65ch] flex-col gap-3 text-body text-ink-2">
           <h2
             id="terms-contact-title"
             className="text-eyebrow uppercase tracking-[0.1em] text-accent"
           >
-            Questions
+            Get in touch
           </h2>
           <p>
             Questions about these terms? Email{" "}

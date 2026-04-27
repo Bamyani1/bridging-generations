@@ -6,7 +6,7 @@ type TermsBodyProps = {
 
 export function TermsBody({ source }: TermsBodyProps) {
   return (
-    <article className="mx-auto max-w-[70ch]">
+    <article className="lg:max-w-[65ch]">
       <MDXRenderer source={source} />
     </article>
   );
