@@ -18,10 +18,25 @@ type RowProps = {
   children: ReactNode;
   className?: string;
   hideRule?: boolean;
+  /**
+   * Drop the 3fr/9fr image grid when the row carries no `<Row.Image>` —
+   * collapses to a single-column flex stack. Used by text-only contexts
+   * (anonymous donor messages, testimonials without portraits).
+   */
+  noImage?: boolean;
 };
 
-function RowRoot({ as: Tag = "article", children, className, hideRule = false }: RowProps) {
-  const base = "group relative grid grid-cols-1 gap-5 py-7 sm:grid-cols-[3fr_9fr] sm:gap-8 lg:py-9";
+function RowRoot({
+  as: Tag = "article",
+  children,
+  className,
+  hideRule = false,
+  noImage = false,
+}: RowProps) {
+  const layout = noImage
+    ? "flex flex-col gap-3 py-7 lg:py-9"
+    : "grid grid-cols-1 gap-5 py-7 sm:grid-cols-[3fr_9fr] sm:gap-8 lg:py-9";
+  const base = `group relative ${layout}`;
   const rule = hideRule ? "" : "border-t border-hairline";
   const merged = `${base} ${rule} ${className ?? ""}`.trim();
   return <Tag className={merged}>{children}</Tag>;
