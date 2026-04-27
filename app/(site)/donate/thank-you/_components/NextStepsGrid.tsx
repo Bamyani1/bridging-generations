@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Row } from "@/components/ui/editorial";
 
 type NextStep = {
   eyebrow: string;
@@ -33,27 +32,15 @@ export function NextStepsGrid() {
         <h2 id="thank-you-next-title" className="sr-only">
           What to do next
         </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <ul className="flex flex-col">
           {STEPS.map((step) => (
-            <Link
-              key={step.href}
-              href={step.href}
-              className="group flex flex-col gap-3 bg-ground-2 p-8 transition hover:bg-ground-3 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
-            >
-              <Eyebrow>{step.eyebrow}</Eyebrow>
-              <span className="text-balance text-heading-4 text-ink transition group-hover:text-accent">
-                {step.heading}
-              </span>
-              <p className="text-body text-ink-2">{step.body}</p>
-              <span
-                aria-hidden="true"
-                className="mt-2 text-nav-link uppercase text-accent transition motion-safe:group-hover:translate-x-1"
-              >
-                Go →
-              </span>
-            </Link>
+            <Row as="li" key={step.href} noImage>
+              <Row.Eyebrow>{step.eyebrow}</Row.Eyebrow>
+              <Row.Headline href={step.href}>{step.heading}</Row.Headline>
+              <Row.Lede>{step.body}</Row.Lede>
+            </Row>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

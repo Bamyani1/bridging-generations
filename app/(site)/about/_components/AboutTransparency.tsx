@@ -1,5 +1,6 @@
 import { ChapterBreak } from "@/components/motif/ChapterBreak";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Row } from "@/components/ui/editorial";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
 type AboutTransparencyProps = {
@@ -42,10 +43,10 @@ export function AboutTransparency({
             Where your donation goes.
           </h2>
         </div>
-        <dl className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:gap-14">
-          <div className="flex flex-col gap-3">
-            <dt className="text-eyebrow uppercase text-accent">Legal</dt>
-            <dd className="flex flex-col gap-2 text-body text-ink-2">
+        <ul className="flex flex-col">
+          <Row as="li" noImage>
+            <Row.Eyebrow>Legal</Row.Eyebrow>
+            <div className="flex flex-col gap-2 text-body text-ink-2">
               <span className="text-ink">{orgName}</span>
               <span>Founded {foundingYear}</span>
               <span>501(c)(3) nonprofit</span>
@@ -56,11 +57,11 @@ export function AboutTransparency({
               ) : (
                 <span>EIN published once the board confirms the filing.</span>
               )}
-            </dd>
-          </div>
-          <div className="flex flex-col gap-3">
-            <dt className="text-eyebrow uppercase text-accent">Financials</dt>
-            <dd className="flex flex-col gap-3 text-body text-ink-2">
+            </div>
+          </Row>
+          <Row as="li" noImage>
+            <Row.Eyebrow>Financials</Row.Eyebrow>
+            <div className="flex flex-col gap-3 text-body text-ink-2">
               {hasAnyFinancialLink ? (
                 <ul className="flex flex-col gap-2">
                   {form990Url ? (
@@ -98,11 +99,11 @@ export function AboutTransparency({
                 Givebutter processes donations and issues automated receipts at the time of each
                 gift.
               </p>
-            </dd>
-          </div>
-          <div className="flex flex-col gap-3">
-            <dt className="text-eyebrow uppercase text-accent">Governance</dt>
-            <dd className="flex flex-col gap-3 text-body text-ink-2">
+            </div>
+          </Row>
+          <Row as="li" noImage>
+            <Row.Eyebrow>Governance</Row.Eyebrow>
+            <div className="flex flex-col gap-3 text-body text-ink-2">
               {showMailingAddress ? (
                 <address className="whitespace-pre-line not-italic">{mailingAddress}</address>
               ) : (
@@ -115,9 +116,9 @@ export function AboutTransparency({
                 {contactEmail}
               </a>
               <p>The board is unpaid. 100% of project-designated donations go to program costs.</p>
-            </dd>
-          </div>
-        </dl>
+            </div>
+          </Row>
+        </ul>
       </div>
     </section>
   );

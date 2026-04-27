@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Row } from "@/components/ui/editorial";
 
 type GivingTile = {
   eyebrow: string;
@@ -42,21 +41,15 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
         <h2 id="giving-options-title" className="max-w-[20ch] text-balance text-heading-1 text-ink">
           Other ways to give
         </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <ul className="flex flex-col">
           {tiles.map((tile) => (
-            <Link
-              key={tile.eyebrow}
-              href={tile.href}
-              className="group flex flex-col gap-3 bg-ground p-6 transition hover:bg-ground-2 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
-            >
-              <Eyebrow>{tile.eyebrow}</Eyebrow>
-              <span className="text-balance text-heading-4 text-ink transition group-hover:text-accent">
-                {tile.heading}
-              </span>
-              <p className="text-body text-ink-2">{tile.body}</p>
-            </Link>
+            <Row as="li" key={tile.eyebrow} noImage>
+              <Row.Eyebrow>{tile.eyebrow}</Row.Eyebrow>
+              <Row.Headline href={tile.href}>{tile.heading}</Row.Headline>
+              <Row.Lede>{tile.body}</Row.Lede>
+            </Row>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

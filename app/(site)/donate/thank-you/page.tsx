@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Feature } from "@/components/ui/editorial";
 import { Reveal } from "@/components/ui/Reveal";
 import { getDonatePage } from "@/lib/content/donatePage";
 import { getSiteSettings } from "@/lib/content/siteSettings";
@@ -69,12 +70,21 @@ export default async function DonateThankYouPage() {
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
       >
         <Reveal>
-          <p
-            id="thank-you-share-title"
-            className="mx-auto max-w-[900px] text-center text-meta uppercase tracking-[0.1em] text-ink-2"
-          >
-            Telling a friend is the single most helpful thing you can do next.
-          </p>
+          <div className="mx-auto max-w-[1280px]">
+            <Feature breakout={false}>
+              <Feature.Body>
+                <Feature.Eyebrow>Highest leverage</Feature.Eyebrow>
+                <Feature.Headline as="h2">
+                  <span id="thank-you-share-title">
+                    Telling a friend is the single most helpful thing you can do next.
+                  </span>
+                </Feature.Headline>
+                <Feature.Lede>
+                  Word-of-mouth fills the next sponsorship faster than any campaign we run.
+                </Feature.Lede>
+              </Feature.Body>
+            </Feature>
+          </div>
         </Reveal>
       </section>
     </>
