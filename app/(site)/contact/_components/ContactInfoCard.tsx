@@ -21,7 +21,7 @@ export function ContactInfoCard({
         <Eyebrow>Mail us directly</Eyebrow>
         <a
           href={`mailto:${contactEmail}`}
-          className="break-words text-heading-5 text-ink transition hover:text-accent"
+          className="break-words text-body text-accent underline underline-offset-[3px] transition hover:text-accent-2-text"
         >
           {contactEmail}
         </a>

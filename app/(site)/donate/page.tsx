@@ -15,7 +15,9 @@ import { breadcrumbList } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { DonateAfterNote } from "./_components/DonateAfterNote";
 import { DonateHero } from "./_components/DonateHero";
+import { DonateMobileCtaBar } from "./_components/DonateMobileCtaBar";
 import { DonateProjectParam } from "./_components/DonateProjectParam";
+import { DonateTrustStrip } from "./_components/DonateTrustStrip";
 import { GivingOptionsStrip } from "./_components/GivingOptionsStrip";
 
 export const metadata: Metadata = {
@@ -43,6 +45,11 @@ export default async function DonatePage() {
     { name: "Home", url: "/" },
     { name: "Donate", url: "/donate" },
   ]);
+
+  const isGivebutter = donatePage.transactionSource === "givebutter";
+  const afterNote = isGivebutter
+    ? (donatePage.afterDonateNote ?? "")
+    : (donatePage.afterDonateNoteFallback ?? "");
 
   return (
     <>
@@ -73,9 +80,15 @@ export default async function DonatePage() {
                   : donatePage.givebutterCampaignId
               }
             />
+            <div id="donate-hero-amount-sentinel" aria-hidden="true" />
           </div>
         </div>
       </section>
+      <DonateTrustStrip
+        ein={siteSettings.ein}
+        contactEmail={siteSettings.contactEmail}
+        transactionSource={donatePage.transactionSource}
+      />
       <GivingOptionsStrip monthlySuggestion={donatePage.monthlySuggestion ?? 30} />
       <section
         aria-labelledby="donate-faq-title"
@@ -88,6 +101,11 @@ export default async function DonatePage() {
               <h2 id="donate-faq-title" className="text-balance text-heading-2 text-ink">
                 Frequently asked questions.
               </h2>
+              {!isGivebutter && donatePage.transactionSourceNote ? (
+                <p className="max-w-[60ch] text-body text-ink-2">
+                  {donatePage.transactionSourceNote}
+                </p>
+              ) : null}
             </div>
           </Reveal>
           <FaqAccordion items={donatePage.faq ?? []} />
@@ -102,7 +120,12 @@ export default async function DonatePage() {
           withHorizonLine
         />
       ) : null}
-      <DonateAfterNote note={donatePage.afterDonateNote ?? ""} />
+      <DonateAfterNote note={afterNote} />
+      <DonateMobileCtaBar
+        amountSuggestion={donatePage.monthlySuggestion ?? 30}
+        href="#donate-hero-title"
+        heroSentinelId="donate-hero-amount-sentinel"
+      />
       <JsonLd id="ld-donate-breadcrumb" data={ldBreadcrumb} />
     </>
   );

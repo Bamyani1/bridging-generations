@@ -46,7 +46,7 @@ export default async function ContactPage() {
         aria-labelledby="contact-form-title"
         className="bg-ground px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
       >
-        <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-16">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-16">
           <div className="flex flex-col gap-6">
             <h2 id="contact-form-title" className="text-balance text-heading-3 text-ink">
               Send a message.
@@ -58,23 +58,6 @@ export default async function ContactPage() {
             contactEmail={siteSettings.contactEmail}
             responseNote={contactPage.responseNote ?? ""}
           />
-        </div>
-      </section>
-      <section
-        aria-labelledby="contact-privacy-title"
-        className="bg-ground-2 px-4 py-12 sm:px-6 lg:px-[6%] lg:py-16"
-      >
-        <div className="mx-auto flex max-w-[900px] flex-col gap-3 text-body text-ink-2">
-          <h2
-            id="contact-privacy-title"
-            className="text-eyebrow uppercase tracking-[0.1em] text-accent"
-          >
-            A note on privacy
-          </h2>
-          <p>
-            We use your email only to reply. We don't add you to any list, we don't share it, and we
-            don't run marketing automations on incoming messages.
-          </p>
         </div>
       </section>
       <JsonLd id="ld-contact-breadcrumb" data={ldBreadcrumb} />

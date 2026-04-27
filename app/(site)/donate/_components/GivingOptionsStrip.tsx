@@ -1,6 +1,6 @@
 import { Feature, Row } from "@/components/ui/editorial";
 
-type GivingTile = {
+type SecondaryOption = {
   eyebrow: string;
   heading: string;
   body: string;
@@ -12,23 +12,23 @@ type GivingOptionsStripProps = {
 };
 
 export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProps) {
-  const lead: GivingTile = {
-    eyebrow: "Sponsor one child",
-    heading: `$${monthlySuggestion}/month`,
-    body: "Tuition, books, meals, and materials — everything one student needs for a full school year. The single most leveraged way to give.",
-    href: "/donate",
-  };
-  const alternates: GivingTile[] = [
+  const secondaries: SecondaryOption[] = [
     {
-      eyebrow: "Fund a program",
+      eyebrow: "Give once",
       heading: "One-time gift",
+      body: "Any amount, any time. Use the form above and choose 'Give once' at checkout.",
+      href: "#donate-hero-title",
+    },
+    {
+      eyebrow: "Give to a project",
+      heading: "Designate a program",
       body: "Back the meal program, the girls' scholarship fund, or a school-supply delivery.",
       href: "/projects",
     },
     {
-      eyebrow: "Leave a legacy",
-      heading: "Planned giving",
-      body: "Make Bridging Generations part of your will or charitable trust. Write us and we'll share the language to use.",
+      eyebrow: "Give in honor of",
+      heading: "Honor or memorial gift",
+      body: "Mark a birthday, a teacher, or a family member. Write us and we will send a card to whomever you name.",
       href: "/contact",
     },
   ];
@@ -43,19 +43,22 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
         </h2>
         <Feature breakout={false}>
           <Feature.Body>
-            <Feature.Eyebrow>{lead.eyebrow}</Feature.Eyebrow>
-            <Feature.Headline as="h3" href={lead.href}>
-              {lead.heading}
+            <Feature.Eyebrow>Sponsor monthly</Feature.Eyebrow>
+            <Feature.Headline as="h3" href="#donate-hero-title">
+              ${monthlySuggestion}/mo keeps one student in the classroom
             </Feature.Headline>
-            <Feature.Lede>{lead.body}</Feature.Lede>
+            <Feature.Lede>
+              Tuition, books, daily meals, and materials for the full school year. The single most
+              leveraged way to give — recurring sponsors are how the program plans staffing.
+            </Feature.Lede>
           </Feature.Body>
         </Feature>
         <ul className="flex flex-col">
-          {alternates.map((tile) => (
-            <Row as="li" key={tile.eyebrow} noImage>
-              <Row.Eyebrow>{tile.eyebrow}</Row.Eyebrow>
-              <Row.Headline href={tile.href}>{tile.heading}</Row.Headline>
-              <Row.Lede>{tile.body}</Row.Lede>
+          {secondaries.map((option) => (
+            <Row as="li" key={option.eyebrow} noImage>
+              <Row.Eyebrow>{option.eyebrow}</Row.Eyebrow>
+              <Row.Headline href={option.href}>{option.heading}</Row.Headline>
+              <Row.Lede>{option.body}</Row.Lede>
             </Row>
           ))}
         </ul>
