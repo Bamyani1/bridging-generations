@@ -3,6 +3,7 @@ import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
 import { ProgramCard } from "@/components/domain/ProgramCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getProjectsByStatus } from "@/lib/content/projects";
+import { pickFeatureIndices } from "@/lib/projects/pickFeatureIndices";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { FundedRecap } from "./_components/FundedRecap";
@@ -38,14 +39,16 @@ export default async function ProjectsPage() {
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
       >
         <div className="mx-auto flex max-w-[1280px] flex-col gap-16 lg:gap-20">
-          {list[0] ? <ProgramCard project={list[0]} scale="feature" /> : null}
-          {list.length > 1 ? (
-            <ul className="flex flex-col">
-              {list.slice(1).map((project) => (
-                <ProgramCard key={project.id} project={project} scale="row" as="li" />
-              ))}
-            </ul>
-          ) : null}
+          {(() => {
+            const featureIndices = pickFeatureIndices(list.length);
+            return list.map((project, i) =>
+              featureIndices.has(i) ? (
+                <ProgramCard key={project.id} project={project} scale="feature" />
+              ) : (
+                <ProgramCard key={project.id} project={project} scale="row" />
+              ),
+            );
+          })()}
         </div>
       </section>
       <FundedRecap projects={funded} />

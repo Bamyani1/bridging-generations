@@ -7,6 +7,7 @@ type FundedRecapProps = {
 
 export function FundedRecap({ projects }: FundedRecapProps) {
   if (projects.length === 0) return null;
+  const isSingle = projects.length === 1;
   return (
     <section
       aria-labelledby="projects-funded-title"
@@ -22,11 +23,15 @@ export function FundedRecap({ projects }: FundedRecapProps) {
             happen.
           </p>
         </header>
-        <ul className="flex flex-col">
-          {projects.map((project) => (
-            <ProgramCard key={project.id} project={project} scale="row" as="li" />
-          ))}
-        </ul>
+        {isSingle ? (
+          <ProgramCard project={projects[0]} scale="feature" />
+        ) : (
+          <ul className="flex flex-col">
+            {projects.map((project) => (
+              <ProgramCard key={project.id} project={project} scale="row" as="li" />
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

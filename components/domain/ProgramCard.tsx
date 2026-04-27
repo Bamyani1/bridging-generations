@@ -2,6 +2,7 @@ import { Feature, Row } from "@/components/ui/editorial";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Reveal } from "@/components/ui/Reveal";
 import type { Project } from "@/lib/content/projects";
+import { relativeTime } from "@/lib/dates/relativeTime";
 
 type ProgramCardProps = {
   project: Project;
@@ -89,6 +90,7 @@ type CardProps = {
 };
 
 function FeatureCard({ project, flags, ariaLabel }: CardProps) {
+  const meta = buildMetaLine(project);
   return (
     <div className="relative">
       <span aria-hidden="true" className="program-ribbon" data-status={flags.ribbonStatus}>
@@ -106,6 +108,7 @@ function FeatureCard({ project, flags, ariaLabel }: CardProps) {
           />
         </Reveal>
         <Feature.Body>
+          {meta ? <Feature.Eyebrow>{meta}</Feature.Eyebrow> : null}
           <Feature.Headline as="h3" href="/projects">
             {project.title}
           </Feature.Headline>
@@ -118,11 +121,27 @@ function FeatureCard({ project, flags, ariaLabel }: CardProps) {
             label={flags.progressLabel}
             tone={flags.progressTone}
           />
-          {flags.pausedStamp ? <Feature.Stamp>{flags.pausedStamp}</Feature.Stamp> : null}
+          {project.mathLineItem ? <Feature.Stamp>{project.mathLineItem}</Feature.Stamp> : null}
+          {flags.pausedStamp && !project.mathLineItem ? (
+            <Feature.Stamp>{flags.pausedStamp}</Feature.Stamp>
+          ) : null}
         </Feature.Body>
       </Feature>
     </div>
   );
+}
+
+function buildMetaLine(project: Project): string | null {
+  const parts: string[] = [];
+  if (project.boardOwnerName) parts.push(`Owner · ${project.boardOwnerName}`);
+  if (project.lastUpdated) {
+    try {
+      parts.push(`Updated ${relativeTime(new Date(project.lastUpdated))}`);
+    } catch {
+      // Keep prose intact when date is unparseable.
+    }
+  }
+  return parts.length > 0 ? parts.join("  ·  ") : null;
 }
 
 type RowCardProps = CardProps & {
@@ -131,6 +150,7 @@ type RowCardProps = CardProps & {
 };
 
 function RowCard({ project, flags, as, hideRule, ariaLabel }: RowCardProps) {
+  const meta = buildMetaLine(project);
   return (
     <Row as={as} hideRule={hideRule} ariaLabel={ariaLabel}>
       <span aria-hidden="true" className="program-ribbon" data-status={flags.ribbonStatus}>
@@ -140,6 +160,7 @@ function RowCard({ project, flags, as, hideRule, ariaLabel }: RowCardProps) {
         <Row.Image src={project.heroImage.src} alt={project.heroImage.alt} aspect="4/3" />
       </Reveal>
       <Row.Body>
+        {meta ? <Row.Eyebrow>{meta}</Row.Eyebrow> : null}
         <Row.Headline href="/projects">{project.title}</Row.Headline>
         <Row.Lede>{project.summary}</Row.Lede>
         <ProgressBar
@@ -147,7 +168,10 @@ function RowCard({ project, flags, as, hideRule, ariaLabel }: RowCardProps) {
           label={flags.progressLabel}
           tone={flags.progressTone}
         />
-        {flags.pausedStamp ? <Row.Stamp>{flags.pausedStamp}</Row.Stamp> : null}
+        {project.mathLineItem ? <Row.Stamp>{project.mathLineItem}</Row.Stamp> : null}
+        {flags.pausedStamp && !project.mathLineItem ? (
+          <Row.Stamp>{flags.pausedStamp}</Row.Stamp>
+        ) : null}
       </Row.Body>
     </Row>
   );
