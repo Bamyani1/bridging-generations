@@ -18,6 +18,7 @@ const students: Student[] = [
     schoolId: "thanchi-high-school",
     grade: 8,
     quote: "Demo.",
+    bio: "",
     portrait: { src: "/student-1.jpg", alt: "Anika" },
     consent: {
       portraitReleaseStatus: "granted",

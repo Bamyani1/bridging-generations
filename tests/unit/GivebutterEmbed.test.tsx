@@ -29,7 +29,8 @@ describe("GivebutterEmbed", () => {
     );
     expect(queryByTestId("gb-script")).toBeNull();
     expect(container.querySelector("givebutter-widget")).toBeNull();
-    expect(screen.getByRole("link", { name: /email the board/i })).toHaveAttribute(
+    expect(screen.getByText(/setup pending/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /info@bridginggenerations\.org/i })).toHaveAttribute(
       "href",
       expect.stringContaining("mailto:info@bridginggenerations.org"),
     );
@@ -44,12 +45,12 @@ describe("GivebutterEmbed", () => {
     );
     expect(queryByTestId("gb-script")).toBeNull();
     expect(container.querySelector("givebutter-widget")).toBeNull();
-    expect(screen.getByText(/email the board/i)).toBeInTheDocument();
+    expect(screen.getByText(/setup pending/i)).toBeInTheDocument();
   });
 
   it("renders the setup fallback when either ID is empty", () => {
     const { container } = render(<GivebutterEmbed accountId="" campaignId="A1B2C3" />);
     expect(container.querySelector("givebutter-widget")).toBeNull();
-    expect(screen.getByText(/email the board/i)).toBeInTheDocument();
+    expect(screen.getByText(/setup pending/i)).toBeInTheDocument();
   });
 });

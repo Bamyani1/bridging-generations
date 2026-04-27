@@ -2,9 +2,10 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 type BlogHeroProps = {
   count: number;
+  mostRecent?: string | null;
 };
 
-export function BlogHero({ count }: BlogHeroProps) {
+export function BlogHero({ count, mostRecent }: BlogHeroProps) {
   return (
     <section
       aria-labelledby="blog-hero-title"
@@ -16,15 +17,14 @@ export function BlogHero({ count }: BlogHeroProps) {
           Our blog
         </h1>
         <p className="max-w-[44ch] text-body-lg text-ink-2">
-          Field updates, transparency notes, and the occasional long-form piece — written by board
-          and partner-school staff.
+          Posts from board and partner-school staff — what landed, what's next, and what we owe a
+          plain accounting of.
         </p>
         <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-hairline pt-4 text-meta uppercase tracking-[0.1em] text-ink-2">
           <li>
             {count} {count === 1 ? "post" : "posts"}
           </li>
-          <li>field updates</li>
-          <li>transparency notes</li>
+          {mostRecent ? <li>Most recent · {mostRecent}</li> : null}
         </ul>
       </div>
     </section>

@@ -19,6 +19,7 @@ function makeStudent(id: string, name: string): Student {
     grade: 5,
     community: "marma",
     quote: "Demo quote.",
+    bio: "",
     portrait: { src: `/${id}.jpg`, alt: `Portrait of ${name}` },
     consent: {
       portraitReleaseStatus: "granted",

@@ -2,10 +2,11 @@ import { Row } from "@/components/ui/editorial";
 import { Reveal } from "@/components/ui/Reveal";
 import type { Activity } from "@/lib/content/activities";
 import { ACTIVITY_TAG_LABELS } from "@/lib/content/activityTags";
+import { relativeTime } from "@/lib/dates/relativeTime";
 
 type ActivityCardProps = {
   activity: Activity;
-  /** When the card lives in a `<ul>`, render the root as `<li>`. */
+  /** When the card lives in a `<ul>`/`<ol>`, render the root as `<li>`. */
   as?: "article" | "li";
   /**
    * Hide the hairline rule above this row — set on the first item of a list
@@ -28,8 +29,19 @@ function formatDate(iso: string): string {
   return dateFormatter.format(d);
 }
 
+function relativeStamp(iso: string): string | null {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  try {
+    return relativeTime(d);
+  } catch {
+    return null;
+  }
+}
+
 export function ActivityCard({ activity, as = "article", hideRule = false }: ActivityCardProps) {
   const { coverImage, title, excerpt, tag, publishedAt } = activity;
+  const stamp = relativeStamp(publishedAt);
   return (
     <Row as={as} hideRule={hideRule}>
       <Reveal kind="develop">
@@ -38,6 +50,12 @@ export function ActivityCard({ activity, as = "article", hideRule = false }: Act
       <Row.Body>
         <Row.Eyebrow>
           <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
+          {stamp ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              <span>{stamp}</span>
+            </>
+          ) : null}
           <span aria-hidden="true"> · </span>
           <span>{ACTIVITY_TAG_LABELS[tag]}</span>
         </Row.Eyebrow>

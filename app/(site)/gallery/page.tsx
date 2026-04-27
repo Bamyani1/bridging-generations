@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
-import { GalleryMasonry } from "@/components/domain/GalleryMasonry";
+import { GalleryGrid } from "@/components/domain/GalleryGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getAllGalleryImages } from "@/lib/content/galleryImages";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
@@ -35,7 +35,7 @@ export default async function GalleryPage() {
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
       >
         <div className="mx-auto max-w-[1280px]">
-          <GalleryMasonry items={items} />
+          <GalleryGrid images={items} />
         </div>
       </section>
       <CTAFooterPanel

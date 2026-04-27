@@ -18,6 +18,7 @@ const withPortrait: Student = {
   grade: 8,
   community: "marma",
   quote: "Short aspiration.",
+  bio: "",
   portrait: { src: "/demo.jpg", alt: "Portrait of a smiling student" },
   consent: {
     portraitReleaseStatus: "granted",

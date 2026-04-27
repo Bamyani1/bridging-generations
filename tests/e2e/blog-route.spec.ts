@@ -5,9 +5,12 @@ test("blog route renders hero, featured post, post grid, and CTA", async ({ page
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Our blog");
 
-  await expect(page.getByText("Featured post")).toBeVisible();
+  // Featured Feature renders inside the "Featured blog post" section.
+  await expect(page.locator("section[aria-label='Featured blog post']")).toBeVisible();
 
-  const postLinks = page.getByRole("link", { name: /field update|allocate/i });
+  const postLinks = page
+    .locator("section[aria-label='Featured blog post'], section[aria-label='All blog posts']")
+    .getByRole("link");
   const count = await postLinks.count();
   expect(count).toBeGreaterThan(0);
 

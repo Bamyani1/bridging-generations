@@ -28,5 +28,9 @@ export const galleryImageCollection = collection({
     }),
     takenAt: fields.date({ label: "Taken on" }),
     location: fields.text({ label: "Location" }),
+    photographerCredit: fields.text({
+      label: "Photographer credit",
+      description: "Optional. Shown alongside location and year in caption + lightbox.",
+    }),
   },
 });

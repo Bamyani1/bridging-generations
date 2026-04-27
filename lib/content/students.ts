@@ -28,6 +28,11 @@ export async function getSpotlightStudents(limit = 6): Promise<Student[]> {
   return all.slice(0, limit);
 }
 
+export async function getStudentBySlug(slug: string): Promise<Student | null> {
+  const entry = await reader.collections.student.read(slug);
+  return entry ? normalize(slug, entry) : null;
+}
+
 export type StudentsBySchool = {
   schoolId: string;
   students: Student[];

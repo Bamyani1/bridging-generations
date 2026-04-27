@@ -84,31 +84,31 @@ export default async function SuccessStoriesPage() {
                   <Feature.Eyebrow>{feature.story.subjectRole}</Feature.Eyebrow>
                 ) : null}
                 <Feature.Headline as="h2" href={`/success-stories/${feature.story.slug}`}>
-                  {feature.story.pullQuote}
+                  {feature.story.subjectName}’s story
                 </Feature.Headline>
-                <Feature.Stamp>{feature.story.subjectName}</Feature.Stamp>
+                <Feature.Lede>{feature.story.pullQuote}</Feature.Lede>
               </Feature.Body>
             </Feature>
           ) : null}
           {rows.length > 0 ? (
-            <ul className="flex flex-col">
+            <ul className="grid grid-cols-1 gap-x-8 lg:grid-cols-2">
               {rows.map(({ story, showPortrait }) => (
                 <Row as="li" key={story.slug}>
                   {showPortrait ? (
                     <Reveal kind="develop">
-                      <Row.Image src={story.portrait.src} alt={story.portrait.alt} aspect="1/1" />
+                      <Row.Image src={story.portrait.src} alt={story.portrait.alt} aspect="4/5" />
                     </Reveal>
                   ) : (
-                    <div className="relative aspect-[1/1] w-full overflow-hidden bg-ground-3">
+                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
                       <StudentPlaceholder />
                     </div>
                   )}
                   <Row.Body>
                     {story.subjectRole ? <Row.Eyebrow>{story.subjectRole}</Row.Eyebrow> : null}
                     <Row.Headline href={`/success-stories/${story.slug}`}>
-                      {story.pullQuote}
+                      {story.subjectName}’s story
                     </Row.Headline>
-                    <Row.Stamp>{story.subjectName}</Row.Stamp>
+                    <Row.Lede>{story.pullQuote}</Row.Lede>
                   </Row.Body>
                 </Row>
               ))}

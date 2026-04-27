@@ -21,6 +21,9 @@ const sample: Project = {
   status: "active",
   heroImage: { src: "/demo.jpg", alt: "Demo image" },
   order: 1,
+  boardOwnerName: "",
+  lastUpdated: null,
+  mathLineItem: "",
 };
 
 describe("ProgramCard", () => {

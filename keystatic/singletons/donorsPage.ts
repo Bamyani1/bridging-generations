@@ -25,6 +25,18 @@ export const donorsPageSingleton = singleton({
           label: "Year",
           validation: { min: 2000, max: 2100 },
         }),
+        tier: fields.select({
+          label: "Tier",
+          description:
+            "Optional. When any message has a tier, the wall groups by tier (Founder / Patron / Friend). When no message has a tier, the wall falls back to chronological-by-year groupings.",
+          options: [
+            { label: "(no tier)", value: "" },
+            { label: "Founder", value: "founder" },
+            { label: "Patron", value: "patron" },
+            { label: "Friend", value: "friend" },
+          ],
+          defaultValue: "",
+        }),
       }),
       {
         label: "Thank-you wall",

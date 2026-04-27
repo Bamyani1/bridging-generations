@@ -46,6 +46,8 @@ export default async function BlogPage() {
   const pageCount = Math.max(1, Math.ceil(rest.length / POSTS_PER_PAGE));
   const pageOne = rest.slice(0, POSTS_PER_PAGE);
 
+  const mostRecent = posts[0]?.publishedAt ? formatDate(posts[0].publishedAt) : null;
+
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
     { name: "Blog", url: "/blog" },
@@ -59,7 +61,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <BlogHero count={posts.length} />
+      <BlogHero count={posts.length} mostRecent={mostRecent} />
       {featured ? (
         <section
           aria-label="Featured blog post"
@@ -77,10 +79,9 @@ export default async function BlogPage() {
                 />
               </Reveal>
               <Feature.Body>
-                <Feature.Eyebrow>
-                  Field update
-                  {featured.publishedAt ? ` · ${formatDate(featured.publishedAt)}` : ""}
-                </Feature.Eyebrow>
+                {featured.publishedAt ? (
+                  <Feature.Eyebrow>{formatDate(featured.publishedAt)}</Feature.Eyebrow>
+                ) : null}
                 <Feature.Headline as="h2" href={`/blog/${featured.slug}`}>
                   {featured.title}
                 </Feature.Headline>

@@ -91,6 +91,12 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
     return [...selected].sort((a, b) => scale(a.speakerRole) - scale(b.speakerRole));
   }, [selection, testimonials]);
 
+  // Featured panel always renders at the top of the grid: the first testimonial
+  // of the highest-priority role available is forced to Feature scale via
+  // scaleOverride. Without this, filter selections like "students" rendered as
+  // an all-Tile wall with no editorial monument.
+  const featuredId = filtered[0]?.id;
+
   const transition = prefersReduced
     ? { duration: 0 }
     : { duration: 0.3, ease: [0.16, 1, 0.3, 1] as const };
@@ -119,7 +125,10 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
                 exit={{ opacity: 0 }}
                 transition={transition}
               >
-                <TestimonialCard testimonial={testimonial} />
+                <TestimonialCard
+                  testimonial={testimonial}
+                  scaleOverride={testimonial.id === featuredId ? "feature" : undefined}
+                />
               </motion.div>
             ))}
           </AnimatePresence>

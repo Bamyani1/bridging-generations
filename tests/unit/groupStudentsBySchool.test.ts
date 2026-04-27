@@ -19,6 +19,7 @@ function make(id: string, schoolId: string, grade: number, displayName: string):
     grade,
     community: "marma",
     quote: "",
+    bio: "",
     portrait: { src: null, alt: "" },
     consent: baseConsent,
     sponsorshipStatus: "sponsored",
