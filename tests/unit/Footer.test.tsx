@@ -3,23 +3,29 @@ import { describe, expect, it } from "vitest";
 import { Footer } from "@/components/layout/Footer";
 
 describe("Footer", () => {
-  it("renders the brand block with tagline and address", () => {
-    render(<Footer />);
+  it("renders the wordmark and the tagline prop", () => {
+    render(<Footer tagline="Sponsoring 156 students across the Chittagong Hill Tracts." />);
     expect(screen.getByText("Bridging Generations")).toBeInTheDocument();
     expect(
       screen.getByText(/Sponsoring 156 students across the Chittagong Hill Tracts/i),
     ).toBeInTheDocument();
   });
 
-  it("renders all four section headings", () => {
+  it("renders the Explore section heading and drops Resources", () => {
     render(<Footer />);
-    for (const heading of ["Explore", "Resources", "Contact"]) {
-      expect(screen.getByText(heading)).toBeInTheDocument();
-    }
+    expect(screen.getByText("Explore")).toBeInTheDocument();
+    expect(screen.queryByText("Resources")).toBeNull();
   });
 
-  it("renders representative column links", () => {
-    render(<Footer />);
+  it("renders the Contact section heading only when contactEmail is provided", () => {
+    const { rerender } = render(<Footer />);
+    expect(screen.queryByText("Contact")).toBeNull();
+    rerender(<Footer contactEmail="info@bridginggenerations.org" />);
+    expect(screen.getByText("Contact")).toBeInTheDocument();
+  });
+
+  it("renders representative Explore + Contact links", () => {
+    render(<Footer contactEmail="info@bridginggenerations.org" />);
     expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
     expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute("href", "/blog");
     expect(screen.getByRole("link", { name: "Email us" })).toHaveAttribute(
@@ -39,19 +45,54 @@ describe("Footer", () => {
     expect(screen.getByText(new RegExp(`${year}`))).toBeInTheDocument();
   });
 
-  it("renders a 501(c)(3) trust line without the EIN when no ein is passed", () => {
+  it("hides the trust line entirely when no real EIN is passed", () => {
     render(<Footer />);
-    expect(screen.getByText(/501\(c\)\(3\) · Tax-deductible/)).toBeInTheDocument();
+    expect(screen.queryByText(/Tax-deductible/)).toBeNull();
+  });
+
+  it("hides the trust line when ein is the 00-0000000 placeholder", () => {
+    render(<Footer ein="00-0000000" />);
+    expect(screen.queryByText(/Tax-deductible/)).toBeNull();
+  });
+
+  it("hides the trust line when ein is a [CONFIRM:...] stub", () => {
+    render(<Footer ein="[CONFIRM: ein]" />);
+    expect(screen.queryByText(/Tax-deductible/)).toBeNull();
   });
 
   it("renders the EIN in the trust line when a real value is provided", () => {
     render(<Footer ein="12-3456789" />);
-    expect(screen.getByText(/501\(c\)\(3\) · EIN 12-3456789 · Tax-deductible/)).toBeInTheDocument();
+    const trustLine = screen.getByText(/Tax-deductible/);
+    expect(trustLine).toHaveTextContent("501(c)(3) · EIN 12-3456789 · Tax-deductible");
   });
 
-  it("treats the placeholder ein as no ein in the trust line", () => {
-    render(<Footer ein="00-0000000" />);
-    expect(screen.getByText(/501\(c\)\(3\) · Tax-deductible/)).toBeInTheDocument();
-    expect(screen.queryByText(/EIN/)).toBeNull();
+  it("hides the mailing address when value is a [CONFIRM:...] stub", () => {
+    render(<Footer mailingAddress="[CONFIRM: mailing address]" />);
+    expect(screen.queryByText(/CONFIRM/)).toBeNull();
+  });
+
+  it("hides the social row when no socialLinks URL is set", () => {
+    render(<Footer socialLinks={{ instagram: "", facebook: "", linkedin: "", youtube: "" }} />);
+    expect(screen.queryByLabelText("Instagram")).toBeNull();
+    expect(screen.queryByLabelText("Facebook")).toBeNull();
+    expect(screen.queryByLabelText("LinkedIn")).toBeNull();
+    expect(screen.queryByLabelText("YouTube")).toBeNull();
+  });
+
+  it("renders Form 990 and Candid links only when their URLs are provided", () => {
+    const { rerender } = render(<Footer />);
+    expect(screen.queryByRole("link", { name: "Form 990" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "Candid profile" })).toBeNull();
+    rerender(
+      <Footer form990Url="https://example.com/990" candidProfileUrl="https://example.com/candid" />,
+    );
+    expect(screen.getByRole("link", { name: "Form 990" })).toHaveAttribute(
+      "href",
+      "https://example.com/990",
+    );
+    expect(screen.getByRole("link", { name: "Candid profile" })).toHaveAttribute(
+      "href",
+      "https://example.com/candid",
+    );
   });
 });

@@ -11,19 +11,25 @@ function isActive(pathname: string | null, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function Nav() {
+type NavProps = {
+  tagline?: string;
+  contactEmail?: string;
+};
+
+export function Nav({ tagline, contactEmail }: NavProps = {}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const firstFocusableRef = useRef<HTMLAnchorElement>(null);
   const hasOpenedRef = useRef(false);
   const titleId = useId();
+  const isOnDonate = pathname?.startsWith("/donate") ?? false;
 
   useEffect(() => {
     if (open) {
       hasOpenedRef.current = true;
-      closeRef.current?.focus();
+      firstFocusableRef.current?.focus();
       const onKey = (e: KeyboardEvent) => {
         if (e.key === "Escape") setOpen(false);
       };
@@ -76,14 +82,11 @@ export function Nav() {
 
   return (
     <>
-      <nav
-        aria-label="Primary"
-        className="fixed inset-x-0 top-0 z-40 h-16 bg-accent/85 backdrop-blur-2xl"
-      >
+      <nav aria-label="Primary" className="fixed inset-x-0 top-0 z-50 h-16 bg-accent">
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-[6%]">
           <Link
             href="/"
-            className="inline-flex min-h-[44px] items-center text-nav-link uppercase text-white transition hover:text-accent-3"
+            className="inline-flex min-h-[44px] items-center text-heading-6 font-bold tracking-[-0.005em] text-white transition-colors hover:text-accent-3"
           >
             Bridging Generations
           </Link>
@@ -95,45 +98,64 @@ export function Nav() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`text-nav-link text-white uppercase transition hover:text-accent-3 ${
-                      active ? "underline decoration-accent-3 decoration-2 underline-offset-4" : ""
-                    }`}
+                    className={
+                      active
+                        ? "text-nav-link font-bold uppercase text-white underline decoration-accent-3 decoration-1 underline-offset-[6px] transition-colors"
+                        : "text-nav-link uppercase text-white transition-colors hover:text-accent-3"
+                    }
                   >
                     {item.label}
                   </Link>
                 </li>
               );
             })}
-            <li>
+            {!isOnDonate && (
+              <li>
+                <Link
+                  href={donateCta.href}
+                  className="text-nav-link font-bold uppercase text-white transition-colors hover:text-accent-3"
+                >
+                  {donateCta.label}
+                </Link>
+              </li>
+            )}
+          </ul>
+          <div className="flex items-center gap-1 lg:hidden">
+            {!isOnDonate && (
               <Link
                 href={donateCta.href}
-                className="inline-flex items-center bg-accent-2 px-4 py-2 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover motion-safe:hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+                onClick={() => setOpen(false)}
+                className="inline-flex min-h-[44px] items-center px-3 text-nav-link font-bold uppercase text-white transition-colors hover:text-accent-3"
               >
                 {donateCta.label}
               </Link>
-            </li>
-          </ul>
-          <button
-            ref={hamburgerRef}
-            type="button"
-            aria-expanded={open}
-            aria-controls={open ? "mobile-menu" : undefined}
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-            className="flex size-11 items-center justify-center text-white lg:hidden"
-          >
-            <Menu className="size-5" aria-hidden="true" />
-          </button>
+            )}
+            <button
+              ref={hamburgerRef}
+              type="button"
+              aria-expanded={open}
+              aria-controls={open ? "mobile-menu" : undefined}
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((v) => !v)}
+              className="flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3"
+            >
+              {open ? (
+                <X className="size-5" aria-hidden="true" />
+              ) : (
+                <Menu className="size-5" aria-hidden="true" />
+              )}
+            </button>
+          </div>
         </div>
       </nav>
       {open && (
         <div className="lg:hidden">
           <button
             type="button"
-            aria-label="Close menu"
+            aria-label="Dismiss menu"
             tabIndex={-1}
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-40 bg-ink/50"
+            className="fixed inset-x-0 top-16 bottom-0 z-30 bg-ink/50"
           />
           <div
             ref={panelRef}
@@ -141,57 +163,64 @@ export function Nav() {
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="fixed inset-y-0 right-0 z-50 flex w-80 max-w-full flex-col gap-6 bg-ground p-6 shadow-[var(--shadow-card-hover)]"
+            className="fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
           >
-            <div className="flex items-center justify-between">
-              <p id={titleId} className="text-eyebrow uppercase text-accent">
-                Menu
-              </p>
-              <button
-                ref={closeRef}
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setOpen(false)}
-                className="flex size-11 items-center justify-center text-ink"
-              >
-                <X className="size-5" aria-hidden="true" />
-              </button>
-            </div>
-            <ul className="flex flex-col gap-4">
-              {primaryNav.map((item, i) => {
-                const active = isActive(pathname, item.href);
-                return (
-                  <li
-                    key={item.href}
-                    className="menu-item-in"
-                    style={{ animationDelay: `${i * 60}ms` }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      aria-current={active ? "page" : undefined}
-                      className={`flex min-h-[44px] items-center text-heading-5 ${
-                        active ? "text-accent" : "text-ink"
-                      }`}
+            <div className="flex flex-col px-6 py-6">
+              <div className="pb-6">
+                <p id={titleId} className="text-heading-6 font-bold text-ink">
+                  Bridging Generations
+                </p>
+                {tagline ? <p className="mt-2 text-body-sm text-ink-2">{tagline}</p> : null}
+              </div>
+              <ul className="flex flex-col gap-3 border-t border-hairline pt-6">
+                {primaryNav.map((item, i) => {
+                  const active = isActive(pathname, item.href);
+                  return (
+                    <li
+                      key={item.href}
+                      className="menu-item-in"
+                      style={{ animationDelay: `${i * 60}ms` }}
                     >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-              <li
-                className="menu-item-in mt-2"
-                style={{ animationDelay: `${primaryNav.length * 60}ms` }}
-              >
-                <Link
-                  href={donateCta.href}
-                  onClick={() => setOpen(false)}
-                  className="flex min-h-[44px] items-center justify-center bg-accent-2 px-4 text-[19px] font-bold leading-none text-white shadow-[var(--shadow-cta)]"
-                >
-                  {donateCta.label}
-                </Link>
-              </li>
-            </ul>
+                      <Link
+                        href={item.href}
+                        ref={i === 0 ? firstFocusableRef : undefined}
+                        onClick={() => setOpen(false)}
+                        aria-current={active ? "page" : undefined}
+                        className={
+                          active
+                            ? "flex min-h-[44px] items-center text-heading-5 font-bold text-accent transition-colors"
+                            : "flex min-h-[44px] items-center text-heading-5 text-ink transition-colors"
+                        }
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              {contactEmail ? (
+                <p className="mt-6 border-t border-hairline pt-6 text-body-sm text-ink-2">
+                  Questions?{" "}
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="text-accent underline underline-offset-[3px] transition-colors hover:no-underline"
+                  >
+                    {contactEmail}
+                  </a>
+                </p>
+              ) : null}
+              <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 border-t border-hairline pt-6 text-eyebrow uppercase text-ink-2">
+                <li>
+                  <Link
+                    href="/terms"
+                    onClick={() => setOpen(false)}
+                    className="transition-colors hover:text-accent"
+                  >
+                    Terms
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       )}

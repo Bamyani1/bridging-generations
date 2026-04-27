@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -29,10 +29,13 @@ describe("Nav", () => {
     expect(about).not.toHaveAttribute("aria-current");
   });
 
-  it("renders a donate CTA linking to /donate", () => {
+  it("renders Donate links to /donate at desktop and mobile-bar widths", () => {
     render(<Nav />);
-    const donate = screen.getByRole("link", { name: "Donate" });
-    expect(donate).toHaveAttribute("href", "/donate");
+    const donates = screen.getAllByRole("link", { name: "Donate" });
+    expect(donates.length).toBeGreaterThanOrEqual(1);
+    for (const donate of donates) {
+      expect(donate).toHaveAttribute("href", "/donate");
+    }
   });
 
   it("renders a collapsed hamburger with aria-controls omitted until menu opens", () => {
@@ -50,8 +53,8 @@ describe("Nav", () => {
     await user.click(screen.getByRole("button", { name: /open menu/i }));
     expect(document.body.style.overflow).toBe("hidden");
 
-    const dialog = screen.getByRole("dialog");
-    await user.click(within(dialog).getByRole("button", { name: /close menu/i }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /close menu/i }));
     expect(document.body.style.overflow).toBe("scroll");
   });
 
