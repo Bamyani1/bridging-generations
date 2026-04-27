@@ -1,3 +1,4 @@
+import { HorizonLine } from "@/components/motif/HorizonLine";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,9 +11,13 @@ export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
     <section
       id="mission"
       aria-labelledby="home-mission-title"
-      className="scroll-mt-20 overflow-hidden bg-ground-3 py-20 lg:py-32"
+      className="relative scroll-mt-20 overflow-hidden bg-ground-3 py-20 lg:py-32"
     >
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
+      <HorizonLine
+        tone="on-cream"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 block h-24 w-full"
+      />
+      <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <Reveal stagger="up">
           <div className="flex max-w-[55ch] flex-col gap-5">
             <Eyebrow>Our mission</Eyebrow>
