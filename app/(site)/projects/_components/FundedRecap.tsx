@@ -1,3 +1,4 @@
+import { ProgramCard } from "@/components/domain/ProgramCard";
 import type { Project } from "@/lib/content/projects";
 
 type FundedRecapProps = {
@@ -21,20 +22,9 @@ export function FundedRecap({ projects }: FundedRecapProps) {
             happen.
           </p>
         </header>
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="flex flex-col">
           {projects.map((project) => (
-            <li key={project.id} className="flex items-start gap-3 bg-ground p-5">
-              <span
-                aria-hidden="true"
-                className="mt-1 inline-flex size-5 flex-none items-center justify-center rounded-full bg-accent text-[10px] text-white"
-              >
-                ✓
-              </span>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-heading-5 text-ink">{project.title}</h3>
-                <p className="text-body-sm text-ink-2">{project.summary}</p>
-              </div>
-            </li>
+            <ProgramCard key={project.id} project={project} scale="row" as="li" />
           ))}
         </ul>
       </div>

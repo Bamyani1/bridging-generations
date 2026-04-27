@@ -24,6 +24,7 @@ type RowProps = {
    * (anonymous donor messages, testimonials without portraits).
    */
   noImage?: boolean;
+  ariaLabel?: string;
 };
 
 function RowRoot({
@@ -32,6 +33,7 @@ function RowRoot({
   className,
   hideRule = false,
   noImage = false,
+  ariaLabel,
 }: RowProps) {
   const layout = noImage
     ? "flex flex-col gap-3 py-7 lg:py-9"
@@ -39,7 +41,11 @@ function RowRoot({
   const base = `group relative ${layout}`;
   const rule = hideRule ? "" : "border-t border-hairline";
   const merged = `${base} ${rule} ${className ?? ""}`.trim();
-  return <Tag className={merged}>{children}</Tag>;
+  return (
+    <Tag className={merged} aria-label={ariaLabel}>
+      {children}
+    </Tag>
+  );
 }
 
 type RowImageProps = {

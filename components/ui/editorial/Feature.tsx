@@ -22,14 +22,19 @@ type FeatureProps = {
    */
   breakout?: boolean;
   className?: string;
+  ariaLabel?: string;
 };
 
-function FeatureRoot({ children, breakout = true, className }: FeatureProps) {
+function FeatureRoot({ children, breakout = true, className, ariaLabel }: FeatureProps) {
   const layout = breakout
     ? "relative grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr] lg:gap-12"
     : "relative flex flex-col gap-6";
   const merged = `${layout} ${className ?? ""}`.trim();
-  return <article className={merged}>{children}</article>;
+  return (
+    <article className={merged} aria-label={ariaLabel}>
+      {children}
+    </article>
+  );
 }
 
 type FeatureImageProps = {
