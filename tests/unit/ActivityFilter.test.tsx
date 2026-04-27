@@ -24,16 +24,16 @@ describe("ActivityFilter", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
   });
 
-  it("offers one chip per tag that exists in the data, plus All", () => {
+  it("offers one chip per tag that exists in the data, plus All — every chip carries a count", () => {
     render(<ActivityFilter activities={activities} />);
     const group = screen.getByRole("group", { name: /filter activities/i });
     const chips = within(group).getAllByRole("button");
-    expect(chips.map((b) => b.textContent)).toEqual(["All (3)", "Distribution", "Visit"]);
+    expect(chips.map((b) => b.textContent)).toEqual(["All (3)", "Distribution (1)", "Visit (2)"]);
   });
 
   it("filters the list when a tag chip is selected", () => {
     render(<ActivityFilter activities={activities} />);
-    fireEvent.click(screen.getByRole("button", { name: "Visit" }));
+    fireEvent.click(screen.getByRole("button", { name: "Visit (2)" }));
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
     expect(screen.queryByText("Activity one")).toBeNull();
   });
