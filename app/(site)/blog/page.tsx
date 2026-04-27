@@ -44,11 +44,7 @@ export default async function BlogPage() {
   const featuredSlug = featured?.slug;
   const rest = posts.filter((p) => p.slug !== featuredSlug);
   const pageCount = Math.max(1, Math.ceil(rest.length / POSTS_PER_PAGE));
-  // R4.8: at total posts < 3, do NOT render a 1-card Row "list" — the
-  // featured Feature carries the page on its own. Avoids the orphan-card
-  // grid the audit flagged.
-  const showRowList = posts.length >= 3;
-  const pageOne = showRowList ? rest.slice(0, POSTS_PER_PAGE) : [];
+  const pageOne = rest.slice(0, POSTS_PER_PAGE);
 
   const mostRecent = posts[0]?.publishedAt ? formatDate(posts[0].publishedAt) : null;
 
