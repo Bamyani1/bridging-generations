@@ -99,7 +99,7 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
           No testimonials in this group yet.
         </p>
       ) : (
-        <div className="columns-1 gap-4 md:columns-2 lg:columns-3" aria-live="polite">
+        <div className="flex flex-col" aria-live="polite">
           <AnimatePresence mode="popLayout" initial={false}>
             {filtered.map((testimonial) => (
               <motion.div
