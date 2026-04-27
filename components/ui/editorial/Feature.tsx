@@ -27,7 +27,7 @@ type FeatureProps = {
 
 function FeatureRoot({ children, breakout = true, className, ariaLabel }: FeatureProps) {
   const layout = breakout
-    ? "relative grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr] lg:gap-12"
+    ? "relative grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-14"
     : "relative flex flex-col gap-6";
   const merged = `${layout} ${className ?? ""}`.trim();
   return (
@@ -81,7 +81,7 @@ type FeatureBodyProps = {
 };
 
 function FeatureBody({ children, className }: FeatureBodyProps) {
-  return <div className={`flex flex-col justify-center gap-4 ${className ?? ""}`}>{children}</div>;
+  return <div className={`flex flex-col gap-5 ${className ?? ""}`}>{children}</div>;
 }
 
 type FeatureEyebrowProps = {

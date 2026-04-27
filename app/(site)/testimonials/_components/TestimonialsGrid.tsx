@@ -78,8 +78,17 @@ export function TestimonialsGrid({ testimonials, roleCounts }: TestimonialsGridP
   }, [roleCounts]);
 
   const filtered = useMemo(() => {
-    if (selection === ALL) return testimonials;
-    return testimonials.filter((t) => t.speakerRole === selection);
+    const selected =
+      selection === ALL ? testimonials : testimonials.filter((t) => t.speakerRole === selection);
+    // Order by scale: Feature (partner/board) → Row (alum/donor/teacher) → Tile (student/parent/volunteer).
+    // Within a scale, preserve YAML order. Without this, alphabetical slug ordering buries the institutional
+    // voice at the bottom of the wall.
+    const scale = (role: string) => {
+      if (role === "partner" || role === "board") return 0;
+      if (role === "alum" || role === "donor" || role === "teacher") return 1;
+      return 2;
+    };
+    return [...selected].sort((a, b) => scale(a.speakerRole) - scale(b.speakerRole));
   }, [selection, testimonials]);
 
   const transition = prefersReduced
