@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
-import { DonorCountBadge } from "@/components/domain/DonorCountBadge";
 import { ThankYouWall } from "@/components/domain/ThankYouWall";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getDonorsPage } from "@/lib/content/donorsPage";
@@ -33,21 +32,10 @@ export default async function DonorsPage() {
 
   return (
     <>
-      <DonorsHero headline={donorsPage.headline} subhead={donorsPage.subhead} />
-      <section
-        aria-labelledby="donors-count-title"
-        className="bg-ground px-4 py-12 sm:px-6 lg:px-[6%] lg:py-16"
-      >
-        <h2 id="donors-count-title" className="sr-only">
-          Total donors
-        </h2>
-        <div className="mx-auto max-w-[1280px]">
-          <DonorCountBadge count={stats.donorCount} label={donorsPage.totalDonorsLabel} />
-        </div>
-      </section>
+      <DonorsHero donorCount={stats.donorCount} subhead={donorsPage.subhead} />
       <section
         aria-labelledby="donors-wall-title"
-        className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
+        className="bg-ground px-4 pt-12 pb-20 sm:px-6 lg:px-[6%] lg:pt-16 lg:pb-28"
       >
         <h2 id="donors-wall-title" className="sr-only">
           Thank-you wall

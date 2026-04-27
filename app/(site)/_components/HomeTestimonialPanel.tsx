@@ -13,6 +13,9 @@ export function HomeTestimonialPanel({ testimonial }: HomeTestimonialPanelProps)
         testimonial={testimonial}
         titleId="home-testimonial-title"
         id="testimonial"
+        ctaLabel="Meet the students"
+        ctaHref="/students"
+        withHorizonLine
       />
     </Reveal>
   );

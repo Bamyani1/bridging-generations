@@ -14,14 +14,21 @@ export function ActivitiesHero({ count }: ActivitiesHeroProps) {
         <Eyebrow>Field updates</Eyebrow>
         <h1
           id="activities-hero-title"
-          className="max-w-[22ch] text-balance text-display-1 text-ink"
+          className="max-w-[22ch] text-balance text-display-2 text-ink"
         >
           Recent activities
         </h1>
-        <p className="max-w-[60ch] text-body-lg text-ink-2">
-          {count} short field updates across our partner schools — distribution days, milestones,
-          board visits, and fundraiser news. Filter below to focus in.
+        <p className="max-w-[44ch] text-body-lg text-ink-2">
+          Short field updates across our partner schools — distribution days, milestones, board
+          visits, and fundraiser news.
         </p>
+        <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-hairline pt-4 text-meta uppercase tracking-[0.1em] text-ink-2">
+          <li>
+            {count} {count === 1 ? "update" : "updates"}
+          </li>
+          <li>field reports</li>
+          <li>partner schools</li>
+        </ul>
       </div>
     </section>
   );

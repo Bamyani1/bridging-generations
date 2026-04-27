@@ -2,10 +2,10 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 type ProjectsHeroProps = {
   activeCount: number;
-  fundedCount: number;
+  totalRaised: number;
 };
 
-export function ProjectsHero({ activeCount, fundedCount }: ProjectsHeroProps) {
+export function ProjectsHero({ activeCount, totalRaised }: ProjectsHeroProps) {
   return (
     <section
       aria-labelledby="projects-hero-title"
@@ -13,15 +13,16 @@ export function ProjectsHero({ activeCount, fundedCount }: ProjectsHeroProps) {
     >
       <div className="mx-auto flex max-w-[1280px] flex-col gap-6">
         <Eyebrow>Core initiatives</Eyebrow>
-        {/* per type-tier ledger: narrow two-column hero → display-2 */}
         <h1 id="projects-hero-title" className="max-w-[22ch] text-balance text-display-2 text-ink">
-          Our projects
+          Our projects.
         </h1>
-        <p className="max-w-[60ch] text-body-lg text-ink-2">
+        <p className="max-w-[28ch] text-balance text-heading-2 text-accent">
+          ${totalRaised.toLocaleString()} funded across {activeCount} active{" "}
+          {activeCount === 1 ? "project" : "projects"}.
+        </p>
+        <p className="max-w-[44ch] text-body-lg text-ink-2">
           Sponsorships keep children in the classroom; projects fund the things the classroom itself
-          needs. {activeCount} active,
-          {fundedCount > 0 ? ` ${fundedCount} fully funded,` : ""} each with a specific goal and a
-          board member signed onto the outcome.
+          needs — meals, books, scholarships, labs, and libraries.
         </p>
       </div>
     </section>

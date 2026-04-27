@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Link } from "next-view-transitions";
+import { HorizonLine } from "@/components/motif/HorizonLine";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import type { SuccessStory } from "@/lib/content/successStories";
@@ -13,8 +14,12 @@ export function HomeSuccessPanel({ story }: HomeSuccessPanelProps) {
     <section
       id="success"
       aria-labelledby="home-success-title"
-      className="teal-panel grid scroll-mt-20 grid-cols-1 items-stretch text-white lg:grid-cols-2"
+      className="teal-panel relative grid scroll-mt-20 grid-cols-1 items-stretch overflow-hidden text-white lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1fr)]"
     >
+      <HorizonLine
+        tone="on-teal"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 block h-24 w-full"
+      />
       <Reveal
         kind="develop"
         className="relative aspect-[4/5] w-full overflow-hidden bg-ground-2 lg:aspect-auto lg:min-h-[640px]"

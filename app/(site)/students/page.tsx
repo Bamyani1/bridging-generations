@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
-import { StatCard } from "@/components/domain/StatCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
@@ -12,7 +11,6 @@ import { SITE_URL } from "@/lib/seo/siteUrl";
 import { ConsentStatement } from "./_components/ConsentStatement";
 import { SchoolSection } from "./_components/SchoolSection";
 import { StudentsHero } from "./_components/StudentsHero";
-import { StudentsPullQuote } from "./_components/StudentsPullQuote";
 
 export const metadata: Metadata = {
   title: "Students",
@@ -53,7 +51,6 @@ export default async function StudentsPage() {
 
   const studentCount = sections.reduce((sum, section) => sum + section.students.length, 0);
   const allStudents = sections.flatMap((section) => section.students);
-  const sponsoredCount = allStudents.filter((s) => s.sponsorshipStatus === "sponsored").length;
   const waitingCount = allStudents.filter((s) => s.sponsorshipStatus === "waiting").length;
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -68,24 +65,22 @@ export default async function StudentsPage() {
 
   return (
     <>
-      <div className="relative">
-        <StudentsHero studentCount={studentCount} schoolCount={schools.length} />
-        {pullQuote ? <StudentsPullQuote testimonial={pullQuote} /> : null}
-      </div>
+      <StudentsHero
+        studentCount={studentCount}
+        schoolCount={schools.length}
+        pullQuote={pullQuote}
+      />
       <ConsentStatement />
       <section
-        aria-label="Student sponsorships at a glance"
+        aria-label="Sponsorship status"
         className="bg-ground px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
       >
         <div className="mx-auto max-w-[1280px] border-t border-hairline pt-12">
-          <Reveal
-            cascade
-            cascadeDelay={150}
-            className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8 lg:gap-16"
-          >
-            <StatCard value={studentCount} label="Students listed" />
-            <StatCard value={sponsoredCount} label="Sponsored" />
-            <StatCard value={waitingCount} label="Waiting for a sponsor" />
+          <Reveal>
+            <p className="max-w-[44ch] text-balance text-heading-2 text-ink">
+              <span className="text-accent">{waitingCount} waiting</span> for a sponsor — every
+              $30/mo sponsorship pays for the next name on this list.
+            </p>
           </Reveal>
         </div>
       </section>
