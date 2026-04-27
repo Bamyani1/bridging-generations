@@ -1,13 +1,27 @@
 import type { Metadata } from "next";
-import { BlogPostCard } from "@/components/domain/BlogPostCard";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Feature, Row } from "@/components/ui/editorial";
+import { Reveal } from "@/components/ui/Reveal";
 import { getAllBlogPosts, getFeaturedBlogPost } from "@/lib/content/blogPosts";
 import { getAllBoardMembers } from "@/lib/content/boardMembers";
 import { breadcrumbList } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { BlogHero } from "./_components/BlogHero";
 import { BlogPagination } from "./_components/BlogPagination";
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
+
+function formatDate(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return dateFmt.format(d);
+}
 
 const POSTS_PER_PAGE = 12;
 
@@ -52,12 +66,28 @@ export default async function BlogPage() {
           className="bg-ground px-4 pb-16 sm:px-6 lg:px-[6%] lg:pb-24"
         >
           <div className="mx-auto max-w-[1280px]">
-            <BlogPostCard
-              post={featured}
-              variant="featured"
-              headingLevel={2}
-              authorName={authorName(featured.author)}
-            />
+            <Feature>
+              <Reveal kind="develop">
+                <Feature.Image
+                  src={featured.coverImage.src}
+                  alt={featured.coverImage.alt}
+                  aspect="3/2"
+                  bleed
+                  priority
+                />
+              </Reveal>
+              <Feature.Body>
+                <Feature.Eyebrow>
+                  Field update
+                  {featured.publishedAt ? ` · ${formatDate(featured.publishedAt)}` : ""}
+                </Feature.Eyebrow>
+                <Feature.Headline as="h2" href={`/blog/${featured.slug}`}>
+                  {featured.title}
+                </Feature.Headline>
+                <Feature.Lede>{featured.excerpt}</Feature.Lede>
+                <Feature.Stamp>{authorName(featured.author)}</Feature.Stamp>
+              </Feature.Body>
+            </Feature>
           </div>
         </section>
       ) : null}
@@ -66,16 +96,24 @@ export default async function BlogPage() {
           aria-label="All blog posts"
           className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
         >
-          <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mx-auto flex max-w-[1280px] flex-col">
             {pageOne.map((post) => (
-              <BlogPostCard
-                key={post.slug}
-                post={post}
-                headingLevel={3}
-                authorName={authorName(post.author)}
-              />
+              <Row as="li" key={post.slug}>
+                <Reveal kind="develop">
+                  <Row.Image src={post.coverImage.src} alt={post.coverImage.alt} aspect="3/2" />
+                </Reveal>
+                <Row.Body>
+                  <Row.Eyebrow>
+                    {post.publishedAt ? formatDate(post.publishedAt) : ""}
+                    {post.publishedAt ? <span aria-hidden="true"> · </span> : null}
+                    <span>{authorName(post.author)}</span>
+                  </Row.Eyebrow>
+                  <Row.Headline href={`/blog/${post.slug}`}>{post.title}</Row.Headline>
+                  <Row.Lede>{post.excerpt}</Row.Lede>
+                </Row.Body>
+              </Row>
             ))}
-          </div>
+          </ul>
         </section>
       ) : null}
       <BlogPagination currentPage={1} pageCount={pageCount} />
