@@ -1,8 +1,8 @@
-import { Feature, Row } from "@/components/ui/editorial";
+import { Feature } from "@/components/ui/editorial";
 
 type SecondaryOption = {
-  eyebrow: string;
-  heading: string;
+  label: string;
+  amount: string;
   body: string;
   href: string;
 };
@@ -14,21 +14,21 @@ type GivingOptionsStripProps = {
 export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProps) {
   const secondaries: SecondaryOption[] = [
     {
-      eyebrow: "Give once",
-      heading: "One-time gift",
-      body: "Any amount, any time. Use the form above and choose 'Give once' at checkout.",
+      label: "Give once",
+      amount: "Any amount",
+      body: "Use the form above and choose Give once at checkout — every dollar still routes to program costs.",
       href: "#donate-hero-title",
     },
     {
-      eyebrow: "Give to a project",
-      heading: "Designate a program",
+      label: "Designate a project",
+      amount: "Project-tied",
       body: "Back the meal program, the girls' scholarship fund, or a school-supply delivery.",
       href: "/projects",
     },
     {
-      eyebrow: "Give in honor of",
-      heading: "Honor or memorial gift",
-      body: "Mark a birthday, a teacher, or a family member. Write us and we will send a card to whomever you name.",
+      label: "Honor or memorial gift",
+      amount: "Card included",
+      body: "Mark a birthday, a teacher, or a family member. Write us and we'll send a card to whomever you name.",
       href: "/contact",
     },
   ];
@@ -53,13 +53,26 @@ export function GivingOptionsStrip({ monthlySuggestion }: GivingOptionsStripProp
             </Feature.Lede>
           </Feature.Body>
         </Feature>
-        <ul className="flex flex-col">
+        <ul className="flex flex-col border-t border-hairline">
           {secondaries.map((option) => (
-            <Row as="li" key={option.eyebrow} noImage>
-              <Row.Eyebrow>{option.eyebrow}</Row.Eyebrow>
-              <Row.Headline href={option.href}>{option.heading}</Row.Headline>
-              <Row.Lede>{option.body}</Row.Lede>
-            </Row>
+            <li key={option.label} className="border-b border-hairline">
+              <a
+                href={option.href}
+                className="group block py-6 transition focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent lg:py-8"
+              >
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,9rem)_minmax(0,1fr)] lg:items-baseline lg:gap-10">
+                  <span className="text-meta uppercase tracking-[0.1em] text-ink-2">
+                    {option.amount}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <span className="text-balance text-heading-3 text-ink transition-colors group-hover:text-accent">
+                      {option.label}
+                    </span>
+                    <span className="max-w-[60ch] text-body text-ink-2">{option.body}</span>
+                  </div>
+                </div>
+              </a>
+            </li>
           ))}
         </ul>
       </div>

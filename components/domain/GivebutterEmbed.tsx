@@ -12,20 +12,16 @@ type GivebutterEmbedProps = {
 
 function SetupFallback() {
   return (
-    <div className="flex flex-col gap-6 border-t border-b border-hairline py-8 sm:py-10">
-      <Eyebrow>While we are set up</Eyebrow>
-      <p className="max-w-[44ch] text-balance text-display-2 text-ink">
-        Write to the board and your gift is routed by hand.
+    <div className="flex flex-col gap-4 border-t border-hairline pt-6">
+      <Eyebrow>Setup pending</Eyebrow>
+      <p className="max-w-[42ch] text-body-lg text-ink-2">
+        Gifts are routed by hand while we stand up the Givebutter campaign — every contribution is
+        confirmed and routed personally within two business days.
       </p>
-      <p className="max-w-[60ch] text-body-lg text-ink-2">
-        The Givebutter campaign is being stood up. Until it is live, every gift — monthly or
-        one-time, card or check or wire — is confirmed and routed personally. The board replies
-        within two business days.
-      </p>
-      <p className="text-body-lg text-ink">
+      <p>
         <a
           href="mailto:info@bridginggenerations.org?subject=I%27d%20like%20to%20donate"
-          className="text-accent underline underline-offset-[3px] transition hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+          className="text-heading-4 text-accent underline decoration-2 underline-offset-[4px] transition hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
         >
           info@bridginggenerations.org
         </a>
