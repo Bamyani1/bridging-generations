@@ -19,7 +19,7 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
 
   return (
     <article
-      className="card-hover relative flex h-full flex-col gap-4 bg-ground-2"
+      className="group relative flex h-full flex-col gap-4 bg-ground-2"
       aria-label={`${displayName}, ${sponsorshipLabel}, grade ${grade}`}
     >
       {isSponsored ? (
@@ -43,7 +43,7 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
         )}
       </div>
       <div className="flex flex-col gap-3 p-5">
-        <h3 className="card-title text-heading-5 text-ink">{displayName}</h3>
+        <h3 className="text-heading-5 text-ink">{displayName}</h3>
         <p className="text-meta uppercase text-ink-2">
           Grade {grade}
           {community ? ` · ${community}` : ""}

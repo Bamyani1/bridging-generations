@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
-import { SuccessStoryCard } from "@/components/domain/SuccessStoryCard";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Feature, Row } from "@/components/ui/editorial";
+import { Reveal } from "@/components/ui/Reveal";
+import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
 import { canShowSuccessStory } from "@/lib/content/canShowPortrait";
+import type { Student } from "@/lib/content/students";
 import { getAllStudents } from "@/lib/content/students";
-import { getAllSuccessStoriesPublished } from "@/lib/content/successStories";
+import { getAllSuccessStoriesPublished, type SuccessStory } from "@/lib/content/successStories";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { SuccessStoriesHero } from "./_components/SuccessStoriesHero";
@@ -15,12 +18,37 @@ export const metadata: Metadata = {
     "In-depth stories from current students, alumni, and families sponsored by Bridging Generations across the Chittagong Hill Tracts.",
 };
 
+type StoryWithConsent = {
+  story: SuccessStory;
+  showPortrait: boolean;
+};
+
 export default async function SuccessStoriesPage() {
   const [stories, students] = await Promise.all([
     getAllSuccessStoriesPublished(),
     getAllStudents(),
   ]);
-  const studentById = new Map(students.map((s) => [s.id, s]));
+  const studentById = new Map<string, Student>(students.map((s) => [s.id, s]));
+
+  const annotated: StoryWithConsent[] = stories.map((story) => {
+    const linkedStudent = story.linkedStudentId
+      ? (studentById.get(story.linkedStudentId) ?? null)
+      : null;
+    return {
+      story,
+      showPortrait: canShowSuccessStory({
+        linkedStudentId: story.linkedStudentId,
+        linkedStudent,
+      }),
+    };
+  });
+
+  // Feature variant cannot scale a placeholder — promote the first
+  // consent-passing story to Feature; others render as Row siblings (a
+  // consent-blocked story renders Row with the StudentPlaceholder).
+  const featureIdx = annotated.findIndex((a) => a.showPortrait);
+  const feature = featureIdx >= 0 ? annotated[featureIdx] : null;
+  const rows = annotated.filter((_, i) => i !== featureIdx);
 
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -39,24 +67,53 @@ export default async function SuccessStoriesPage() {
         aria-label="All success stories"
         className="bg-ground px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
       >
-        <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {stories.map((story) => {
-            const linkedStudent = story.linkedStudentId
-              ? (studentById.get(story.linkedStudentId) ?? null)
-              : null;
-            const showPortrait = canShowSuccessStory({
-              linkedStudentId: story.linkedStudentId,
-              linkedStudent,
-            });
-            return (
-              <SuccessStoryCard
-                key={story.slug}
-                story={story}
-                showPortrait={showPortrait}
-                headingLevel={3}
-              />
-            );
-          })}
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-16 lg:gap-20">
+          {feature ? (
+            <Feature>
+              <Reveal kind="develop">
+                <Feature.Image
+                  src={feature.story.portrait.src}
+                  alt={feature.story.portrait.alt}
+                  aspect="4/5"
+                  bleed
+                  priority
+                />
+              </Reveal>
+              <Feature.Body>
+                {feature.story.subjectRole ? (
+                  <Feature.Eyebrow>{feature.story.subjectRole}</Feature.Eyebrow>
+                ) : null}
+                <Feature.Headline as="h2" href={`/success-stories/${feature.story.slug}`}>
+                  {feature.story.pullQuote}
+                </Feature.Headline>
+                <Feature.Stamp>{feature.story.subjectName}</Feature.Stamp>
+              </Feature.Body>
+            </Feature>
+          ) : null}
+          {rows.length > 0 ? (
+            <ul className="flex flex-col">
+              {rows.map(({ story, showPortrait }) => (
+                <Row as="li" key={story.slug}>
+                  {showPortrait ? (
+                    <Reveal kind="develop">
+                      <Row.Image src={story.portrait.src} alt={story.portrait.alt} aspect="4/5" />
+                    </Reveal>
+                  ) : (
+                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
+                      <StudentPlaceholder />
+                    </div>
+                  )}
+                  <Row.Body>
+                    {story.subjectRole ? <Row.Eyebrow>{story.subjectRole}</Row.Eyebrow> : null}
+                    <Row.Headline href={`/success-stories/${story.slug}`}>
+                      {story.pullQuote}
+                    </Row.Headline>
+                    <Row.Stamp>{story.subjectName}</Row.Stamp>
+                  </Row.Body>
+                </Row>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </section>
       <CTAFooterPanel

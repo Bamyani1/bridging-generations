@@ -23,11 +23,15 @@ const sample: Activity = {
 };
 
 describe("ActivityCard", () => {
-  it("renders the activity title, excerpt, and tag", () => {
+  it("renders the activity title and excerpt", () => {
     render(<ActivityCard activity={sample} />);
     expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent("A demo activity");
     expect(screen.getByText(sample.excerpt)).toBeInTheDocument();
-    expect(screen.getByText("distribution")).toBeInTheDocument();
+  });
+
+  it("renders the tag label in the eyebrow (Title Case via ACTIVITY_TAG_LABELS)", () => {
+    render(<ActivityCard activity={sample} />);
+    expect(screen.getByText("Distribution")).toBeInTheDocument();
   });
 
   it("renders a semantic <time> element for the date", () => {
@@ -38,15 +42,17 @@ describe("ActivityCard", () => {
     expect(time).toHaveTextContent("March 15, 2026");
   });
 
-  it("renders as a plain article without wrapping in a Link", () => {
+  it("renders as a plain row without a clickable headline (no detail page)", () => {
     render(<ActivityCard activity={sample} />);
     expect(screen.queryByRole("link")).toBeNull();
   });
 
-  it("renders the tag inside a stamp-variant TagPill", () => {
-    const { container } = render(<ActivityCard activity={sample} />);
-    const tag = container.querySelector("span.border.border-current.bg-transparent");
-    expect(tag).not.toBeNull();
-    expect(tag).toHaveTextContent("distribution");
+  it("renders the root as <li> when as='li'", () => {
+    const { container } = render(
+      <ul>
+        <ActivityCard activity={sample} as="li" />
+      </ul>,
+    );
+    expect(container.querySelector("li")).not.toBeNull();
   });
 });

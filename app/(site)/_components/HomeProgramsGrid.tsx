@@ -1,7 +1,6 @@
 import { Link } from "next-view-transitions";
 import { ProgramCard } from "@/components/domain/ProgramCard";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Reveal } from "@/components/ui/Reveal";
 import type { Project } from "@/lib/content/projects";
 
 type HomeProgramsGridProps = {
@@ -9,6 +8,7 @@ type HomeProgramsGridProps = {
 };
 
 export function HomeProgramsGrid({ projects }: HomeProgramsGridProps) {
+  const [feature, ...rest] = projects;
   return (
     <section
       id="programs"
@@ -36,16 +36,16 @@ export function HomeProgramsGrid({ projects }: HomeProgramsGridProps) {
             </span>
           </Link>
         </header>
-        <Reveal
-          cascade
-          cascadeDelay={150}
-          stagger="scale-in"
-          className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10"
-        >
-          {projects.map((project) => (
-            <ProgramCard key={project.id} project={project} />
-          ))}
-        </Reveal>
+        <div className="flex flex-col gap-12 lg:gap-16">
+          {feature ? <ProgramCard project={feature} scale="feature" /> : null}
+          {rest.length > 0 ? (
+            <ul className="flex flex-col">
+              {rest.map((project) => (
+                <ProgramCard key={project.id} project={project} scale="row" as="li" />
+              ))}
+            </ul>
+          ) : null}
+        </div>
       </div>
     </section>
   );

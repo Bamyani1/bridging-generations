@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
-import { BlogPostCard } from "@/components/domain/BlogPostCard";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Row } from "@/components/ui/editorial";
+import { Reveal } from "@/components/ui/Reveal";
 import { getAllBlogPostsRaw, getBlogPostBySlug, getRecentBlogPosts } from "@/lib/content/blogPosts";
 import { getAllBoardMembers, getBoardMemberById } from "@/lib/content/boardMembers";
 import { articleLd, breadcrumbList } from "@/lib/seo/jsonLd";
@@ -85,16 +86,30 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             <h2 id="blog-related-title" className="text-balance text-heading-3 text-ink">
               Keep reading
             </h2>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="flex flex-col">
               {related.map((p) => (
-                <BlogPostCard
-                  key={p.slug}
-                  post={p}
-                  headingLevel={3}
-                  authorName={boardName(p.author)}
-                />
+                <Row as="li" key={p.slug}>
+                  <Reveal kind="develop">
+                    <Row.Image src={p.coverImage.src} alt={p.coverImage.alt} aspect="3/2" />
+                  </Reveal>
+                  <Row.Body>
+                    <Row.Eyebrow>
+                      {p.publishedAt
+                        ? new Intl.DateTimeFormat("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          }).format(new Date(p.publishedAt))
+                        : ""}
+                      {p.publishedAt ? <span aria-hidden="true"> · </span> : null}
+                      <span>{boardName(p.author)}</span>
+                    </Row.Eyebrow>
+                    <Row.Headline href={`/blog/${p.slug}`}>{p.title}</Row.Headline>
+                    <Row.Lede>{p.excerpt}</Row.Lede>
+                  </Row.Body>
+                </Row>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
       ) : null}

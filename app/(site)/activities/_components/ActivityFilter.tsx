@@ -46,11 +46,9 @@ export function ActivityFilter({ activities }: ActivityFilterProps) {
       {filtered.length === 0 ? (
         <p className="text-body text-ink-2">No activities match this filter yet.</p>
       ) : (
-        <ul aria-live="polite" className="flex flex-col gap-10 lg:gap-14">
+        <ul aria-live="polite" className="flex flex-col">
           {filtered.map((activity) => (
-            <li key={activity.id}>
-              <ActivityCard activity={activity} />
-            </li>
+            <ActivityCard key={activity.id} activity={activity} as="li" />
           ))}
         </ul>
       )}
