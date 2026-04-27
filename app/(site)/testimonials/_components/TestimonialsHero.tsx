@@ -1,11 +1,50 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
-type TestimonialsHeroProps = {
-  count: number;
+type RoleValue =
+  | "parent"
+  | "teacher"
+  | "student"
+  | "alum"
+  | "board"
+  | "partner"
+  | "volunteer"
+  | "donor";
+
+const ROLE_PLURALS: Record<RoleValue, string> = {
+  parent: "parents",
+  teacher: "teachers",
+  student: "students",
+  alum: "alumni",
+  board: "board",
+  partner: "partners",
+  volunteer: "volunteers",
+  donor: "donors",
 };
 
-export function TestimonialsHero({ count }: TestimonialsHeroProps) {
+const ROLE_ORDER: RoleValue[] = [
+  "parent",
+  "teacher",
+  "student",
+  "alum",
+  "partner",
+  "board",
+  "donor",
+  "volunteer",
+];
+
+type TestimonialsHeroProps = {
+  count: number;
+  roleCounts?: Partial<Record<RoleValue, number>>;
+};
+
+export function TestimonialsHero({ count, roleCounts }: TestimonialsHeroProps) {
+  // Stamp-row roles must reflect what the page actually delivers — the
+  // hardcoded "parents · teachers · students · alumni · partners" strip
+  // promised five roles the page no longer matches. Source the list from
+  // roleCounts when present; fall back to the ordered union otherwise.
+  const roles = roleCounts ? ROLE_ORDER.filter((role) => (roleCounts[role] ?? 0) > 0) : ROLE_ORDER;
+
   return (
     <section
       aria-labelledby="testimonials-hero-title"
@@ -27,11 +66,9 @@ export function TestimonialsHero({ count }: TestimonialsHeroProps) {
             <li>
               {count} {count === 1 ? "voice" : "voices"}
             </li>
-            <li>parents</li>
-            <li>teachers</li>
-            <li>students</li>
-            <li>alumni</li>
-            <li>partners</li>
+            {roles.map((role) => (
+              <li key={role}>{ROLE_PLURALS[role]}</li>
+            ))}
           </ul>
         </div>
       </Reveal>

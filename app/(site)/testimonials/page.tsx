@@ -47,7 +47,7 @@ export default async function TestimonialsPage() {
 
   return (
     <>
-      <TestimonialsHero count={testimonials.length} />
+      <TestimonialsHero count={testimonials.length} roleCounts={roleCounts} />
       <section
         aria-label="Testimonials by role"
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
