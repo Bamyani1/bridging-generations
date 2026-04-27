@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
-import { SuccessStoryCard } from "@/components/domain/SuccessStoryCard";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Row } from "@/components/ui/editorial";
+import { Reveal } from "@/components/ui/Reveal";
+import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
 import { canShowSuccessStory } from "@/lib/content/canShowPortrait";
 import { getAllStudents } from "@/lib/content/students";
 import {
@@ -98,22 +100,33 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
             <h2 id="success-story-related-title" className="text-balance text-heading-3 text-ink">
               Other stories
             </h2>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+            <ul className="flex flex-col">
               {related.map((s) => {
                 const ls = s.linkedStudentId ? (studentById.get(s.linkedStudentId) ?? null) : null;
+                const showPortrait = canShowSuccessStory({
+                  linkedStudentId: s.linkedStudentId,
+                  linkedStudent: ls,
+                });
                 return (
-                  <SuccessStoryCard
-                    key={s.slug}
-                    story={s}
-                    showPortrait={canShowSuccessStory({
-                      linkedStudentId: s.linkedStudentId,
-                      linkedStudent: ls,
-                    })}
-                    headingLevel={3}
-                  />
+                  <Row as="li" key={s.slug}>
+                    {showPortrait ? (
+                      <Reveal kind="develop">
+                        <Row.Image src={s.portrait.src} alt={s.portrait.alt} aspect="4/5" />
+                      </Reveal>
+                    ) : (
+                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
+                        <StudentPlaceholder />
+                      </div>
+                    )}
+                    <Row.Body>
+                      {s.subjectRole ? <Row.Eyebrow>{s.subjectRole}</Row.Eyebrow> : null}
+                      <Row.Headline href={`/success-stories/${s.slug}`}>{s.pullQuote}</Row.Headline>
+                      <Row.Stamp>{s.subjectName}</Row.Stamp>
+                    </Row.Body>
+                  </Row>
                 );
               })}
-            </div>
+            </ul>
           </div>
         </section>
       ) : null}
