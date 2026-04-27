@@ -13,7 +13,6 @@ import { HomeHero } from "./_components/HomeHero";
 import { HomeMissionBand } from "./_components/HomeMissionBand";
 import { HomeProgramsGrid } from "./_components/HomeProgramsGrid";
 import { HomeSpotlightScroller } from "./_components/HomeSpotlightScroller";
-import { HomeStatsTrio } from "./_components/HomeStatsTrio";
 import { HomeSuccessPanel } from "./_components/HomeSuccessPanel";
 import { HomeTestimonialPanel } from "./_components/HomeTestimonialPanel";
 
@@ -41,7 +40,6 @@ export default async function Home() {
     <>
       <HomeHero stats={liveStats} />
       <HomeMissionBand missionFull={settings.missionFull} />
-      <HomeStatsTrio stats={liveStats} />
       <HomeProgramsGrid projects={projects} />
       {story ? <HomeSuccessPanel story={story} /> : null}
       <HomeActivities activities={activities} />

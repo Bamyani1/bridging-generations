@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
-import { StatCard } from "@/components/domain/StatCard";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { Reveal } from "@/components/ui/Reveal";
 import { getProjectsByStatus } from "@/lib/content/projects";
 import { breadcrumbList, collectionPage } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
@@ -35,22 +33,6 @@ export default async function ProjectsPage() {
   return (
     <>
       <ProjectsHero activeCount={active.length} totalRaised={totalRaised} />
-      <section
-        aria-label="Projects funding at a glance"
-        className="bg-ground-3 px-4 py-16 sm:px-6 lg:px-[6%] lg:py-20"
-      >
-        <div className="mx-auto max-w-[1280px]">
-          <Reveal
-            cascade
-            cascadeDelay={150}
-            className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8 lg:gap-16"
-          >
-            <StatCard value={totalRaised} label="Dollars raised" />
-            <StatCard value={active.length} label="Active projects" />
-            <StatCard value={funded.length} label="Fully funded" />
-          </Reveal>
-        </div>
-      </section>
       <section
         aria-label="Active and paused projects"
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
