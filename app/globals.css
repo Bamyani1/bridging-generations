@@ -155,6 +155,15 @@
   /* §3 stack: 16 / 24 / 32 / 40 / 56 — pick from Tailwind 4px grid: p-4 p-6 p-8 p-10 p-14 */
   /* §3 inline: 8 / 12 / 16 / 24 — pick from Tailwind 4px grid: gap-2 gap-3 gap-4 gap-6 */
 
+  /* §3 R4.6 — long-form column spine. Header, body, marginalia rail, scene-break
+     all align to --column-spine. Cover image may extend to --cover-bleed as a
+     deliberate edge-bleed so the page reads as one composition with one wider
+     band, not three competing measures. */
+  --column-spine: 65ch;
+  --cover-bleed: 90ch;
+  --rail-width: 14rem;
+  --rail-gap: 2rem;
+
   /* §1 Paper grain — feTurbulence tile applied to cream surfaces; rect opacity baked at 0.008. */
   --bg-paper-grain: url("/textures/paper-grain.svg");
 
@@ -699,5 +708,373 @@
 @media (prefers-reduced-motion: reduce) {
   .heading-anchor {
     transition: none;
+  }
+}
+
+/* §10 R4.6 — long-form editorial chrome. */
+
+/* Long-form spine: rail in the left gutter at lg+, body at column-spine.
+   Tailwind 4 has trouble with arbitrary values that include `minmax()` —
+   this class encodes the layout once so consumers don't reach for fragile
+   bracketed syntax. */
+.longform-spine {
+  display: block;
+  margin-inline: auto;
+}
+@media (min-width: 1024px) {
+  .longform-spine {
+    display: grid;
+    max-width: calc(var(--rail-width) + var(--rail-gap) + var(--column-spine));
+    grid-template-columns: var(--rail-width) minmax(0, var(--column-spine));
+    column-gap: var(--rail-gap);
+  }
+}
+
+/* Dropcap. First letter of the wrapped paragraph floats left at ~3.5 line-heights,
+   carries the display-1 weight stop, sits in the body's measure. aria-hidden on
+   the decorative wrapper; screen readers still receive the original first letter
+   (we don't hide the original ::first-letter — we style it). Mobile: keep, just
+   smaller. Reduced motion: irrelevant — this is type. */
+.dropcap > p:first-of-type::first-letter,
+p.dropcap::first-letter {
+  float: left;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-display);
+  font-size: clamp(3.5em, 4em, 4.5em);
+  line-height: 0.85;
+  margin: 0.05em 0.12em 0 0;
+  color: var(--color-ink);
+  letter-spacing: -0.04em;
+}
+@media (max-width: 640px) {
+  .dropcap > p:first-of-type::first-letter,
+  p.dropcap::first-letter {
+    font-size: 3em;
+    line-height: 0.9;
+    margin: 0.1em 0.1em 0 0;
+  }
+}
+
+/* Marginalia — author-placed aside. lg+ floats into the right gutter; <lg
+   inlines below the paragraph. Print-hidden. The :where wrapper bleeds 0
+   specificity so consumers can override per-instance. */
+.marginalia {
+  display: block;
+  font-size: var(--text-body-sm);
+  line-height: 1.55;
+  color: var(--color-ink-2);
+  border-left: 1px solid var(--color-hairline);
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+}
+@media (min-width: 1024px) {
+  .marginalia {
+    float: right;
+    clear: right;
+    width: 14rem;
+    margin: 0.25rem -16rem 1.25rem 1.5rem;
+    border-left: none;
+    border-top: 1px solid var(--color-hairline);
+    padding: 0.75rem 0 0 0;
+  }
+  .marginalia[data-position="left"] {
+    float: left;
+    clear: left;
+    margin: 0.25rem 1.5rem 1.25rem -16rem;
+  }
+}
+
+/* Marginalia rail — page chrome (read-time / dateline / share). Sticky in the
+   left gutter at lg+; inlines at the top of the article on smaller viewports.
+   At lg+ items separate with hairline rules so the rail reads as a deliberate
+   masthead, not loose type. */
+.marginalia-rail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta--line-height);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  margin: 0 0 2rem 0;
+}
+@media (min-width: 1024px) {
+  .marginalia-rail {
+    position: sticky;
+    top: 6rem;
+    flex-direction: column;
+    gap: 0;
+    width: 12rem;
+    margin: 0;
+    border-top: 1px solid var(--color-hairline);
+    align-self: start;
+  }
+  .marginalia-rail > * {
+    padding: 0.625rem 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  .marginalia-rail .share-rail {
+    padding: 0.875rem 0 0 0;
+    border-bottom: none;
+  }
+}
+
+/* Scene break — three editorial marks (◆ ◆ ◆), centered, generous breath.
+   Decorative; aria-hidden on the wrapper. */
+.scene-break {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 4rem 0;
+  color: var(--color-ink-2);
+  font-size: 0.625rem;
+  letter-spacing: 0.4em;
+}
+.scene-break::before,
+.scene-break::after {
+  content: "";
+  height: 1px;
+  flex: 0 1 4rem;
+  background: var(--color-hairline);
+}
+@media (max-width: 640px) {
+  .scene-break {
+    margin: 3rem 0;
+  }
+}
+
+/* StoryToc — sticky on lg+, collapsible <details> below. Active item gets
+   weight + accent ink. The <details> > summary affordance becomes the toggle
+   on small viewports. */
+.toc-sticky {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .toc-sticky {
+    display: block;
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    width: 14rem;
+    font-size: var(--text-meta);
+    line-height: 1.5;
+    letter-spacing: var(--text-meta--letter-spacing);
+  }
+}
+.toc-sticky__list,
+.toc-collapsible__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.toc-sticky__item a,
+.toc-collapsible__item a {
+  display: block;
+  padding: 0.25rem 0;
+  color: var(--color-ink-2);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.75rem;
+  margin-left: -0.75rem;
+  transition:
+    color 200ms var(--ease-smooth),
+    border-color 200ms var(--ease-smooth);
+}
+.toc-sticky__item a:hover,
+.toc-collapsible__item a:hover {
+  color: var(--color-ink);
+}
+.toc-sticky__item[data-active="true"] a,
+.toc-collapsible__item[data-active="true"] a {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  font-weight: 600;
+}
+.toc-collapsible {
+  display: block;
+  margin: 0 0 2rem 0;
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+  padding: 0.75rem 0;
+}
+.toc-collapsible > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+.toc-collapsible > summary::-webkit-details-marker {
+  display: none;
+}
+.toc-collapsible > summary::after {
+  content: "+";
+  font-size: 1.5em;
+  line-height: 1;
+  font-weight: 400;
+  transition: transform 200ms var(--ease-smooth);
+}
+.toc-collapsible[open] > summary::after {
+  content: "−";
+}
+.toc-collapsible[open] > .toc-collapsible__list {
+  margin-top: 0.75rem;
+}
+@media (min-width: 1024px) {
+  .toc-collapsible {
+    display: none;
+  }
+}
+
+/* Share rail — small inline component on the marginalia rail; full-width
+   button on mobile. 44px floor on mobile per WCAG. */
+.share-rail__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  background: transparent;
+  border: 1px solid var(--color-hairline);
+  padding: 0.625rem 1rem;
+  cursor: pointer;
+  transition:
+    color 200ms var(--ease-smooth),
+    border-color 200ms var(--ease-smooth);
+  min-height: 44px;
+}
+.share-rail__button:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ink-2);
+}
+.share-rail__toast {
+  margin-left: 0.75rem;
+  color: var(--color-accent);
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  opacity: 0;
+  transition: opacity 200ms var(--ease-smooth);
+  pointer-events: none;
+}
+.share-rail__toast[data-visible="true"] {
+  opacity: 1;
+}
+
+/* PullQuote — oversized opening glyph carries the editorial weight. The glyph
+   uses the existing display family (no new typeface), italic, accent ink, and
+   bleeds beyond the spine on lg+. Hanging punctuation: the opening quote sits
+   outside the column. Glyph at ~12rem at lg+ — large enough that the quote
+   reads as "this is the editorial pull-quote" not "this is a styled blockquote." */
+.pullquote {
+  position: relative;
+  margin: 3rem 0;
+  padding: 0;
+}
+.pullquote__glyph {
+  position: absolute;
+  top: -0.4em;
+  left: -0.05em;
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(6rem, 10vw, 9rem);
+  line-height: 0.85;
+  color: var(--color-accent);
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+}
+.pullquote__quote {
+  position: relative;
+  z-index: 1;
+  font-size: var(--text-heading-3);
+  line-height: 1.25;
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+  font-style: italic;
+  padding-left: 3rem;
+}
+.pullquote__cite {
+  display: block;
+  margin-top: 1rem;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta--line-height);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--color-ink-2);
+  padding-left: 3rem;
+}
+@media (min-width: 1024px) {
+  .pullquote {
+    margin-right: -2.5rem;
+  }
+  .pullquote__glyph {
+    left: -2.5rem;
+    top: -0.45em;
+    font-size: clamp(9rem, 13vw, 12rem);
+  }
+  .pullquote__quote,
+  .pullquote__cite {
+    padding-left: 0;
+  }
+}
+@media (max-width: 640px) {
+  .pullquote__glyph {
+    font-size: 5rem;
+    top: -0.3em;
+  }
+  .pullquote__quote {
+    font-size: var(--text-heading-4);
+    padding-left: 2rem;
+  }
+  .pullquote__cite {
+    padding-left: 2rem;
+  }
+}
+
+/* Print — long-form is the obvious print target. Hide chrome that doesn't
+   serve the printed page; let the article body fill the sheet. !important is
+   the canonical print-CSS pattern: the chrome elements carry class-level
+   specificity (Tailwind utilities, layout classes) that beats element-level
+   selectors here, and the body color/background overrides the atmospheric-page
+   scroll-driven background. Use sparingly and only inside @media print. */
+@media print {
+  nav,
+  footer,
+  .marginalia-rail,
+  .toc-sticky,
+  .toc-collapsible,
+  .share-rail,
+  .heading-anchor {
+    /* biome-ignore lint/complexity/noImportantStyles: print override of chrome utility classes */
+    display: none !important;
+  }
+  article {
+    /* biome-ignore lint/complexity/noImportantStyles: print override of max-w-* utility */
+    max-width: 100% !important;
+  }
+  .pullquote__glyph {
+    color: #000;
+  }
+  body {
+    /* biome-ignore lint/complexity/noImportantStyles: print resets atmospheric-page scroll bg */
+    background: #fff !important;
+    /* biome-ignore lint/complexity/noImportantStyles: print resets atmospheric-page color */
+    color: #000 !important;
   }
 }

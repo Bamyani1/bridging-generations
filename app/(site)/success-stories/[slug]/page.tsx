@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Dropcap } from "@/components/content/Dropcap";
+import { MarginaliaRail } from "@/components/content/MarginaliaRail";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
-import { CTAFooterPanel } from "@/components/domain/CTAFooterPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { Row } from "@/components/ui/editorial";
-import { Reveal } from "@/components/ui/Reveal";
-import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
 import { canShowSuccessStory } from "@/lib/content/canShowPortrait";
+import { readingTime } from "@/lib/content/readingTime";
 import { getAllStudents } from "@/lib/content/students";
 import {
   getAllSuccessStories,
@@ -20,6 +19,12 @@ import { PortraitHero } from "./_components/PortraitHero";
 import { PullQuotePanel } from "./_components/PullQuotePanel";
 
 type Params = { slug: string };
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
 
 export async function generateStaticParams(): Promise<Params[]> {
   const all = await getAllSuccessStories();
@@ -63,6 +68,8 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
   });
 
   const body = await story.body();
+  const dateline = story.publishedAt ? dateFmt.format(new Date(story.publishedAt)) : "";
+  const { label: readTimeLabel } = readingTime(body);
 
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -78,6 +85,14 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
     publisherName: "Bridging Generations",
   });
 
+  const renderedBody = story.dropcap ? (
+    <Dropcap>
+      <MDXRenderer source={body} />
+    </Dropcap>
+  ) : (
+    <MDXRenderer source={body} />
+  );
+
   return (
     <div className="atmospheric-page">
       <BackToStories />
@@ -86,58 +101,45 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
       </h1>
       <PortraitHero story={story} showPortrait={showPortrait} />
       <PullQuotePanel story={story} />
-      <article className="bg-ground px-4 py-12 sm:px-6 lg:px-[6%] lg:py-20">
-        <div className="mx-auto max-w-[65ch] text-ink-2">
-          <MDXRenderer source={body} />
+      <article className="bg-ground px-4 pt-12 pb-16 sm:px-6 lg:px-[6%] lg:pt-16 lg:pb-24">
+        <div className="longform-spine">
+          <MarginaliaRail
+            dateline={dateline}
+            readTime={readTimeLabel}
+            shareTitle={`${story.subjectName} — Success story`}
+          />
+          <div className="text-ink-2">{renderedBody}</div>
         </div>
       </article>
-      {related.length > 0 ? (
+      {related[0] ? (
         <section
           aria-labelledby="success-story-related-title"
-          className="bg-ground px-4 py-20 sm:px-6 lg:px-[6%] lg:py-28"
+          className="bg-ground px-4 pt-12 pb-20 sm:px-6 lg:px-[6%] lg:pt-16 lg:pb-28"
         >
-          <div className="mx-auto flex max-w-[1280px] flex-col gap-8">
-            <h2 id="success-story-related-title" className="text-balance text-heading-3 text-ink">
-              Other stories
+          <div className="mx-auto max-w-[65ch] border-hairline border-t pt-10 lg:pt-14">
+            <p
+              id="success-story-related-title"
+              className="text-eyebrow tracking-[0.18em] text-ink-2 uppercase"
+            >
+              Continue reading
+            </p>
+            <h2 className="mt-5 text-balance text-heading-2 text-ink">
+              <a
+                href={`/success-stories/${related[0].slug}`}
+                className="transition hover:text-accent-2-text"
+              >
+                {related[0].subjectName}
+              </a>
             </h2>
-            <ul className="flex flex-col">
-              {related.map((s) => {
-                const ls = s.linkedStudentId ? (studentById.get(s.linkedStudentId) ?? null) : null;
-                const showPortrait = canShowSuccessStory({
-                  linkedStudentId: s.linkedStudentId,
-                  linkedStudent: ls,
-                });
-                return (
-                  <Row as="li" key={s.slug}>
-                    {showPortrait ? (
-                      <Reveal kind="develop">
-                        <Row.Image src={s.portrait.src} alt={s.portrait.alt} aspect="1/1" />
-                      </Reveal>
-                    ) : (
-                      <div className="relative aspect-[1/1] w-full overflow-hidden bg-ground-3">
-                        <StudentPlaceholder />
-                      </div>
-                    )}
-                    <Row.Body>
-                      {s.subjectRole ? <Row.Eyebrow>{s.subjectRole}</Row.Eyebrow> : null}
-                      <Row.Headline href={`/success-stories/${s.slug}`}>{s.pullQuote}</Row.Headline>
-                      <Row.Stamp>{s.subjectName}</Row.Stamp>
-                    </Row.Body>
-                  </Row>
-                );
-              })}
-            </ul>
+            <p className="mt-4 max-w-[60ch] text-body text-ink-2 italic">
+              &ldquo;{related[0].pullQuote}&rdquo;
+            </p>
+            {related[0].subjectRole ? (
+              <p className="mt-5 text-meta uppercase text-ink-2">{related[0].subjectRole}</p>
+            ) : null}
           </div>
         </section>
       ) : null}
-      <CTAFooterPanel
-        headline={`Help us write more stories like ${story.subjectName}'s.`}
-        body="Sponsorship keeps a child in the classroom long enough for a whole arc to unfold. $30 a month covers tuition, books, daily meals, and materials."
-        ctaLabel="Donate now"
-        ctaHref="/donate"
-        tone="cream"
-        titleId="success-story-cta-title"
-      />
       <JsonLd id={`ld-story-${slug}-breadcrumb`} data={ldBreadcrumb} />
       <JsonLd id={`ld-story-${slug}-article`} data={ldArticle} />
     </div>

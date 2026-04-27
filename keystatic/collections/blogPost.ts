@@ -38,6 +38,11 @@ export const blogPostCollection = collection({
       description: "Pin to top of /blog. Only one post should be featured at a time.",
       defaultValue: false,
     }),
+    dropcap: fields.checkbox({
+      label: "Drop cap on first paragraph",
+      description: "Magazine-style oversized first letter on the opening paragraph of the body.",
+      defaultValue: false,
+    }),
     tags: fields.array(fields.text({ label: "Tag" }), {
       label: "Tags",
       itemLabel: (props) => props.value || "Tag",

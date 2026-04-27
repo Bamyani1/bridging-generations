@@ -3,6 +3,10 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
+import { Dropcap } from "@/components/content/Dropcap";
+import { Marginalia } from "@/components/content/Marginalia";
+import { PullQuote } from "@/components/content/PullQuote";
+import { SceneBreak } from "@/components/content/SceneBreak";
 import { Divider } from "@/components/ui/Divider";
 
 type AnchorProps = AnchorHTMLAttributes<HTMLAnchorElement>;
@@ -50,11 +54,7 @@ const components = {
     <ol className="my-5 list-decimal pl-6 text-body text-ink-2">{children}</ol>
   ),
   li: ({ children }: { children?: ReactNode }) => <li className="my-2">{children}</li>,
-  blockquote: ({ children }: { children?: ReactNode }) => (
-    <blockquote className="my-8 border-accent border-l-4 pl-6 text-balance text-heading-5 text-ink italic">
-      {children}
-    </blockquote>
-  ),
+  blockquote: ({ children }: { children?: ReactNode }) => <PullQuote>{children}</PullQuote>,
   hr: () => <Divider spacing="lg" />,
   a: MDXAnchor,
   strong: ({ children }: { children?: ReactNode }) => (
@@ -66,6 +66,11 @@ const components = {
       {children}
     </code>
   ),
+  // R4.6 — author-callable editorial primitives.
+  Dropcap,
+  Marginalia,
+  PullQuote,
+  SceneBreak,
 };
 
 type MDXRendererProps = {

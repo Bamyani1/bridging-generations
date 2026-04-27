@@ -42,6 +42,11 @@ export const successStoryCollection = collection({
       description: "Apply a teal/coral duotone blend over the portrait hero.",
       defaultValue: false,
     }),
+    dropcap: fields.checkbox({
+      label: "Drop cap on first paragraph",
+      description: "Magazine-style oversized first letter on the opening paragraph of the body.",
+      defaultValue: false,
+    }),
     linkedStudentId: fields.relationship({
       label: "Linked student",
       collection: "student",

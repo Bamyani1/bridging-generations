@@ -1,3 +1,6 @@
+import { Dropcap } from "@/components/content/Dropcap";
+import { SceneBreak } from "@/components/content/SceneBreak";
+
 type AboutMissionVisionProps = {
   missionFull: string;
   visionFull: string;
@@ -18,16 +21,22 @@ export function AboutMissionVision({ missionFull, visionFull }: AboutMissionVisi
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-5">
+          <SceneBreak />
           <h2 id="about-mission-title" className="text-balance text-heading-1 text-ink">
             Our Mission
           </h2>
-          <p className="text-body-lg text-ink-2">{missionFull}</p>
+          <Dropcap>
+            <p className="text-body-lg text-ink-2">{missionFull}</p>
+          </Dropcap>
         </div>
         <div className="flex flex-col gap-5">
+          <SceneBreak />
           <h2 id="about-vision-title" className="text-balance text-heading-1 text-ink">
             Our Vision
           </h2>
-          <p className="text-body-lg text-ink-2">{visionFull}</p>
+          <Dropcap>
+            <p className="text-body-lg text-ink-2">{visionFull}</p>
+          </Dropcap>
         </div>
       </div>
     </section>
