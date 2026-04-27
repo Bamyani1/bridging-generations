@@ -1,10 +1,18 @@
-import Image from "next/image";
+import { Row } from "@/components/ui/editorial";
 import { Reveal } from "@/components/ui/Reveal";
-import { TagPill } from "@/components/ui/TagPill";
 import type { Activity } from "@/lib/content/activities";
+import { ACTIVITY_TAG_LABELS } from "@/lib/content/activityTags";
 
 type ActivityCardProps = {
   activity: Activity;
+  /** When the card lives in a `<ul>`, render the root as `<li>`. */
+  as?: "article" | "li";
+  /**
+   * Hide the hairline rule above this row — set on the first item of a list
+   * if the list visually attaches to the element above it. Defaults to showing
+   * the rule.
+   */
+  hideRule?: boolean;
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -20,29 +28,22 @@ function formatDate(iso: string): string {
   return dateFormatter.format(d);
 }
 
-export function ActivityCard({ activity }: ActivityCardProps) {
+export function ActivityCard({ activity, as = "article", hideRule = false }: ActivityCardProps) {
   const { coverImage, title, excerpt, tag, publishedAt } = activity;
   return (
-    <article className="card-hover group flex h-full flex-col gap-4 bg-ground-2">
-      <Reveal kind="develop" className="relative aspect-[4/3] w-full overflow-hidden bg-ground-3">
-        <Image
-          src={coverImage.src}
-          alt={coverImage.alt}
-          fill
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
-        />
+    <Row as={as} hideRule={hideRule}>
+      <Reveal kind="develop">
+        <Row.Image src={coverImage.src} alt={coverImage.alt} aspect="4/3" />
       </Reveal>
-      <div className="flex flex-col gap-3 p-6 lg:p-8">
-        <div className="flex items-center justify-between gap-3">
-          <TagPill variant="stamp">{tag}</TagPill>
-          <time className="text-meta uppercase text-ink-2" dateTime={publishedAt}>
-            {formatDate(publishedAt)}
-          </time>
-        </div>
-        <h3 className="card-title text-balance text-heading-5 text-ink">{title}</h3>
-        <p className="text-body text-ink-2">{excerpt}</p>
-      </div>
-    </article>
+      <Row.Body>
+        <Row.Eyebrow>
+          <time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
+          <span aria-hidden="true"> · </span>
+          <span>{ACTIVITY_TAG_LABELS[tag]}</span>
+        </Row.Eyebrow>
+        <Row.Headline>{title}</Row.Headline>
+        <Row.Lede>{excerpt}</Row.Lede>
+      </Row.Body>
+    </Row>
   );
 }

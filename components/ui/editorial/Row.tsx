@@ -2,11 +2,12 @@ import Image from "next/image";
 import { Link } from "next-view-transitions";
 import type { ReactNode } from "react";
 
-type Aspect = "1/1" | "3/2" | "4/5" | "5/6" | "16/9";
+type Aspect = "1/1" | "3/2" | "4/3" | "4/5" | "5/6" | "16/9";
 
 const aspectClass: Record<Aspect, string> = {
   "1/1": "aspect-[1/1]",
   "3/2": "aspect-[3/2]",
+  "4/3": "aspect-[4/3]",
   "4/5": "aspect-[4/5]",
   "5/6": "aspect-[5/6]",
   "16/9": "aspect-[16/9]",
@@ -20,7 +21,7 @@ type RowProps = {
 };
 
 function RowRoot({ as: Tag = "article", children, className, hideRule = false }: RowProps) {
-  const base = "relative grid grid-cols-1 gap-5 py-7 sm:grid-cols-[3fr_9fr] sm:gap-8 lg:py-9";
+  const base = "group relative grid grid-cols-1 gap-5 py-7 sm:grid-cols-[3fr_9fr] sm:gap-8 lg:py-9";
   const rule = hideRule ? "" : "border-t border-hairline";
   const merged = `${base} ${rule} ${className ?? ""}`.trim();
   return <Tag className={merged}>{children}</Tag>;
@@ -65,14 +66,14 @@ function RowEyebrow({ children }: RowEyebrowProps) {
 }
 
 type RowHeadlineProps = {
-  href: string;
+  href?: string;
   children: ReactNode;
   as?: "h2" | "h3" | "h4";
   /**
-   * When true, the headline link's ::after extends the click region to the
-   * whole row (Heydon Pickering "redundant click region"). Only the headline
-   * stays in the keyboard tab order. Trade-off: text selection within the
-   * row is impaired, since ::after captures pointer events.
+   * When true (and href is set), the headline link's ::after extends the click
+   * region to the whole row (Heydon Pickering "redundant click region"). Only
+   * the headline stays in the keyboard tab order. Trade-off: text selection
+   * within the row is impaired since ::after captures pointer events.
    */
   cardClickable?: boolean;
 };
@@ -83,9 +84,12 @@ function RowHeadline({
   as: Heading = "h3",
   cardClickable = true,
 }: RowHeadlineProps) {
+  if (!href) {
+    return <Heading className="text-balance text-heading-4 text-ink">{children}</Heading>;
+  }
   const linkExtension = cardClickable ? "after:absolute after:inset-0 after:content-['']" : "";
   return (
-    <Heading className="text-heading-4 text-ink">
+    <Heading className="text-balance text-heading-4 text-ink">
       <Link
         href={href}
         className={`group/link inline-block transition-colors duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent ${linkExtension}`.trim()}

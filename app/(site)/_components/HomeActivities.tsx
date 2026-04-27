@@ -36,11 +36,7 @@ export function HomeActivities({ activities }: HomeActivitiesProps) {
             </span>
           </Link>
         </header>
-        <Reveal
-          cascade
-          cascadeDelay={120}
-          className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10"
-        >
+        <Reveal cascade cascadeDelay={120} className="flex flex-col">
           {activities.map((activity) => (
             <ActivityCard key={activity.id} activity={activity} />
           ))}

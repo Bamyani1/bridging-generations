@@ -98,4 +98,18 @@ describe("Row", () => {
     const link = container.querySelector("a");
     expect(link?.className).not.toMatch(/after:absolute/);
   });
+
+  it("renders the headline as plain heading when href is omitted", () => {
+    render(
+      <Row>
+        <Row.Body>
+          <Row.Headline>No detail page for this row.</Row.Headline>
+        </Row.Body>
+      </Row>,
+    );
+    expect(screen.getByRole("heading", { level: 3 })).toHaveTextContent(
+      "No detail page for this row.",
+    );
+    expect(screen.queryByRole("link")).toBeNull();
+  });
 });
