@@ -4,6 +4,7 @@ import { Dropcap } from "@/components/content/Dropcap";
 import { MarginaliaRail } from "@/components/content/MarginaliaRail";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { SectionAct } from "@/components/ui/SectionAct";
 import { canShowSuccessStory } from "@/lib/content/canShowPortrait";
 import { readingTime } from "@/lib/content/readingTime";
 import { getAllStudents } from "@/lib/content/students";
@@ -108,7 +109,7 @@ export default async function SuccessStorySlugPage({ params }: { params: Promise
             readTime={readTimeLabel}
             shareTitle={`${story.subjectName} — Success story`}
           />
-          <div className="text-ink-2">{renderedBody}</div>
+          <SectionAct className="text-ink-2">{renderedBody}</SectionAct>
         </div>
       </article>
       {related[0] ? (

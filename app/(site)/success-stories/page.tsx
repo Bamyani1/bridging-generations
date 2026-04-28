@@ -77,6 +77,7 @@ export default async function SuccessStoriesPage() {
                   aspect="4/5"
                   bleed
                   priority
+                  viewTransitionName="success-story-hero"
                 />
               </Reveal>
               <Feature.Body>

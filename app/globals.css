@@ -568,6 +568,128 @@
   }
 }
 
+/* §9 R4.9 Motion vocabulary — six named motions, each with a reduced-motion contract.
+   Reference: Stripe Press (motion reserved for cover threshold), Bloomberg Businessweek
+   (scroll motion as act-break punctuation, not paragraph decoration), The Pudding (motion
+   tied to argument structure). The Motion Lab on /design demonstrates each.
+     1. develop      — Reveal kind="develop" filter saturate-in.            (above, §9)
+     2. kenburns     — slow scale loop on success-story portraits.          (above)
+     3. horizon      — 1px hairline settle above act-break headlines.       (.section-act below)
+     4. settle       — active-state indicator entry on Nav.                 (.nav-active-motif below)
+     5. page-fade    — view-transition cross-fade. Root: ::view-transition-old/new(root) above.
+                       Per-route override for success-story hero portrait.  (below)
+     6. drawer-sheet — mobile nav PANEL slide-in.                           (.drawer-sheet below) */
+
+/* horizon — 1px hairline settles above the headline as a SectionAct enters viewport.
+   IntersectionObserver in components/ui/SectionAct.tsx toggles .is-visible.
+   The hairline is short (4rem) on purpose: punctuation, not banner. */
+.section-act {
+  position: relative;
+  padding-top: 1.5rem;
+}
+.section-act::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  height: 1px;
+  background: var(--color-hairline);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--motion-md) var(--ease-smooth),
+    transform var(--motion-md) var(--ease-smooth);
+}
+.section-act.is-visible::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-act::before {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* settle — active-page indicator entry on Nav. The chosen motif (swash or notch — see
+   ACTIVE_MOTIF in components/layout/Nav.tsx) renders inside .nav-active-motif and
+   settles in via opacity + Y. Reduced-motion: instant. */
+.nav-active-motif {
+  display: inline-block;
+  animation: nav-active-settle var(--motion-sm) var(--ease-smooth) both;
+}
+@keyframes nav-active-settle {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-active-motif {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* page-fade per-route override — success-story hero portrait crossfades against
+   itself when navigating from the index featured slot → its slug. Both the index
+   Feature.Image and the slug PortraitHero set view-transition-name: success-story-hero
+   so the browser pairs them; the named animation replaces the root cross-fade for that
+   element. Opacity-only: a Y-shift on a portrait crossfade reads as glitch, not motion. */
+::view-transition-old(success-story-hero) {
+  animation: vt-portrait-out var(--motion-md) var(--ease-smooth) both;
+}
+::view-transition-new(success-story-hero) {
+  animation: vt-portrait-in var(--motion-md) var(--ease-smooth) both;
+}
+@keyframes vt-portrait-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-portrait-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(success-story-hero),
+  ::view-transition-new(success-story-hero) {
+    animation: none;
+  }
+}
+
+/* drawer-sheet — mobile nav PANEL slide-in. The panel itself fades + drops 8px from
+   above; per-list-item stagger is the existing .menu-item-in (60ms steps).
+   Reduced-motion: instant. */
+.drawer-sheet {
+  animation: drawer-sheet-in var(--motion-md) var(--ease-smooth) both;
+}
+@keyframes drawer-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer-sheet {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* §9 Atmospheric page — scroll-driven background-color drift on long narrative
    routes (/about + /success-stories/[slug]). Same @supports pattern as
    .scroll-progress-rule above. The base rule sets a stable cream so Firefox

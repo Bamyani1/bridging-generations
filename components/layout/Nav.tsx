@@ -6,6 +6,21 @@ import { Link } from "next-view-transitions";
 import { useEffect, useId, useRef, useState } from "react";
 import { donateCta, primaryNav } from "@/content/fixtures/navigation";
 
+// R4.9 active-state motif. Both swash (CoralArc-derived) and notch (2px coral
+// block) were prototyped during the refinement gate; notch was chosen — the
+// CoralArc reads as a hand-drawn brand mark at hero scale (280×40 viewBox)
+// but its lenticular stroke loses weight at nav scale (40×8) and stops
+// reading as "you are here" pre-cognitively. The notch is a definite
+// typographic "you are here" punctuation.
+function ActiveMotif() {
+  return (
+    <span
+      aria-hidden="true"
+      className="nav-active-motif pointer-events-none absolute -bottom-1.5 left-1/2 h-[2px] w-8 -translate-x-1/2 bg-accent-2-text"
+    />
+  );
+}
+
 function isActive(pathname: string | null, href: string) {
   if (!pathname) return false;
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -103,11 +118,12 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
                     aria-current={active ? "page" : undefined}
                     className={
                       active
-                        ? "text-nav-link font-bold uppercase text-white underline decoration-accent-3 decoration-1 underline-offset-[6px] transition-colors"
+                        ? "relative text-nav-link font-bold uppercase text-white transition-colors"
                         : "text-nav-link uppercase text-white transition-colors hover:text-accent-3"
                     }
                   >
                     {item.label}
+                    {active ? <ActiveMotif /> : null}
                   </Link>
                 </li>
               );
@@ -166,7 +182,7 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
+            className="drawer-sheet fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
           >
             <div className="flex flex-col px-6 py-6">
               <div className="flex items-start justify-between gap-4 pb-6">

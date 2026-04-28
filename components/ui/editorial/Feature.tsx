@@ -48,6 +48,14 @@ type FeatureImageProps = {
    */
   bleed?: boolean;
   priority?: boolean;
+  /**
+   * Pair the image with a same-named element on another route so the browser
+   * crossfades it during navigation (CSS view-transitions). Names must be
+   * unique per page — only one rendered Feature.Image on a given route should
+   * carry a name. R4.9 uses this for the success-stories featured portrait
+   * crossfading into the slug PortraitHero.
+   */
+  viewTransitionName?: string;
 };
 
 function FeatureImage({
@@ -57,11 +65,13 @@ function FeatureImage({
   sizes,
   bleed = false,
   priority,
+  viewTransitionName,
 }: FeatureImageProps) {
   const bleedClass = bleed ? "lg:-ml-[6%]" : "";
   return (
     <div
       className={`relative w-full overflow-hidden bg-ground-3 ${aspectClass[aspect]} ${bleedClass}`.trim()}
+      style={viewTransitionName ? { viewTransitionName } : undefined}
     >
       <Image
         src={src}

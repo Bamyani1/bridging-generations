@@ -1,23 +1,10 @@
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionAct } from "@/components/ui/SectionAct";
+import { MotionDemo } from "./MotionDemo";
 import { SectionShell } from "./SectionShell";
 
-const durationTable: Array<{ token: string; value: string; use: string }> = [
-  { token: "--motion-xs", value: "120ms", use: "State flip (hover color)" },
-  { token: "--motion-sm", value: "220ms", use: "Card hover lift, icon flip" },
-  { token: "--motion-md", value: "400ms", use: "Menu open / close, page transition" },
-  { token: "--motion-lg", value: "700ms", use: "Image zoom, scroll reveal" },
-  { token: "--motion-xl", value: "1200ms", use: "Hero entrance, count-up" },
-];
-
-const easingTable: Array<{ token: string; curve: string; use: string }> = [
-  { token: "--ease-smooth", curve: "cubic-bezier(0.16, 1, 0.3, 1)", use: "Reveals + transitions" },
-  {
-    token: "--ease-in-out",
-    curve: "cubic-bezier(0.4, 0, 0.2, 1)",
-    use: "Bidirectional state changes",
-  },
-  { token: "--ease-linear", curve: "linear", use: "Scroll-driven progress only" },
-];
+const easeSmooth = [0.16, 1, 0.3, 1] as const;
+const easeInOut = [0.4, 0, 0.2, 1] as const;
 
 export function MotionLabSection() {
   return (
@@ -26,90 +13,200 @@ export function MotionLabSection() {
       number="§12"
       label="Motion"
       meta={[
-        { key: "durations", value: "5" },
-        { key: "easings", value: "3" },
+        { key: "named", value: "6" },
         { key: "reduced-motion", value: "safe" },
       ]}
     >
       <p className="max-w-2xl text-body text-ink-2">
-        Tokens, primitives, and demos for §9 motion. Reveals animate on enter; card hovers lift and
-        brighten; image zooms on hover. Every demo respects{" "}
-        <code className="font-mono">prefers-reduced-motion: reduce</code>.
+        Six named motions in the R4.9 vocabulary, each demonstrated below with a Replay button,
+        motion / reduced side-by-side, duration label, and an easing-curve sketch. Every motion has
+        a <code className="font-mono">prefers-reduced-motion: reduce</code> contract — the
+        &ldquo;Reduced&rdquo; pane mirrors what the reader sees with that preference set.
       </p>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-2">
-        <div>
-          <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
-            Duration tokens
-          </p>
-          <ul className="mt-4 space-y-2 font-mono text-meta uppercase">
-            {durationTable.map((row) => (
-              <li key={row.token} className="flex flex-wrap gap-x-3">
-                <span className="text-ink">{row.token}</span>
-                <span className="text-ink-2">{row.value}</span>
-                <span className="text-ink-2">— {row.use}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Easing tokens</p>
-          <ul className="mt-4 space-y-2 font-mono text-meta uppercase">
-            {easingTable.map((row) => (
-              <li key={row.token} className="flex flex-wrap gap-x-3">
-                <span className="text-ink">{row.token}</span>
-                <span className="text-ink-2">{row.curve}</span>
-                <span className="text-ink-2">— {row.use}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <div className="mt-10 flex flex-col gap-2">
+        <MotionDemo
+          name="develop"
+          source="components/ui/Reveal.tsx · kind=develop"
+          durationMs={900}
+          easing={easeSmooth}
+          easingToken="--ease-smooth"
+          reducedMotion="Opacity-only fallback. Filter, sepia, and brightness are removed; the image renders at its final tone immediately."
+          reducedPreview={
+            <div
+              aria-hidden="true"
+              className="h-32 w-full bg-accent-2"
+              style={{
+                backgroundImage:
+                  "linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent) 100%)",
+              }}
+            />
+          }
+        >
+          <Reveal kind="develop">
+            <div
+              aria-hidden="true"
+              className="h-32 w-full bg-accent-2"
+              style={{
+                backgroundImage:
+                  "linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent) 100%)",
+              }}
+            />
+          </Reveal>
+        </MotionDemo>
 
-      <div className="mt-12 border-t border-hairline pt-8">
-        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Scroll reveal</p>
-        <p className="mt-2 text-body-sm text-ink-2">
-          Each Reveal fades + slides up 30px once it intersects the viewport. Reduced motion drops
-          the translate.
-        </p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          {[0, 80, 160].map((delay) => (
-            <Reveal key={delay} delay={delay}>
-              <div className="border border-hairline bg-ground-2 p-6">
-                <p className="font-mono text-meta uppercase text-ink">Reveal · delay {delay}ms</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-12 border-t border-hairline pt-8">
-        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">Card hover</p>
-        <p className="mt-2 text-body-sm text-ink-2">
-          Lifts -0.5 × spacing (2px); swaps shadow-card → shadow-card-hover over 220ms. Reduced
-          motion: shadow swap only.
-        </p>
-        <div className="mt-4 max-w-sm">
-          <div className="border border-hairline bg-ground-2 p-6 shadow-[var(--shadow-card)] transition-all duration-[var(--motion-sm)] ease-[var(--ease-smooth)] hover:shadow-[var(--shadow-card-hover)] motion-safe:hover:-translate-y-0.5">
-            <p className="text-heading-5">Hoverable card</p>
-            <p className="mt-1 text-body-sm text-ink-2">Move the cursor over me.</p>
+        <MotionDemo
+          name="kenburns"
+          source="app/globals.css · .kenburns"
+          durationMs={20000}
+          easing={easeInOut}
+          easingToken="ease-in-out (infinite alternate)"
+          reducedMotion="Static frame. The animation is canceled; transform resets to scale(1)."
+          reducedPreview={
+            <div className="h-32 w-full overflow-hidden bg-accent">
+              <div
+                aria-hidden="true"
+                className="h-full w-full"
+                style={{
+                  backgroundImage: "var(--bg-linen-texture)",
+                  backgroundSize: "200px 200px",
+                }}
+              />
+            </div>
+          }
+        >
+          <div className="h-32 w-full overflow-hidden bg-accent">
+            <div
+              aria-hidden="true"
+              className="kenburns h-full w-full"
+              style={{
+                backgroundImage: "var(--bg-linen-texture)",
+                backgroundSize: "200px 200px",
+              }}
+            />
           </div>
-        </div>
-      </div>
+        </MotionDemo>
 
-      <div className="mt-12 border-t border-hairline pt-8">
-        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
-          Image zoom · hover
-        </p>
-        <p className="mt-2 text-body-sm text-ink-2">
-          1.06× scale over 700ms smooth easing. Reduced motion: static.
-        </p>
-        <div className="group mt-4 max-w-sm overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="aspect-[4/3] bg-accent transition-transform duration-[var(--motion-lg)] ease-[var(--ease-smooth)] motion-safe:group-hover:scale-[1.06]"
-          />
-        </div>
+        <MotionDemo
+          name="horizon"
+          source="components/ui/SectionAct.tsx"
+          durationMs={400}
+          easing={easeSmooth}
+          easingToken="--ease-smooth"
+          reducedMotion="Line static at full opacity. No Y-translate, no transition."
+          reducedPreview={
+            <div className="relative pt-6">
+              <span
+                aria-hidden="true"
+                className="absolute top-0 left-0 block h-px w-16 bg-hairline"
+              />
+              <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink">
+                Act break headline
+              </p>
+              <p className="mt-2 max-w-prose text-body-sm text-ink-2">
+                Body copy continues below the headline.
+              </p>
+            </div>
+          }
+        >
+          <SectionAct>
+            <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink">
+              Act break headline
+            </p>
+            <p className="mt-2 max-w-prose text-body-sm text-ink-2">
+              Body copy continues below the headline.
+            </p>
+          </SectionAct>
+        </MotionDemo>
+
+        <MotionDemo
+          name="settle"
+          source="components/layout/Nav.tsx · ActiveMotif"
+          durationMs={220}
+          easing={easeSmooth}
+          easingToken="--ease-smooth"
+          reducedMotion="Instant. Motif renders at full opacity with no Y-translate or transition."
+          reducedPreview={
+            <div className="flex h-32 items-center justify-center bg-accent">
+              <span className="relative text-nav-link font-bold uppercase text-white">
+                Active page
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -bottom-1.5 left-1/2 h-[2px] w-8 -translate-x-1/2 bg-accent-2-text"
+                />
+              </span>
+            </div>
+          }
+        >
+          <div className="flex h-32 items-center justify-center bg-accent">
+            <span className="relative text-nav-link font-bold uppercase text-white">
+              Active page
+              <span
+                aria-hidden="true"
+                className="nav-active-motif pointer-events-none absolute -bottom-1.5 left-1/2 h-[2px] w-8 -translate-x-1/2 bg-accent-2-text"
+              />
+            </span>
+          </div>
+        </MotionDemo>
+
+        <MotionDemo
+          name="page-fade"
+          source="components/layout/ViewTransitionRoot.tsx · ::view-transition-old/new(root)"
+          durationMs={220}
+          easing={easeSmooth}
+          easingToken="--ease-smooth"
+          reducedMotion="No transition. The new page renders instantly; the old page is removed without animation."
+          reducedPreview={
+            <div className="relative h-32 overflow-hidden border border-hairline bg-ground-2">
+              <div className="absolute inset-0 flex items-center justify-center font-mono text-meta uppercase tracking-[0.1em] text-ink">
+                Route B
+              </div>
+            </div>
+          }
+        >
+          <div className="relative h-32 overflow-hidden border border-hairline bg-ground-2">
+            <div
+              className="absolute inset-0 flex items-center justify-center font-mono text-meta uppercase tracking-[0.1em] text-ink-2"
+              style={{ animation: "vt-fade-out var(--motion-xs) var(--ease-in-out) both" }}
+            >
+              Route A
+            </div>
+            <div
+              className="absolute inset-0 flex items-center justify-center font-mono text-meta uppercase tracking-[0.1em] text-ink"
+              style={{ animation: "vt-fade-in var(--motion-sm) var(--ease-smooth) both" }}
+            >
+              Route B
+            </div>
+          </div>
+        </MotionDemo>
+
+        <MotionDemo
+          name="drawer-sheet"
+          source="components/layout/Nav.tsx · mobile menu panel"
+          durationMs={400}
+          easing={easeSmooth}
+          easingToken="--ease-smooth"
+          reducedMotion="Instant. Panel renders at final position with no Y-translate or fade."
+          reducedPreview={
+            <div className="h-32 border border-hairline bg-ground-2 p-4 shadow-[var(--shadow-card-hover)]">
+              <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink">Mobile menu</p>
+              <ul className="mt-3 flex flex-col gap-1 text-body-sm text-ink-2">
+                <li>Home</li>
+                <li>About</li>
+                <li>Donate</li>
+              </ul>
+            </div>
+          }
+        >
+          <div className="drawer-sheet h-32 border border-hairline bg-ground-2 p-4 shadow-[var(--shadow-card-hover)]">
+            <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink">Mobile menu</p>
+            <ul className="mt-3 flex flex-col gap-1 text-body-sm text-ink-2">
+              <li>Home</li>
+              <li>About</li>
+              <li>Donate</li>
+            </ul>
+          </div>
+        </MotionDemo>
       </div>
 
       <div className="mt-12 border-t border-hairline pt-8">
@@ -117,10 +214,46 @@ export function MotionLabSection() {
           Reduced-motion contract
         </p>
         <p className="mt-3 text-body-sm text-ink-2">
-          When <code className="font-mono">prefers-reduced-motion: reduce</code> matches: every
-          translate / scale / rotate transform is removed; opacity fades only where they convey
-          meaning; reveals render statically; Lenis is disabled; count-ups render their final value.
+          When <code className="font-mono">prefers-reduced-motion: reduce</code> matches:
         </p>
+        <ul className="mt-3 grid grid-cols-1 gap-2 text-body-sm text-ink-2 sm:grid-cols-2">
+          <li>
+            <span aria-hidden="true" className="text-accent-2-text">
+              ✓
+            </span>{" "}
+            <span className="font-mono text-ink">develop</span> — opacity-only fallback.
+          </li>
+          <li>
+            <span aria-hidden="true" className="text-accent-2-text">
+              ✓
+            </span>{" "}
+            <span className="font-mono text-ink">kenburns</span> — static frame.
+          </li>
+          <li>
+            <span aria-hidden="true" className="text-accent-2-text">
+              ✓
+            </span>{" "}
+            <span className="font-mono text-ink">horizon</span> — line static, no settle.
+          </li>
+          <li>
+            <span aria-hidden="true" className="text-accent-2-text">
+              ✓
+            </span>{" "}
+            <span className="font-mono text-ink">settle</span> — instant.
+          </li>
+          <li>
+            <span aria-hidden="true" className="text-accent-2-text">
+              ✓
+            </span>{" "}
+            <span className="font-mono text-ink">page-fade</span> — no transition.
+          </li>
+          <li>
+            <span aria-hidden="true" className="text-accent-2-text">
+              ✓
+            </span>{" "}
+            <span className="font-mono text-ink">drawer-sheet</span> — instant.
+          </li>
+        </ul>
       </div>
     </SectionShell>
   );

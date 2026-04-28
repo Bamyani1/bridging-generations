@@ -4,6 +4,7 @@ import { Dropcap } from "@/components/content/Dropcap";
 import { MarginaliaRail } from "@/components/content/MarginaliaRail";
 import { MDXRenderer } from "@/components/content/MDXRenderer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { SectionAct } from "@/components/ui/SectionAct";
 import { getAllBlogPostsRaw, getBlogPostBySlug, getRecentBlogPosts } from "@/lib/content/blogPosts";
 import { getAllBoardMembers, getBoardMemberById } from "@/lib/content/boardMembers";
 import { readingTime } from "@/lib/content/readingTime";
@@ -95,7 +96,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             readTime={readTimeLabel}
             shareTitle={post.title}
           />
-          <div className="text-ink-2">{renderedBody}</div>
+          <SectionAct className="text-ink-2">{renderedBody}</SectionAct>
         </div>
       </article>
       <AuthorByline author={author} />
