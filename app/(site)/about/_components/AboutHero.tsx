@@ -12,7 +12,7 @@ export function AboutHero({ foundingYear }: AboutHeroProps) {
     <section
       id="hero"
       aria-labelledby="about-hero-title"
-      className="scroll-mt-20 bg-ground-3 px-4 pt-24 pb-16 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-24"
+      className="scroll-mt-20 overflow-x-clip bg-ground-3 px-4 pt-24 pb-16 sm:px-6 lg:px-[6%] lg:pt-36 lg:pb-24"
     >
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)] lg:gap-16">
         <Reveal stagger="up">
@@ -47,6 +47,7 @@ export function AboutHero({ foundingYear }: AboutHeroProps) {
               alt="A schoolboy in uniform sits in a library corner reading a book"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
+              priority
               className="object-cover"
             />
           </div>

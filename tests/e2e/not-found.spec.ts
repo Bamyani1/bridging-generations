@@ -4,12 +4,21 @@ import { expect, test } from "@playwright/test";
 test("unknown route renders the friendly 404", async ({ page }) => {
   const res = await page.goto("/this-route-does-not-exist");
   expect(res?.status()).toBe(404);
-  await expect(page.getByRole("heading", { name: /can't find this page/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Meet our students" })).toHaveAttribute(
+  await expect(page.getByRole("heading", { name: /somewhere in the Hill Tracts/i })).toBeVisible();
+
+  const destinations = page.getByRole("navigation", { name: "Standing destinations" });
+  await expect(destinations.getByRole("link", { name: "Read a student's story" })).toHaveAttribute(
     "href",
-    "/students",
+    "/success-stories",
   );
-  await expect(page.getByRole("link", { name: "Back home" })).toHaveAttribute("href", "/");
+  await expect(destinations.getByRole("link", { name: "See recent activity" })).toHaveAttribute(
+    "href",
+    "/activities",
+  );
+  await expect(destinations.getByRole("link", { name: "Donate" })).toHaveAttribute(
+    "href",
+    "/donate",
+  );
 });
 
 test("404 is marked noindex", async ({ page }) => {

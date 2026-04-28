@@ -29,8 +29,6 @@ export function PortraitHero({ story, showPortrait }: PortraitHeroProps) {
             style={{ objectPosition: "center 30%" }}
           />
         ) : (
-          // TODO(R4.7): replace SVG StudentPlaceholder with photographic
-          // stand-in defined in the conversion + boundary pages prompt.
           <div className="absolute inset-0 flex items-center justify-center bg-ground-3">
             <div className="size-48 sm:size-64">
               <StudentPlaceholder />

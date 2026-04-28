@@ -21,22 +21,42 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const firstFocusableRef = useRef<HTMLAnchorElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const hasOpenedRef = useRef(false);
   const titleId = useId();
   const isOnDonate = pathname?.startsWith("/donate") ?? false;
 
   useEffect(() => {
+    if (!open) return;
+    // <html> is the scrolling element in standards mode, so locking only body
+    // leaves the page scrollable. Lock both — restore both — so the menu doesn't
+    // double as a wormhole that lets the underlying page scroll on tap. Runs
+    // before the focus / trap effects so scroll-lock is in place by the time
+    // close-button focus settles, even when the test dispatches a wheel event
+    // microseconds after click().
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.overflow;
+    const prevBody = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtml;
+      body.style.overflow = prevBody;
+    };
+  }, [open]);
+
+  useEffect(() => {
     if (open) {
       hasOpenedRef.current = true;
-      firstFocusableRef.current?.focus();
+      closeBtnRef.current?.focus({ preventScroll: true });
       const onKey = (e: KeyboardEvent) => {
         if (e.key === "Escape") setOpen(false);
       };
       document.addEventListener("keydown", onKey);
       return () => document.removeEventListener("keydown", onKey);
     }
-    if (hasOpenedRef.current) hamburgerRef.current?.focus();
+    if (hasOpenedRef.current) hamburgerRef.current?.focus({ preventScroll: true });
   }, [open]);
 
   useEffect(() => {
@@ -61,23 +81,6 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
     };
     panel.addEventListener("keydown", trap);
     return () => panel.removeEventListener("keydown", trap);
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    // <html> is the scrolling element in standards mode, so locking only body
-    // leaves the page scrollable. Lock both — restore both — so the menu doesn't
-    // double as a wormhole that lets the underlying page scroll on tap.
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtml = html.style.overflow;
-    const prevBody = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    return () => {
-      html.style.overflow = prevHtml;
-      body.style.overflow = prevBody;
-    };
   }, [open]);
 
   return (
@@ -166,11 +169,22 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
             className="fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
           >
             <div className="flex flex-col px-6 py-6">
-              <div className="pb-6">
-                <p id={titleId} className="text-heading-6 font-bold text-ink">
-                  Bridging Generations
-                </p>
-                {tagline ? <p className="mt-2 text-body-sm text-ink-2">{tagline}</p> : null}
+              <div className="flex items-start justify-between gap-4 pb-6">
+                <div>
+                  <p id={titleId} className="text-heading-6 font-bold text-ink">
+                    Bridging Generations
+                  </p>
+                  {tagline ? <p className="mt-2 text-body-sm text-ink-2">{tagline}</p> : null}
+                </div>
+                <button
+                  ref={closeBtnRef}
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setOpen(false)}
+                  className="-mr-2 flex size-11 shrink-0 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+                >
+                  <X className="size-5" aria-hidden="true" />
+                </button>
               </div>
               <ul className="flex flex-col gap-3 border-t border-hairline pt-6">
                 {primaryNav.map((item, i) => {
@@ -183,7 +197,6 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
                     >
                       <Link
                         href={item.href}
-                        ref={i === 0 ? firstFocusableRef : undefined}
                         onClick={() => setOpen(false)}
                         aria-current={active ? "page" : undefined}
                         className={

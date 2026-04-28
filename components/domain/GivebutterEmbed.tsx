@@ -21,7 +21,7 @@ function SetupFallback() {
       <p>
         <a
           href="mailto:info@bridginggenerations.org?subject=I%27d%20like%20to%20donate"
-          className="text-heading-4 text-accent underline decoration-2 underline-offset-[4px] transition hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+          className="break-all text-heading-4 text-accent underline decoration-2 underline-offset-[4px] transition hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
         >
           info@bridginggenerations.org
         </a>
