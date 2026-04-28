@@ -70,6 +70,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<P
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"
                 priority
+                fetchPriority="high"
               />
             ) : (
               <StudentPlaceholder sizes="(min-width: 1024px) 40vw, 100vw" />

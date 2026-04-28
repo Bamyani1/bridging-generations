@@ -34,6 +34,7 @@ export function PortraitHero({ story, showPortrait }: PortraitHeroProps) {
             alt={story.portrait.alt}
             fill
             priority
+            fetchPriority="high"
             sizes="(min-width: 1024px) 90ch, 100vw"
             className="kenburns object-cover object-[center_30%]"
           />

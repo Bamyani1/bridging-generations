@@ -27,6 +27,7 @@ export function BlogPostHeader({ post }: BlogPostHeaderProps) {
           ladder="portrait"
           mobileFocalPoint={mobileFocalPoint}
           priority
+          fetchPriority="high"
           sizes="(min-width: 1024px) 90ch, 100vw"
         />
       </div>
