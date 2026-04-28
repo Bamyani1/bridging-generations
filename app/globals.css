@@ -1177,6 +1177,23 @@ p.dropcap::first-letter {
   }
 }
 
+/* R4.10 — mobile aspect ladder. Used by hero <Image> wrappers (via
+   MobileImage) where 16:9 desktop crops decapitate subjects on phone
+   aspect ratios. Snaps to 16:9 at sm:+ for desktop. */
+@utility mobile-aspect-portrait {
+  aspect-ratio: 4 / 5;
+  @media (min-width: 640px) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@utility mobile-aspect-square {
+  aspect-ratio: 1 / 1;
+  @media (min-width: 640px) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
 /* Print — long-form is the obvious print target. Hide chrome that doesn't
    serve the printed page; let the article body fill the sheet. !important is
    the canonical print-CSS pattern: the chrome elements carry class-level
