@@ -52,12 +52,12 @@
   --text-display-2--letter-spacing: -0.02em;
   --text-display-2--font-weight: 700;
 
-  --text-heading-1: 48px;
+  --text-heading-1: clamp(1.75rem, 1rem + 3vw, 3rem); /* 28px @ 360px → 48px @ 1067px+ */
   --text-heading-1--line-height: 1.1;
   --text-heading-1--letter-spacing: -0.01em;
   --text-heading-1--font-weight: 700;
 
-  --text-heading-2: 40px;
+  --text-heading-2: clamp(1.5rem, 0.875rem + 2.5vw, 2.5rem); /* 24px @ 360px → 40px @ 1040px+ */
   --text-heading-2--line-height: 1.1;
   --text-heading-2--letter-spacing: normal;
   --text-heading-2--font-weight: 700;
@@ -726,11 +726,10 @@
 }
 
 /* §2 Typography — mobile size overrides (<768px). Line-height, tracking, weight stay constant.
-   display-1 and display-2 are intentionally absent here — they fluid-scale via clamp(). */
+   display-1, display-2, heading-1, and heading-2 are intentionally absent here —
+   they fluid-scale via clamp(). */
 @media (max-width: 767px) {
   :root {
-    --text-heading-1: 40px;
-    --text-heading-2: 32px;
     --text-heading-3: 28px;
     --text-heading-4: 24px;
     --text-heading-5: 20px;
