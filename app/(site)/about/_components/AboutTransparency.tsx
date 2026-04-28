@@ -44,7 +44,7 @@ export function AboutTransparency({
           </h2>
         </div>
         <ul className="flex flex-col">
-          <Row as="li" noImage>
+          <Row as="li" noImage className="max-sm:border-t-transparent max-sm:py-4">
             <Row.Eyebrow>Legal</Row.Eyebrow>
             <div className="flex flex-col gap-2 text-body text-ink-2">
               <span className="text-ink">{orgName}</span>
@@ -59,7 +59,7 @@ export function AboutTransparency({
               )}
             </div>
           </Row>
-          <Row as="li" noImage>
+          <Row as="li" noImage className="max-sm:border-t-transparent max-sm:py-4">
             <Row.Eyebrow>Financials</Row.Eyebrow>
             <div className="flex flex-col gap-3 text-body text-ink-2">
               {hasAnyFinancialLink ? (
@@ -101,7 +101,7 @@ export function AboutTransparency({
               </p>
             </div>
           </Row>
-          <Row as="li" noImage>
+          <Row as="li" noImage className="max-sm:border-t-transparent max-sm:py-4">
             <Row.Eyebrow>Governance</Row.Eyebrow>
             <div className="flex flex-col gap-3 text-body text-ink-2">
               {showMailingAddress ? (
