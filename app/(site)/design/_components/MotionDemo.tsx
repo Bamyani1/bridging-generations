@@ -1,0 +1,105 @@
+"use client";
+
+import { type ReactNode, useState } from "react";
+import { type CubicBezier, easingPath } from "@/lib/motion/easingPath";
+
+type MotionDemoProps = {
+  /** Display name of the motion (lowercase token name). */
+  name: string;
+  /** Reference path to where the motion is defined. */
+  ref: string;
+  /** Duration in ms (used for the timing-diagram label). */
+  durationMs: number;
+  /** Cubic-bezier control points for the easing curve sketch. */
+  easing: CubicBezier;
+  /** Token reference for the easing curve. */
+  easingToken: string;
+  /** One-line description of how the motion behaves under prefers-reduced-motion. */
+  reducedMotion: string;
+  /** The animated demo. Re-keyed on Replay so animations restart. */
+  children: ReactNode;
+  /** Static end-state preview that mirrors the prefers-reduced-motion fallback. */
+  reducedPreview: ReactNode;
+};
+
+/**
+ * Editorial demo block for one named motion in the R4.9 motion vocabulary.
+ * Renders side-by-side motion / reduced previews, a timing diagram (duration
+ * label + easing curve sketch via easingPath), and a Replay button that
+ * remounts the demo so the animation restarts.
+ */
+export function MotionDemo({
+  name,
+  ref,
+  durationMs,
+  easing,
+  easingToken,
+  reducedMotion,
+  children,
+  reducedPreview,
+}: MotionDemoProps) {
+  const [key, setKey] = useState(0);
+  return (
+    <div className="border-t border-hairline pt-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-4">
+        <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink">{name}</p>
+        <button
+          type="button"
+          onClick={() => setKey((k) => k + 1)}
+          className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+        >
+          ↺ Replay
+        </button>
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <figure className="m-0">
+          <figcaption className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
+            Motion
+          </figcaption>
+          <div key={key} className="mt-2">
+            {children}
+          </div>
+        </figure>
+        <figure className="m-0">
+          <figcaption className="font-mono text-meta uppercase tracking-[0.1em] text-ink-2">
+            Reduced
+          </figcaption>
+          <div className="mt-2">{reducedPreview}</div>
+        </figure>
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <svg
+          viewBox="0 0 60 30"
+          className="h-8 w-[60px] shrink-0 text-accent"
+          aria-hidden="true"
+          fill="none"
+        >
+          <path
+            d={easingPath(easing, 60, 30)}
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+          />
+        </svg>
+        <div className="min-w-0 flex-1">
+          <p className="font-mono text-meta uppercase tracking-[0.1em]">
+            <span className="text-ink-2">{ref}</span>
+            <span aria-hidden="true" className="text-hairline">
+              {" "}
+              ·{" "}
+            </span>
+            <span className="text-ink">{durationMs}ms</span>
+            <span aria-hidden="true" className="text-hairline">
+              {" "}
+              ·{" "}
+            </span>
+            <span className="text-ink-2">{easingToken}</span>
+          </p>
+          <p className="mt-1 text-body-sm text-ink-2">{reducedMotion}</p>
+        </div>
+      </div>
+    </div>
+  );
+}

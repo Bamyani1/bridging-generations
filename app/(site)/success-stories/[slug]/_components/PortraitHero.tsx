@@ -17,7 +17,10 @@ export function PortraitHero({ story, showPortrait }: PortraitHeroProps) {
 
   return (
     <section aria-labelledby="success-story-title" className="relative bg-ground-3">
-      <div className={imageWrapperClass}>
+      <div
+        className={imageWrapperClass}
+        style={showPortrait ? { viewTransitionName: "success-story-hero" } : undefined}
+      >
         {showPortrait ? (
           <Image
             src={story.portrait.src}
