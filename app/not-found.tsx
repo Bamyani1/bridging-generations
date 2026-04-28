@@ -1,17 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { Nav } from "@/components/layout/Nav";
-import { SkipLink } from "@/components/layout/SkipLink";
-import { ViewTransitionRoot } from "@/components/layout/ViewTransitionRoot";
-import { getSiteSettings } from "@/lib/content/siteSettings";
-import "./globals.css";
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  display: "swap",
-});
+import { SiteChrome } from "@/components/layout/SiteChrome";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -36,88 +24,62 @@ const destinations = [
   },
 ];
 
-export default async function NotFound() {
-  const siteSettings = await getSiteSettings();
-
+export default function NotFound() {
   return (
-    <ViewTransitionRoot>
-      <html lang="en" className={`${plusJakartaSans.variable} h-full antialiased`}>
-        <body className="flex min-h-full flex-col bg-ground text-body text-ink">
-          <SkipLink />
-          <header>
-            <Nav
-              tagline={siteSettings.copy.footerTagline}
-              contactEmail={siteSettings.contactEmail}
-            />
-          </header>
-          <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
-            <div className="mx-auto flex max-w-[820px] flex-col gap-10 px-6 pt-20 pb-24 lg:px-[6%] lg:pt-28 lg:pb-32">
-              <div className="flex flex-col gap-6">
-                <h1 className="text-display-2 text-ink">
-                  This page is somewhere in the Hill Tracts, but not on this server.
-                </h1>
-                <p className="max-w-[44ch] text-body-lg text-ink-2">
-                  Routes shift, links go stale, students graduate. Try one of the standing
-                  destinations below — or write to the board.
-                </p>
-                <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-hairline pt-4 text-meta uppercase tracking-[0.1em] text-ink-2">
-                  <li>Page not found</li>
-                  <li>404</li>
-                </ul>
-              </div>
+    <SiteChrome>
+      <div className="mx-auto flex max-w-[820px] flex-col gap-10 px-6 pt-20 pb-24 lg:px-[6%] lg:pt-28 lg:pb-32">
+        <div className="flex flex-col gap-6">
+          <h1 className="text-display-2 text-ink">
+            This page is somewhere in the Hill Tracts, but not on this server.
+          </h1>
+          <p className="max-w-[44ch] text-body-lg text-ink-2">
+            Routes shift, links go stale, students graduate. Try one of the standing destinations
+            below — or write to the board.
+          </p>
+          <ul className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-hairline pt-4 text-meta uppercase tracking-[0.1em] text-ink-2">
+            <li>Page not found</li>
+            <li>404</li>
+          </ul>
+        </div>
 
-              <search>
-                <form
-                  action="/"
-                  className="flex flex-wrap items-baseline gap-3 border-b border-hairline pb-2 focus-within:border-accent"
+        <search>
+          <form
+            action="/"
+            className="flex flex-wrap items-baseline gap-3 border-b border-hairline pb-2 focus-within:border-accent"
+          >
+            <label
+              htmlFor="not-found-search"
+              className="text-meta uppercase tracking-[0.1em] text-ink-2"
+            >
+              Or search:
+            </label>
+            <input
+              id="not-found-search"
+              type="search"
+              name="q"
+              aria-label="Search the site"
+              placeholder="What were you looking for?"
+              className="min-w-0 flex-1 bg-transparent py-1 text-body text-ink placeholder:text-ink-2 focus:outline-none"
+            />
+          </form>
+        </search>
+
+        <nav aria-label="Standing destinations">
+          <ul className="flex flex-col divide-y divide-hairline border-t border-hairline">
+            {destinations.map((d) => (
+              <li key={d.href} className="py-5">
+                <a
+                  href={d.href}
+                  className="block text-heading-3 font-bold text-ink transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
                 >
-                  <label
-                    htmlFor="not-found-search"
-                    className="text-meta uppercase tracking-[0.1em] text-ink-2"
-                  >
-                    Or search:
-                  </label>
-                  <input
-                    id="not-found-search"
-                    type="search"
-                    name="q"
-                    aria-label="Search the site"
-                    placeholder="What were you looking for?"
-                    className="min-w-0 flex-1 bg-transparent py-1 text-body text-ink placeholder:text-ink-2 focus:outline-none"
-                  />
-                </form>
-              </search>
-
-              <nav aria-label="Standing destinations">
-                <ul className="flex flex-col divide-y divide-hairline border-t border-hairline">
-                  {destinations.map((d) => (
-                    <li key={d.href} className="py-5">
-                      <a
-                        href={d.href}
-                        className="block text-heading-3 font-bold text-ink transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
-                      >
-                        {d.label}
-                      </a>
-                      <p className="mt-1 max-w-[60ch] text-body text-ink-2">{d.caption}</p>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </main>
-          <footer>
-            <Footer
-              ein={siteSettings.ein}
-              mailingAddress={siteSettings.mailingAddress}
-              tagline={siteSettings.copy.footerTagline}
-              contactEmail={siteSettings.contactEmail}
-              form990Url={siteSettings.form990Url || undefined}
-              candidProfileUrl={siteSettings.candidProfileUrl || undefined}
-              socialLinks={siteSettings.socialLinks}
-            />
-          </footer>
-        </body>
-      </html>
-    </ViewTransitionRoot>
+                  {d.label}
+                </a>
+                <p className="mt-1 max-w-[60ch] text-body text-ink-2">{d.caption}</p>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </SiteChrome>
   );
 }
