@@ -3,6 +3,7 @@ import { StoryToc } from "@/components/content/StoryToc";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionAct } from "@/components/ui/SectionAct";
 import { extractHeadings } from "@/lib/content/extractHeadings";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { getTermsPage } from "@/lib/content/termsPage";
@@ -69,7 +70,9 @@ export default async function TermsPage() {
         </h2>
         <div className="longform-spine">
           <StoryToc headings={headings} />
-          <TermsBody source={body} />
+          <SectionAct>
+            <TermsBody source={body} />
+          </SectionAct>
         </div>
       </section>
       <section
