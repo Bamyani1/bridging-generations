@@ -117,6 +117,7 @@ export async function submitContactForm(
       status: "success",
       message: successMessage,
       fieldErrors: {},
+      submittedEmail: email,
     };
   }
 
@@ -143,5 +144,6 @@ export async function submitContactForm(
     status: "success",
     message: successMessage,
     fieldErrors: {},
+    submittedEmail: email,
   };
 }
