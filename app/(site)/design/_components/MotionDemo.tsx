@@ -1,7 +1,9 @@
 "use client";
 
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { type CubicBezier, easingPath } from "@/lib/motion/easingPath";
+
+const CYCLE_INTERVAL_MS = 6000;
 
 type MotionDemoProps = {
   /** Display name of the motion (lowercase token name). */
@@ -20,13 +22,24 @@ type MotionDemoProps = {
   children: ReactNode;
   /** Static end-state preview that mirrors the prefers-reduced-motion fallback. */
   reducedPreview: ReactNode;
+  /**
+   * When true (default), the motion side re-keys every 6s while in viewport
+   * so the animation continuously plays — a comparative loop against the
+   * static reduced pane. Skipped under prefers-reduced-motion. Set to false
+   * for motions that intrinsically loop (e.g., `kenburns` runs `infinite
+   * alternate` — re-keying would interrupt its own cycle).
+   */
+  autoCycle?: boolean;
 };
 
 /**
  * Editorial demo block for one named motion in the R4.9 motion vocabulary.
  * Renders side-by-side motion / reduced previews, a timing diagram (duration
  * label + easing curve sketch via easingPath), and a Replay button that
- * remounts the demo so the animation restarts.
+ * remounts the demo so the animation restarts. The motion side auto-cycles
+ * every 6s while in viewport so the comparative delta stays visible without
+ * requiring the reader to press Replay (motion-safe; skipped under
+ * prefers-reduced-motion).
  */
 export function MotionDemo({
   name,
@@ -37,10 +50,37 @@ export function MotionDemo({
   reducedMotion,
   children,
   reducedPreview,
+  autoCycle = true,
 }: MotionDemoProps) {
   const [key, setKey] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!autoCycle) return;
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = containerRef.current;
+    if (!el) return;
+    let interval: number | null = null;
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting && interval === null) {
+          interval = window.setInterval(() => setKey((k) => k + 1), CYCLE_INTERVAL_MS);
+        } else if (!entry.isIntersecting && interval !== null) {
+          window.clearInterval(interval);
+          interval = null;
+        }
+      }
+    });
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (interval !== null) window.clearInterval(interval);
+    };
+  }, [autoCycle]);
+
   return (
-    <div className="border-t border-hairline pt-8">
+    <div ref={containerRef} className="border-t border-hairline pt-8">
       <div className="flex flex-wrap items-baseline justify-between gap-4">
         <p className="font-mono text-meta uppercase tracking-[0.1em] text-ink">{name}</p>
         <button

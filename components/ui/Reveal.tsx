@@ -4,6 +4,11 @@ import { Children, type CSSProperties, type ReactNode, useEffect, useRef, useSta
 import { HandDrawnUnderline } from "@/components/motif/HandDrawnUnderline";
 import { RevealVisibleProvider } from "./RevealVisibleContext";
 
+// For act-break boundaries on long pages (the `horizon` motion in the R4.9
+// vocabulary), use `components/ui/SectionAct.tsx` instead — it ships a
+// 1px hairline + settle motion above the wrapped content. Reveal handles
+// per-element fade/translate; SectionAct handles section-entry punctuation.
+
 const CASCADE_MAX_MS = 600;
 const CASCADE_DEFAULT_MS = 150;
 

@@ -62,14 +62,15 @@ export function MotionLabSection() {
           easing={easeInOut}
           easingToken="ease-in-out (infinite alternate)"
           reducedMotion="Static frame. The animation is canceled; transform resets to scale(1)."
+          autoCycle={false}
           reducedPreview={
             <div className="h-32 w-full overflow-hidden bg-accent">
               <div
                 aria-hidden="true"
                 className="h-full w-full"
                 style={{
-                  backgroundImage: "var(--bg-linen-texture)",
-                  backgroundSize: "200px 200px",
+                  backgroundImage:
+                    "radial-gradient(circle at 32% 38%, var(--color-accent-3) 0%, var(--color-accent-2-text) 35%, var(--color-accent) 100%)",
                 }}
               />
             </div>
@@ -80,8 +81,8 @@ export function MotionLabSection() {
               aria-hidden="true"
               className="kenburns h-full w-full"
               style={{
-                backgroundImage: "var(--bg-linen-texture)",
-                backgroundSize: "200px 200px",
+                backgroundImage:
+                  "radial-gradient(circle at 32% 38%, var(--color-accent-3) 0%, var(--color-accent-2-text) 35%, var(--color-accent) 100%)",
               }}
             />
           </div>

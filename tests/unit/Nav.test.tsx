@@ -29,6 +29,14 @@ describe("Nav", () => {
     expect(about).not.toHaveAttribute("aria-current");
   });
 
+  it("renders the .nav-active-motif notch only on the active link", () => {
+    render(<Nav />);
+    const projects = screen.getByRole("link", { name: "Projects" });
+    expect(projects.querySelector(".nav-active-motif")).not.toBeNull();
+    const about = screen.getByRole("link", { name: "About" });
+    expect(about.querySelector(".nav-active-motif")).toBeNull();
+  });
+
   it("renders Donate links to /donate at desktop and mobile-bar widths", () => {
     render(<Nav />);
     const donates = screen.getAllByRole("link", { name: "Donate" });
