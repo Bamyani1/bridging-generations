@@ -12,7 +12,6 @@ export function HomeCTAFooter() {
         tone="cream"
         titleId="home-cta-footer-title"
         id="join"
-        withHorizonLine
       />
     </Reveal>
   );

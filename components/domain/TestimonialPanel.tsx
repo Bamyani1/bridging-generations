@@ -1,6 +1,5 @@
 import { AmberMark } from "@/components/motif/AmberMark";
 import { HandDrawnUnderline } from "@/components/motif/HandDrawnUnderline";
-import { HorizonLine } from "@/components/motif/HorizonLine";
 import { Button } from "@/components/ui/Button";
 import type { Testimonial } from "@/lib/content/testimonials";
 
@@ -10,7 +9,6 @@ type TestimonialPanelProps = {
   ctaHref?: string;
   titleId?: string;
   id?: string;
-  withHorizonLine?: boolean;
 };
 
 function escapeRegex(value: string): string {
@@ -39,7 +37,6 @@ export function TestimonialPanel({
   ctaHref = "/donate",
   titleId = "testimonial-title",
   id,
-  withHorizonLine = false,
 }: TestimonialPanelProps) {
   const { quote, speakerName, speakerTitle, speakerRole, highlightWord } = testimonial;
   const role =
@@ -52,14 +49,8 @@ export function TestimonialPanel({
     <section
       aria-labelledby={titleId}
       {...(id ? { id } : {})}
-      className={`teal-panel py-20 lg:py-32${id ? " scroll-mt-20" : ""}${withHorizonLine ? " relative overflow-hidden" : ""}`}
+      className={`teal-panel py-20 lg:py-32${id ? " scroll-mt-20" : ""}`}
     >
-      {withHorizonLine ? (
-        <HorizonLine
-          tone="on-teal"
-          className="pointer-events-none absolute inset-x-0 top-0 z-0 block h-24 w-full"
-        />
-      ) : null}
       <span aria-hidden="true" className="teal-panel-glyph" />
       <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <blockquote className="flex flex-col gap-10">

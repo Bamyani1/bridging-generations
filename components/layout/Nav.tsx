@@ -60,7 +60,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
 
   return (
     <>
-      <nav aria-label="Primary" className="fixed inset-x-0 top-0 z-50 h-16 bg-accent">
+      <nav aria-label="Primary" className="fixed inset-x-0 top-0 z-50 h-14 bg-accent">
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-[6%]">
           <Link
             href="/"

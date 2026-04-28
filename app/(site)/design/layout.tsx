@@ -49,8 +49,8 @@ const chapters: Chapter[] = [
 
 export default function DesignLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
-      <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-hairline p-8 lg:block">
+    <div className="flex min-h-[calc(100vh-3.5rem)]">
+      <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r border-hairline p-8 lg:block">
         <nav aria-label="Design system sections">
           <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink-2">Contents</p>
           <ol className="mt-6 space-y-6">

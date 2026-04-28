@@ -9,7 +9,7 @@ export function DonorsExplainer() {
     >
       <HorizonLine
         tone="on-cream"
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 block h-24 w-full"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 block h-24 w-full -scale-y-100"
       />
       <div className="relative z-10 mx-auto flex max-w-[900px] flex-col gap-4 text-body text-ink-2">
         <h2

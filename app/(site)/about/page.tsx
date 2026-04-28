@@ -87,7 +87,6 @@ export default async function AboutPage() {
         tone="cream"
         titleId="about-cta-title"
         id="join"
-        withHorizonLine
       />
       <JsonLd id="ld-about-breadcrumb" data={ldBreadcrumb} />
       <JsonLd id="ld-about-org" data={ldOrg} />

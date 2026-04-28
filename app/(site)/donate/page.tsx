@@ -116,7 +116,6 @@ export default async function DonatePage() {
           titleId="donate-testimonial-title"
           ctaLabel="Meet the students"
           ctaHref="/students"
-          withHorizonLine
         />
       ) : null}
       <DonateAfterNote note={afterNote} />
