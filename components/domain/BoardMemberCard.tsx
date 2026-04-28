@@ -17,7 +17,10 @@ export function BoardMemberCard({ member, headingLevel = 3 }: BoardMemberCardPro
   return (
     <article className="group flex h-full flex-col gap-5 bg-ground-2">
       {portraitSrc ? (
-        <Reveal kind="develop" className="relative aspect-[4/5] w-full overflow-hidden bg-ground-3">
+        <Reveal
+          kind="develop"
+          className="relative aspect-square w-full overflow-hidden bg-ground-3"
+        >
           <Image
             src={portraitSrc}
             alt={portraitAlt}
@@ -28,7 +31,7 @@ export function BoardMemberCard({ member, headingLevel = 3 }: BoardMemberCardPro
           <span aria-hidden="true" className="portrait-vignette" />
         </Reveal>
       ) : (
-        <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden bg-ground-3">
+        <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-ground-3">
           <Avatar name={name} size="lg" />
         </div>
       )}
