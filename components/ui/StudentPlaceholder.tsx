@@ -3,8 +3,11 @@ import Image from "next/image";
 type StudentPlaceholderProps = {
   /**
    * Alt is intentionally privacy-preserving — the label should not identify a
-   * specific student. Per saved feedback memory, the placeholder is a real
-   * photograph (textured paper, CC0) rather than an abstract SVG composition.
+   * specific student. The image is a soft photographic stand-in (open
+   * notebook with dried botanical, neutral palette) rather than an abstract
+   * texture, per the user's "real CC0 photos, never abstract" rule. Source:
+   * Pexels photo 8947762 by Karola G (kaboompics.com), Pexels license — free
+   * commercial use, no attribution required.
    */
   label?: string;
   className?: string;
