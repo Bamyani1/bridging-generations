@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Keystatic — Bridging Generations",
@@ -11,9 +10,7 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" className="h-full">
-      <body className="h-full bg-white text-ink">{children}</body>
-    </html>
-  );
+  // Admin overrides the global bg-ground with a clean white surface and
+  // unwinds the body's flex column so Keystatic's UI fills the viewport.
+  return <div className="-mt-0 min-h-screen bg-white text-ink">{children}</div>;
 }
