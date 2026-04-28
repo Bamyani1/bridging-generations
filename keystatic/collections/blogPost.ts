@@ -23,6 +23,27 @@ export const blogPostCollection = collection({
       options: { image: { directory: "public/images/blog", publicPath: "/images/blog/" } },
     }),
     coverImage: requiredImageWithAlt({ label: "Cover image", dir: "blog" }),
+    coverMobileFocalPoint: fields.object(
+      {
+        x: fields.integer({
+          label: "X (0–100)",
+          description: "Horizontal focal point as a percentage. 50 = center.",
+          defaultValue: 50,
+          validation: { isRequired: false, min: 0, max: 100 },
+        }),
+        y: fields.integer({
+          label: "Y (0–100)",
+          description: "Vertical focal point as a percentage. 30 = upper third.",
+          defaultValue: 30,
+          validation: { isRequired: false, min: 0, max: 100 },
+        }),
+      },
+      {
+        label: "Cover image — mobile focal point",
+        description:
+          "Drives object-position on the cover at <640px viewports. Defaults to {x:50, y:30}.",
+      },
+    ),
     author: fields.relationship({ label: "Author", collection: "boardMember" }),
     published: fields.checkbox({
       label: "Published",

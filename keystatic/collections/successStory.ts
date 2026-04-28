@@ -37,6 +37,28 @@ export const successStoryCollection = collection({
       },
     }),
     portrait: requiredImageWithAlt({ label: "Portrait", dir: "success-stories" }),
+    portraitMobileFocalPoint: fields.object(
+      {
+        x: fields.integer({
+          label: "X (0–100)",
+          description: "Horizontal focal point as a percentage. 50 = center.",
+          defaultValue: 50,
+          validation: { isRequired: false, min: 0, max: 100 },
+        }),
+        y: fields.integer({
+          label: "Y (0–100)",
+          description:
+            "Vertical focal point as a percentage. 30 = upper third (good default for portraits).",
+          defaultValue: 30,
+          validation: { isRequired: false, min: 0, max: 100 },
+        }),
+      },
+      {
+        label: "Portrait — mobile focal point",
+        description:
+          "Drives object-position on the portrait at <640px viewports so the subject stays in frame on phones. Defaults to {x:50, y:30}.",
+      },
+    ),
     heroDuotone: fields.checkbox({
       label: "Duotone hero",
       description: "Apply a teal/coral duotone blend over the portrait hero.",
