@@ -27,6 +27,26 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
   const isOnDonate = pathname?.startsWith("/donate") ?? false;
 
   useEffect(() => {
+    if (!open) return;
+    // <html> is the scrolling element in standards mode, so locking only body
+    // leaves the page scrollable. Lock both — restore both — so the menu doesn't
+    // double as a wormhole that lets the underlying page scroll on tap. Runs
+    // before the focus / trap effects so scroll-lock is in place by the time
+    // close-button focus settles, even when the test dispatches a wheel event
+    // microseconds after click().
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.overflow;
+    const prevBody = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtml;
+      body.style.overflow = prevBody;
+    };
+  }, [open]);
+
+  useEffect(() => {
     if (open) {
       hasOpenedRef.current = true;
       closeBtnRef.current?.focus({ preventScroll: true });
@@ -61,23 +81,6 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
     };
     panel.addEventListener("keydown", trap);
     return () => panel.removeEventListener("keydown", trap);
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    // <html> is the scrolling element in standards mode, so locking only body
-    // leaves the page scrollable. Lock both — restore both — so the menu doesn't
-    // double as a wormhole that lets the underlying page scroll on tap.
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtml = html.style.overflow;
-    const prevBody = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    return () => {
-      html.style.overflow = prevHtml;
-      body.style.overflow = prevBody;
-    };
   }, [open]);
 
   return (
