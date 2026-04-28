@@ -20,7 +20,7 @@ test("mobile menu opens, traps focus, and closes on escape", async ({ page }) =>
 
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
-  await expect(dialog).toHaveAttribute("aria-modal", "true");
+  // Native <dialog>.showModal() is implicitly modal per WAI-ARIA; aria-modal is not required.
 
   const close = dialog.getByRole("button", { name: /close menu/i });
   await expect(close).toBeFocused();

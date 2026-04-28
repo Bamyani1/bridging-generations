@@ -8,7 +8,6 @@ type ThankYouMessage = {
 
 type ThankYouWallProps = {
   messages: readonly ThankYouMessage[];
-  totalCount?: number | null;
 };
 
 const TRUNCATE_LIMIT = 220;
@@ -79,20 +78,16 @@ function buildGroups(messages: readonly ThankYouMessage[]): Group[] {
  * monument" when no tier data). The first message in each group gets the
  * larger heading-5 weight so the column has internal scale.
  */
-export function ThankYouWall({ messages, totalCount }: ThankYouWallProps) {
+export function ThankYouWall({ messages }: ThankYouWallProps) {
   if (messages.length === 0) {
     return (
       <p className="text-body text-ink-2">No thank-you messages yet — yours could be the first.</p>
     );
   }
   const groups = buildGroups(messages);
-  const captionCount = totalCount ?? messages.length;
 
   return (
     <MuseumWall ariaLabel="Anonymous thank-you wall">
-      <MuseumWall.Caption>
-        {captionCount} {captionCount === 1 ? "thank-you" : "thank-yous"} so far
-      </MuseumWall.Caption>
       {groups.map((group) => (
         <div key={group.key} className="break-inside-avoid">
           <MuseumWall.Tier label={group.label} count={group.messages.length} scale="lg" />

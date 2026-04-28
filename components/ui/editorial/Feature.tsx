@@ -78,7 +78,12 @@ function FeatureImage({
         alt={alt}
         fill
         priority={priority}
-        sizes={sizes ?? "(min-width: 1024px) 50vw, 100vw"}
+        // Next.js 16: `priority` injects a <link rel="preload"> but does not
+        // emit fetchpriority="high" on the rendered <img>. The Lighthouse /
+        // DevTools LCP-discovery insight checks the img's fetchpriority — so
+        // pair the two whenever the caller marks an image priority.
+        fetchPriority={priority ? "high" : undefined}
+        sizes={sizes ?? "(min-width: 1024px) 40vw, 100vw"}
         className="object-cover"
       />
     </div>

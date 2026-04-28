@@ -45,6 +45,22 @@ if (typeof window !== "undefined" && !window.matchMedia) {
   })) as unknown as typeof window.matchMedia;
 }
 
+// jsdom 25 doesn't ship a <dialog> polyfill — showModal/close/cancel are missing.
+// Stub them globally so any component built on the native dialog API (SheetDrawer,
+// Nav drawer, etc.) doesn't throw inside useEffect.
+if (typeof HTMLDialogElement !== "undefined") {
+  if (!HTMLDialogElement.prototype.showModal) {
+    HTMLDialogElement.prototype.showModal = function showModal() {
+      (this as HTMLDialogElement).setAttribute("open", "");
+    };
+  }
+  if (!HTMLDialogElement.prototype.close) {
+    HTMLDialogElement.prototype.close = function close() {
+      (this as HTMLDialogElement).removeAttribute("open");
+    };
+  }
+}
+
 afterEach(() => {
   cleanup();
 });

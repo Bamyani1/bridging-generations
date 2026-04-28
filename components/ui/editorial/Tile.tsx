@@ -51,6 +51,7 @@ function TileImage({ src, alt, aspect = "4/5", sizes, priority }: TileImageProps
         alt={alt}
         fill
         priority={priority}
+        fetchPriority={priority ? "high" : undefined}
         sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
         className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-hover:brightness-[1.02] motion-safe:group-focus-visible:saturate-[1.04] motion-safe:group-focus-visible:brightness-[1.02]"
       />

@@ -1,4 +1,5 @@
 import { Link } from "next-view-transitions";
+import { Accordion } from "@/components/ui/Accordion";
 import { footerContent } from "@/content/fixtures/footer";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 
@@ -147,39 +148,87 @@ export function Footer({
           ) : null}
         </div>
         <div>
-          <p className="text-eyebrow uppercase text-accent-3">Explore</p>
-          <ul className="mt-4 flex flex-col gap-2 text-body-sm">
-            {explore.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="text-white transition-colors hover:text-accent-3">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          {contactEmail ? (
-            <div className="mt-8 border-t border-white/15 pt-6">
-              <p className="text-eyebrow uppercase text-accent-3">Contact</p>
-              <ul className="mt-4 flex flex-col gap-2 text-body-sm">
-                <li>
-                  <a
-                    href={`mailto:${contactEmail}`}
-                    className="text-white transition-colors hover:text-accent-3"
-                  >
-                    Email us
-                  </a>
-                </li>
-                <li>
+          {/* <sm: collapsible accordion clusters; sm+: flat list (existing layout). */}
+          <div className="sm:hidden">
+            <Accordion
+              summary="Explore"
+              defaultOpen
+              className="border-white/15 [&>summary]:text-accent-3"
+            >
+              <ul className="flex flex-col gap-2 text-body-sm">
+                {explore.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-white transition-colors hover:text-accent-3"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
+            {contactEmail ? (
+              <Accordion summary="Contact" className="border-white/15 [&>summary]:text-accent-3">
+                <ul className="flex flex-col gap-2 text-body-sm">
+                  <li>
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="text-white transition-colors hover:text-accent-3"
+                    >
+                      Email us
+                    </a>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contact"
+                      className="text-white transition-colors hover:text-accent-3"
+                    >
+                      Contact
+                    </Link>
+                  </li>
+                </ul>
+              </Accordion>
+            ) : null}
+          </div>
+          <div className="hidden sm:block">
+            <p className="text-eyebrow uppercase text-accent-3">Explore</p>
+            <ul className="mt-4 flex flex-col gap-2 text-body-sm">
+              {explore.map((link) => (
+                <li key={link.href}>
                   <Link
-                    href="/contact"
+                    href={link.href}
                     className="text-white transition-colors hover:text-accent-3"
                   >
-                    Send a message
+                    {link.label}
                   </Link>
                 </li>
-              </ul>
-            </div>
-          ) : null}
+              ))}
+            </ul>
+            {contactEmail ? (
+              <div className="mt-8 border-t border-white/15 pt-6">
+                <p className="text-eyebrow uppercase text-accent-3">Contact</p>
+                <ul className="mt-4 flex flex-col gap-2 text-body-sm">
+                  <li>
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="text-white transition-colors hover:text-accent-3"
+                    >
+                      Email us
+                    </a>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contact"
+                      className="text-white transition-colors hover:text-accent-3"
+                    >
+                      Contact
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
       <div className="border-t border-white/15">

@@ -45,7 +45,7 @@ test.describe("smoke", () => {
     await page.waitForURL(/\/donate$/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-    await footer.getByRole("link", { name: "Send a message" }).click();
+    await footer.getByRole("link", { name: "Contact" }).first().click();
     await page.waitForURL(/\/contact$/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });

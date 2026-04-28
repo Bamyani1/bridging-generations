@@ -1,5 +1,7 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { StudentPlaceholder } from "@/components/ui/StudentPlaceholder";
+import { toFocalPoint } from "@/lib/content/focalPoint";
 import type { SuccessStory } from "@/lib/content/successStories";
 
 type PortraitHeroProps = {
@@ -11,25 +13,30 @@ export function PortraitHero({ story, showPortrait }: PortraitHeroProps) {
   // R4.6 aspect ladder — face placed in upper-third golden zone instead of
   // letterboxed at 16:9 (where it shrank to ~12% of frame). Portrait formats
   // bring the subject to ~30–40% of the composition at every viewport.
-  const imageWrapperClass = story.heroDuotone
-    ? "relative mx-auto aspect-[5/6] w-full max-w-[90ch] overflow-hidden hero-duotone sm:aspect-[4/5] lg:aspect-[3/4]"
-    : "relative mx-auto aspect-[5/6] w-full max-w-[90ch] overflow-hidden sm:aspect-[4/5] lg:aspect-[3/4]";
+  // R4.11 — at <640px, honor per-story portraitMobileFocalPoint via CSS vars
+  // on `.mobile-fp` (declared in globals.css). Desktop keeps the hardcoded
+  // "center 30%" fallback used since R4.6.
+  const fp = toFocalPoint(story.portraitMobileFocalPoint);
+  const wrapperBase =
+    "relative mobile-fp mx-auto aspect-[5/6] w-full max-w-[90ch] overflow-hidden sm:aspect-[4/5] lg:aspect-[3/4]";
+  const imageWrapperClass = story.heroDuotone ? `${wrapperBase} hero-duotone` : wrapperBase;
+  const wrapperStyle: CSSProperties = {
+    ...(fp ? { "--mobile-fp-x": `${fp.x}%`, "--mobile-fp-y": `${fp.y}%` } : null),
+    ...(showPortrait ? { viewTransitionName: "success-story-hero" } : null),
+  } as CSSProperties;
 
   return (
     <section aria-labelledby="success-story-title" className="relative bg-ground-3">
-      <div
-        className={imageWrapperClass}
-        style={showPortrait ? { viewTransitionName: "success-story-hero" } : undefined}
-      >
+      <div className={imageWrapperClass} style={wrapperStyle}>
         {showPortrait ? (
           <Image
             src={story.portrait.src}
             alt={story.portrait.alt}
             fill
             priority
-            sizes="(min-width: 1024px) 90ch, 100vw"
-            className="kenburns object-cover"
-            style={{ objectPosition: "center 30%" }}
+            fetchPriority="high"
+            sizes="(min-width: 1280px) 1120px, 100vw"
+            className="kenburns object-cover object-[center_30%]"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-ground-3">

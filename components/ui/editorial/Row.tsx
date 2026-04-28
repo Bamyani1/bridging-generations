@@ -53,16 +53,24 @@ type RowImageProps = {
   alt: string;
   aspect?: Aspect;
   sizes?: string;
+  /**
+   * Mark the LCP card on a route. Adds `priority` (preload) and
+   * `fetchPriority="high"` to the underlying <Image>. Use sparingly — only
+   * the first above-the-fold card per route.
+   */
+  priority?: boolean;
 };
 
-function RowImage({ src, alt, aspect = "3/2", sizes }: RowImageProps) {
+function RowImage({ src, alt, aspect = "3/2", sizes, priority }: RowImageProps) {
   return (
     <div className={`relative w-full overflow-hidden bg-ground-3 ${aspectClass[aspect]}`}>
       <Image
         src={src}
         alt={alt}
         fill
-        sizes={sizes ?? "(min-width: 1024px) 33vw, (min-width: 640px) 33vw, 100vw"}
+        priority={priority}
+        fetchPriority={priority ? "high" : undefined}
+        sizes={sizes ?? "(min-width: 640px) 25vw, 100vw"}
         className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-within:saturate-[1.04]"
       />
     </div>

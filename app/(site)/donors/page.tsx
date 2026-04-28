@@ -41,7 +41,7 @@ export default async function DonorsPage() {
           Thank-you wall
         </h2>
         <div className="mx-auto max-w-[1280px]">
-          <ThankYouWall messages={donorsPage.thankYouMessages} totalCount={stats.donorCount} />
+          <ThankYouWall messages={donorsPage.thankYouMessages} />
         </div>
       </section>
       <DonorsExplainer />

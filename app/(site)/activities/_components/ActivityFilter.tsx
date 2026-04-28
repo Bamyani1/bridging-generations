@@ -88,7 +88,7 @@ export function ActivityFilter({ activities }: ActivityFilterProps) {
             }
             nodes.push(
               <TimelineRail.Entry key={activity.id}>
-                <ActivityCard activity={activity} as="article" hideRule />
+                <ActivityCard activity={activity} as="article" hideRule priority={index === 0} />
               </TimelineRail.Entry>,
             );
             return nodes;

@@ -14,6 +14,12 @@ type ActivityCardProps = {
    * the rule.
    */
   hideRule?: boolean;
+  /**
+   * Mark this card's image as the LCP candidate for the route. Adds `priority`
+   * (preload) and `fetchPriority="high"` to the underlying Row.Image. Use only
+   * on the first above-the-fold card.
+   */
+  priority?: boolean;
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -39,13 +45,18 @@ function relativeStamp(iso: string): string | null {
   }
 }
 
-export function ActivityCard({ activity, as = "article", hideRule = false }: ActivityCardProps) {
+export function ActivityCard({
+  activity,
+  as = "article",
+  hideRule = false,
+  priority = false,
+}: ActivityCardProps) {
   const { coverImage, title, excerpt, tag, publishedAt } = activity;
   const stamp = relativeStamp(publishedAt);
   return (
     <Row as={as} hideRule={hideRule}>
       <Reveal kind="develop">
-        <Row.Image src={coverImage.src} alt={coverImage.alt} aspect="4/3" />
+        <Row.Image src={coverImage.src} alt={coverImage.alt} aspect="4/3" priority={priority} />
       </Reveal>
       <Row.Body>
         <Row.Eyebrow>
