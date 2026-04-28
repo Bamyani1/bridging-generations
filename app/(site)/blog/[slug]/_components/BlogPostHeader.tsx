@@ -1,6 +1,7 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { MobileImage } from "@/components/ui/MobileImage";
 import type { BlogPost } from "@/lib/content/blogPosts";
+import { toFocalPoint } from "@/lib/content/focalPoint";
 
 type BlogPostHeaderProps = {
   post: BlogPost;
@@ -8,8 +9,7 @@ type BlogPostHeaderProps = {
 
 export function BlogPostHeader({ post }: BlogPostHeaderProps) {
   const primaryTag = post.tags?.[0];
-  const fp = post.coverMobileFocalPoint;
-  const mobileFocalPoint = fp && fp.x != null && fp.y != null ? { x: fp.x, y: fp.y } : null;
+  const mobileFocalPoint = toFocalPoint(post.coverMobileFocalPoint);
   return (
     <header className="bg-ground px-4 pt-16 pb-8 sm:px-6 lg:px-[6%] lg:pt-24 lg:pb-12">
       <div className="mx-auto flex max-w-[65ch] flex-col gap-6">
