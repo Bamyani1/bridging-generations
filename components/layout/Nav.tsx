@@ -4,7 +4,35 @@ import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "next-view-transitions";
 import { useEffect, useId, useRef, useState } from "react";
+import { CoralArc } from "@/components/motif/CoralArc";
 import { donateCta, primaryNav } from "@/content/fixtures/navigation";
+
+// R4.9 active-state motif. Both variants ship in parallel; the refinement gate
+// before merge picks one and the loser branch is deleted. Settle motion
+// (entry: opacity + 4px Y) is shared via the .nav-active-motif CSS class.
+//   swash — small CoralArc above the active letterform.
+//   notch — 2px coral block under the active letterform.
+const ACTIVE_MOTIF: "swash" | "notch" = "swash";
+
+function ActiveMotif({ scale = "desktop" }: { scale?: "desktop" | "mobile" }) {
+  if (ACTIVE_MOTIF === "swash") {
+    const sizing = scale === "desktop" ? "-top-2 h-2 w-10" : "-top-3 h-3 w-14";
+    return (
+      <CoralArc
+        aria-hidden="true"
+        className={`nav-active-motif pointer-events-none absolute left-1/2 -translate-x-1/2 ${sizing}`}
+        tone="accent-2"
+      />
+    );
+  }
+  const notchSizing = scale === "desktop" ? "-bottom-1.5 h-[2px] w-8" : "-bottom-2 h-[3px] w-10";
+  return (
+    <span
+      aria-hidden="true"
+      className={`nav-active-motif pointer-events-none absolute left-1/2 -translate-x-1/2 bg-accent-2-text ${notchSizing}`}
+    />
+  );
+}
 
 function isActive(pathname: string | null, href: string) {
   if (!pathname) return false;
@@ -103,11 +131,12 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
                     aria-current={active ? "page" : undefined}
                     className={
                       active
-                        ? "text-nav-link font-bold uppercase text-white underline decoration-accent-3 decoration-1 underline-offset-[6px] transition-colors"
+                        ? "relative text-nav-link font-bold uppercase text-white transition-colors"
                         : "text-nav-link uppercase text-white transition-colors hover:text-accent-3"
                     }
                   >
                     {item.label}
+                    {active ? <ActiveMotif /> : null}
                   </Link>
                 </li>
               );
@@ -166,7 +195,7 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
+            className="drawer-sheet fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
           >
             <div className="flex flex-col px-6 py-6">
               <div className="flex items-start justify-between gap-4 pb-6">
