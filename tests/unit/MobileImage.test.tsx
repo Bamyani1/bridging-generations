@@ -12,38 +12,25 @@ import { MobileImage } from "@/components/ui/MobileImage";
 
 describe("MobileImage", () => {
   it("renders an <img> with the provided src/alt", () => {
-    const { container } = render(
-      <MobileImage src="/test.jpg" alt="test alt" width={800} height={600} ladder="portrait" />,
-    );
+    const { container } = render(<MobileImage src="/test.jpg" alt="test alt" ladder="portrait" />);
     const img = container.querySelector("img");
     expect(img).not.toBeNull();
     expect(img?.getAttribute("alt")).toBe("test alt");
   });
 
   it("applies the mobile-aspect-portrait wrapper class", () => {
-    const { container } = render(
-      <MobileImage src="/test.jpg" alt="x" width={800} height={600} ladder="portrait" />,
-    );
+    const { container } = render(<MobileImage src="/test.jpg" alt="x" ladder="portrait" />);
     expect(container.firstElementChild?.className).toMatch(/mobile-aspect-portrait/);
   });
 
   it("applies the mobile-aspect-square wrapper class for ladder='square'", () => {
-    const { container } = render(
-      <MobileImage src="/test.jpg" alt="x" width={800} height={600} ladder="square" />,
-    );
+    const { container } = render(<MobileImage src="/test.jpg" alt="x" ladder="square" />);
     expect(container.firstElementChild?.className).toMatch(/mobile-aspect-square/);
   });
 
   it("interpolates focal point into wrapper inline style for mobile", () => {
     const { container } = render(
-      <MobileImage
-        src="/test.jpg"
-        alt="x"
-        width={800}
-        height={600}
-        ladder="portrait"
-        mobileFocalPoint={{ x: 40, y: 25 }}
-      />,
+      <MobileImage src="/test.jpg" alt="x" ladder="portrait" mobileFocalPoint={{ x: 40, y: 25 }} />,
     );
     const wrapper = container.firstElementChild as HTMLElement;
     expect(wrapper.style.getPropertyValue("--mobile-fp-x")).toBe("40%");
@@ -51,9 +38,7 @@ describe("MobileImage", () => {
   });
 
   it("falls back to {x:50, y:30} when mobileFocalPoint is null/undefined", () => {
-    const { container } = render(
-      <MobileImage src="/test.jpg" alt="x" width={800} height={600} ladder="portrait" />,
-    );
+    const { container } = render(<MobileImage src="/test.jpg" alt="x" ladder="portrait" />);
     const wrapper = container.firstElementChild as HTMLElement;
     expect(wrapper.style.getPropertyValue("--mobile-fp-x")).toBe("50%");
     expect(wrapper.style.getPropertyValue("--mobile-fp-y")).toBe("30%");

@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 
 type Ladder = "portrait" | "square";
 
-type MobileImageProps = Omit<ImageProps, "style" | "fill"> & {
+type MobileImageProps = Omit<ImageProps, "style" | "fill" | "width" | "height"> & {
   /** Aspect-ladder shape: portrait (4:5 → 16:9) or square (1:1 → 16:9). */
   ladder: Ladder;
   /** Editorial focal point at <640px viewports. Defaults to {x:50, y:30}. */

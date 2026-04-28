@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/ui/Reveal";
+import { StickyCTA } from "@/components/ui/StickyCTA";
 import { getDonatePage } from "@/lib/content/donatePage";
 import { getSiteSettings } from "@/lib/content/siteSettings";
 import { NextStepsGrid } from "./_components/NextStepsGrid";
+import { ShareRow } from "./_components/ShareRow";
 import { getGiftContext, ThankYouPersonalization } from "./_components/ThankYouPersonalization";
 
 export const metadata: Metadata = {
@@ -49,6 +51,12 @@ export default async function DonateThankYouPage({ searchParams }: ThankYouPageP
         </Reveal>
       </section>
       <NextStepsGrid />
+      {/* Mobile-only sticky share — promotes "tell a friend" from the
+          12px-uppercase prose buried below the receipt to the primary
+          mobile action visible on every viewport-height. */}
+      <StickyCTA aria-label="Share Bridging Generations">
+        <ShareRow />
+      </StickyCTA>
     </>
   );
 }

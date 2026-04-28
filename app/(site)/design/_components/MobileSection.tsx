@@ -152,16 +152,12 @@ export function MobileSection() {
             <MobileImage
               src="/student-1.jpg"
               alt="Demo portrait — mobile-aspect-portrait, focal {50,25}"
-              width={800}
-              height={1000}
               ladder="portrait"
               mobileFocalPoint={{ x: 50, y: 25 }}
             />
             <MobileImage
               src="/project-meal.jpg"
               alt="Demo cover — mobile-aspect-square, focal default"
-              width={1000}
-              height={1000}
               ladder="square"
             />
           </div>
