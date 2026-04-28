@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default async function ProjectsPage() {
   const { active, paused, funded } = await getProjectsByStatus();
   const list = [...active, ...paused];
-  const totalRaised = [...active, ...funded].reduce((sum, p) => sum + p.fundingRaised, 0);
+  const totalRaised = list.reduce((sum, p) => sum + p.fundingRaised, 0);
 
   const ldBreadcrumb = breadcrumbList(SITE_URL, [
     { name: "Home", url: "/" },
@@ -33,7 +33,7 @@ export default async function ProjectsPage() {
 
   return (
     <>
-      <ProjectsHero activeCount={active.length} totalRaised={totalRaised} />
+      <ProjectsHero count={list.length} totalRaised={totalRaised} />
       <section
         aria-label="Active and paused projects"
         className="bg-ground px-4 pb-20 sm:px-6 lg:px-[6%] lg:pb-28"
