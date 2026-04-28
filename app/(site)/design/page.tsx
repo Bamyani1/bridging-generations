@@ -7,6 +7,7 @@ import { ColorSection } from "./_components/ColorSection";
 import { EyebrowTagPillSection } from "./_components/EyebrowTagPillSection";
 import { FormSection } from "./_components/FormSection";
 import { IconGridSection } from "./_components/IconGridSection";
+import { MobileSection } from "./_components/MobileSection";
 import { MotifSection } from "./_components/MotifSection";
 import { MotionLabSection } from "./_components/MotionLabSection";
 import { ProgressBarSection } from "./_components/ProgressBarSection";
@@ -87,6 +88,8 @@ export default function DesignPage() {
 
       <ChapterDivider index="V" label="Motifs" />
       <MotifSection />
+
+      <MobileSection />
     </div>
   );
 }
