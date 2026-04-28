@@ -16,7 +16,7 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
       <SmoothScroll />
       <SkipLink />
       <header>
-        <Nav tagline={siteSettings.copy.footerTagline} contactEmail={siteSettings.contactEmail} />
+        <Nav contactEmail={siteSettings.contactEmail} />
       </header>
       <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
         {children}

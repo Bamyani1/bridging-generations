@@ -45,13 +45,21 @@ export function SheetDrawer({
     if (!open && el.open) el.close();
   }, [open]);
 
-  // Body scroll lock while open.
+  // Body + html scroll lock while open. <html> is the scrolling element in
+  // standards mode, so locking only body leaves the page scrollable via wheel
+  // input. Lock both — restore both — so the drawer doesn't double as a
+  // wormhole that lets the underlying page scroll on tap.
   useEffect(() => {
     if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.overflow;
+    const prevBody = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = previous;
+      html.style.overflow = prevHtml;
+      body.style.overflow = prevBody;
     };
   }, [open]);
 

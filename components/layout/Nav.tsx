@@ -3,8 +3,9 @@
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "next-view-transitions";
-import { useEffect, useId, useRef, useState } from "react";
-import { donateCta, primaryNav } from "@/content/fixtures/navigation";
+import { useEffect, useRef, useState } from "react";
+import { SheetDrawer } from "@/components/ui/SheetDrawer";
+import { donateCta, mobileNavGroups, primaryNav } from "@/content/fixtures/navigation";
 
 // R4.9 active-state motif. Both swash (CoralArc-derived) and notch (2px coral
 // block) were prototyped during the refinement gate; notch was chosen — the
@@ -27,76 +28,29 @@ function isActive(pathname: string | null, href: string) {
 }
 
 type NavProps = {
-  tagline?: string;
   contactEmail?: string;
 };
 
-export function Nav({ tagline, contactEmail }: NavProps = {}) {
+export function Nav({ contactEmail }: NavProps = {}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const closeBtnRef = useRef<HTMLButtonElement>(null);
-  const hasOpenedRef = useRef(false);
-  const titleId = useId();
   const isOnDonate = pathname?.startsWith("/donate") ?? false;
 
-  useEffect(() => {
-    if (!open) return;
-    // <html> is the scrolling element in standards mode, so locking only body
-    // leaves the page scrollable. Lock both — restore both — so the menu doesn't
-    // double as a wormhole that lets the underlying page scroll on tap. Runs
-    // before the focus / trap effects so scroll-lock is in place by the time
-    // close-button focus settles, even when the test dispatches a wheel event
-    // microseconds after click().
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtml = html.style.overflow;
-    const prevBody = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    return () => {
-      html.style.overflow = prevHtml;
-      body.style.overflow = prevBody;
-    };
-  }, [open]);
-
+  // Restore focus to the hamburger after the drawer closes — the SheetDrawer
+  // owns focus-trap while open, but doesn't know which button opened it.
+  // Run only when transitioning open → closed (track with a ref).
+  const wasOpenRef = useRef(false);
   useEffect(() => {
     if (open) {
-      hasOpenedRef.current = true;
-      closeBtnRef.current?.focus({ preventScroll: true });
-      const onKey = (e: KeyboardEvent) => {
-        if (e.key === "Escape") setOpen(false);
-      };
-      document.addEventListener("keydown", onKey);
-      return () => document.removeEventListener("keydown", onKey);
+      wasOpenRef.current = true;
+    } else if (wasOpenRef.current) {
+      hamburgerRef.current?.focus({ preventScroll: true });
+      wasOpenRef.current = false;
     }
-    if (hasOpenedRef.current) hamburgerRef.current?.focus({ preventScroll: true });
   }, [open]);
 
-  useEffect(() => {
-    if (!open) return;
-    const panel = panelRef.current;
-    if (!panel) return;
-    const trap = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-      const focusable = panel.querySelectorAll<HTMLElement>(
-        'a, button, input, [tabindex]:not([tabindex="-1"])',
-      );
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-    panel.addEventListener("keydown", trap);
-    return () => panel.removeEventListener("keydown", trap);
-  }, [open]);
+  const closeDrawer = () => setOpen(false);
 
   return (
     <>
@@ -139,12 +93,13 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
               </li>
             )}
           </ul>
-          <div className="flex items-center gap-1 lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             {!isOnDonate && (
+              // Mobile Donate shortcut chip — coral pill so phone donors don't
+              // need to open the drawer to convert. ≥48px tap target.
               <Link
                 href={donateCta.href}
-                onClick={() => setOpen(false)}
-                className="inline-flex min-h-[44px] items-center px-3 text-nav-link font-bold uppercase text-white transition-colors hover:text-accent-3"
+                className="inline-flex min-h-[48px] items-center rounded-full bg-accent-2 px-4 text-nav-link font-bold uppercase text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
               >
                 {donateCta.label}
               </Link>
@@ -156,7 +111,7 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
               aria-controls={open ? "mobile-menu" : undefined}
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((v) => !v)}
-              className="flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3"
+              className="flex size-12 items-center justify-center text-white transition-colors hover:text-accent-3"
             >
               {open ? (
                 <X className="size-5" aria-hidden="true" />
@@ -167,92 +122,78 @@ export function Nav({ tagline, contactEmail }: NavProps = {}) {
           </div>
         </div>
       </nav>
-      {open && (
-        <div className="lg:hidden">
-          <button
-            type="button"
-            aria-label="Dismiss menu"
-            tabIndex={-1}
-            onClick={() => setOpen(false)}
-            className="fixed inset-x-0 top-16 bottom-0 z-30 bg-ink/50"
-          />
-          <div
-            ref={panelRef}
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
-            className="drawer-sheet fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] w-full overflow-y-auto bg-ground shadow-[var(--shadow-card-hover)]"
-          >
-            <div className="flex flex-col px-6 py-6">
-              <div className="flex items-start justify-between gap-4 pb-6">
-                <div>
-                  <p id={titleId} className="text-heading-6 font-bold text-ink">
-                    Bridging Generations
-                  </p>
-                  {tagline ? <p className="mt-2 text-body-sm text-ink-2">{tagline}</p> : null}
-                </div>
-                <button
-                  ref={closeBtnRef}
-                  type="button"
-                  aria-label="Close menu"
-                  onClick={() => setOpen(false)}
-                  className="-mr-2 flex size-11 shrink-0 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
-                >
-                  <X className="size-5" aria-hidden="true" />
-                </button>
+      <div className="lg:hidden">
+        <SheetDrawer open={open} onClose={closeDrawer} ariaLabel="Site navigation" side="right">
+          <div id="mobile-menu" className="flex flex-col px-6 py-6">
+            <div className="flex items-start justify-between gap-4 pb-6">
+              <div>
+                <p className="text-heading-6 font-bold text-ink">Bridging Generations</p>
+                <p className="mt-2 text-body-sm text-ink-2">Where would you like to go?</p>
               </div>
-              <ul className="flex flex-col gap-3 border-t border-hairline pt-6">
-                {primaryNav.map((item, i) => {
-                  const active = isActive(pathname, item.href);
-                  return (
-                    <li
-                      key={item.href}
-                      className="menu-item-in"
-                      style={{ animationDelay: `${i * 60}ms` }}
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                        aria-current={active ? "page" : undefined}
-                        className={
-                          active
-                            ? "flex min-h-[44px] items-center text-heading-5 font-bold text-accent transition-colors"
-                            : "flex min-h-[44px] items-center text-heading-5 text-ink transition-colors"
-                        }
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-              {contactEmail ? (
-                <p className="mt-6 border-t border-hairline pt-6 text-body-sm text-ink-2">
-                  Questions?{" "}
-                  <a
-                    href={`mailto:${contactEmail}`}
-                    className="text-accent underline underline-offset-[3px] transition-colors hover:no-underline"
-                  >
-                    {contactEmail}
-                  </a>
-                </p>
-              ) : null}
-              <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 border-t border-hairline pt-6 text-eyebrow uppercase text-ink-2">
-                <li>
-                  <Link
-                    href="/terms"
-                    onClick={() => setOpen(false)}
-                    className="transition-colors hover:text-accent"
-                  >
-                    Terms
-                  </Link>
-                </li>
-              </ul>
+              <button
+                type="button"
+                aria-label="Close menu"
+                onClick={closeDrawer}
+                className="-mr-2 flex size-12 shrink-0 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+              >
+                <X className="size-5" aria-hidden="true" />
+              </button>
             </div>
+            {/* Donate prominent CTA — top of the drawer so the conversion path
+                isn't buried inside a group. */}
+            <Link
+              href={donateCta.href}
+              onClick={closeDrawer}
+              className="menu-item-in flex min-h-[48px] items-center justify-center rounded-md bg-accent-2 px-4 text-nav-link font-bold uppercase text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
+            >
+              {donateCta.label}
+            </Link>
+            {mobileNavGroups.map((group, gIndex) => (
+              <section key={group.eyebrow} className="mt-6 border-t border-hairline pt-6">
+                <p className="text-eyebrow uppercase text-ink-2">{group.eyebrow}</p>
+                <ul className="mt-3 flex flex-col gap-1">
+                  {group.items.map((item, i) => {
+                    const active = isActive(pathname, item.href);
+                    return (
+                      <li
+                        key={item.href}
+                        className="menu-item-in"
+                        // Stagger across all groups: gIndex offset + per-item index.
+                        // 60ms steps matches the original drawer animation rhythm.
+                        style={{ animationDelay: `${(gIndex * 4 + i + 1) * 60}ms` }}
+                      >
+                        <Link
+                          href={item.href}
+                          onClick={closeDrawer}
+                          aria-current={active ? "page" : undefined}
+                          className={
+                            active
+                              ? "flex min-h-[44px] items-center text-heading-5 font-bold text-accent transition-colors"
+                              : "flex min-h-[44px] items-center text-heading-5 text-ink transition-colors"
+                          }
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+            {contactEmail ? (
+              <p className="mt-6 border-t border-hairline pt-6 text-body-sm text-ink-2">
+                Questions?{" "}
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-accent underline underline-offset-[3px] transition-colors hover:no-underline"
+                >
+                  {contactEmail}
+                </a>
+              </p>
+            ) : null}
           </div>
-        </div>
-      )}
+        </SheetDrawer>
+      </div>
     </>
   );
 }
