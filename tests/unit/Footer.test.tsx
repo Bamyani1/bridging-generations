@@ -13,7 +13,10 @@ describe("Footer", () => {
 
   it("renders the Explore section heading and drops Resources", () => {
     render(<Footer />);
-    expect(screen.getByText("Explore")).toBeInTheDocument();
+    // Explore renders twice: once in the <sm Accordion summary, once in the
+    // sm+ flat eyebrow. Both branches are in the DOM (only one is visible at
+    // a given viewport via Tailwind's sm: utility).
+    expect(screen.getAllByText("Explore").length).toBeGreaterThan(0);
     expect(screen.queryByText("Resources")).toBeNull();
   });
 
@@ -21,14 +24,17 @@ describe("Footer", () => {
     const { rerender } = render(<Footer />);
     expect(screen.queryByText("Contact")).toBeNull();
     rerender(<Footer contactEmail="info@bridginggenerations.org" />);
-    expect(screen.getByText("Contact")).toBeInTheDocument();
+    // Contact renders twice for the same accordion/flat parallel-layout reason.
+    expect(screen.getAllByText("Contact").length).toBeGreaterThan(0);
   });
 
   it("renders representative Explore + Contact links", () => {
     render(<Footer contactEmail="info@bridginggenerations.org" />);
-    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
-    expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute("href", "/blog");
-    expect(screen.getByRole("link", { name: "Email us" })).toHaveAttribute(
+    // Each link is rendered in both the <sm accordion and sm+ flat layout.
+    // Verify at least one instance exists with the expected href.
+    expect(screen.getAllByRole("link", { name: "About" })[0]).toHaveAttribute("href", "/about");
+    expect(screen.getAllByRole("link", { name: "Blog" })[0]).toHaveAttribute("href", "/blog");
+    expect(screen.getAllByRole("link", { name: "Email us" })[0]).toHaveAttribute(
       "href",
       "mailto:info@bridginggenerations.org",
     );
