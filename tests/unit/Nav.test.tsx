@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -53,8 +53,9 @@ describe("Nav", () => {
     await user.click(screen.getByRole("button", { name: /open menu/i }));
     expect(document.body.style.overflow).toBe("hidden");
 
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: /close menu/i }));
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    await user.click(within(dialog).getByRole("button", { name: /close menu/i }));
     expect(document.body.style.overflow).toBe("scroll");
   });
 

@@ -1059,7 +1059,8 @@ p.dropcap::first-letter {
   .marginalia-rail,
   .toc-sticky,
   .toc-collapsible,
-  .share-rail,
+  /* biome-ignore lint/style/noDescendingSpecificity: print override of .marginalia-rail .share-rail; display:none !important escapes the cascade */
+    .share-rail,
   .heading-anchor {
     /* biome-ignore lint/complexity/noImportantStyles: print override of chrome utility classes */
     display: none !important;

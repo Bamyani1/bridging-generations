@@ -47,6 +47,7 @@ export function AboutHero({ foundingYear }: AboutHeroProps) {
               alt="A schoolboy in uniform sits in a library corner reading a book"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
+              priority
               className="object-cover"
             />
           </div>
