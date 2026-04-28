@@ -15,7 +15,7 @@ export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
     >
       <HorizonLine
         tone="on-cream"
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 block h-24 w-full"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 block h-24 w-full -scale-y-100"
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-[6%]">
         <Reveal stagger="up">

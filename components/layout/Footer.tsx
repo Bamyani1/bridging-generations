@@ -44,7 +44,7 @@ export function Footer({
 
   return (
     <div className="bg-accent text-white">
-      <div className="mx-auto grid max-w-[1280px] gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:px-[6%]">
+      <div className="mx-auto grid max-w-[1280px] gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[3fr_5fr_2fr] lg:gap-16 lg:px-[6%] lg:py-14">
         <div>
           <p className="text-heading-6 font-bold">{brand.name}</p>
           {tagline ? <p className="mt-3 text-body-sm text-white">{tagline}</p> : null}
@@ -147,53 +147,14 @@ export function Footer({
             </ul>
           ) : null}
         </div>
-        <div>
-          {/* <sm: collapsible accordion clusters; sm+: flat list (existing layout). */}
-          <div className="sm:hidden">
-            <Accordion
-              summary="Explore"
-              defaultOpen
-              className="border-white/15 [&>summary]:text-accent-3"
-            >
-              <ul className="flex flex-col gap-2 text-body-sm">
-                {explore.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-white transition-colors hover:text-accent-3"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Accordion>
-            {contactEmail ? (
-              <Accordion summary="Contact" className="border-white/15 [&>summary]:text-accent-3">
-                <ul className="flex flex-col gap-2 text-body-sm">
-                  <li>
-                    <a
-                      href={`mailto:${contactEmail}`}
-                      className="text-white transition-colors hover:text-accent-3"
-                    >
-                      Email us
-                    </a>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="text-white transition-colors hover:text-accent-3"
-                    >
-                      Contact
-                    </Link>
-                  </li>
-                </ul>
-              </Accordion>
-            ) : null}
-          </div>
-          <div className="hidden sm:block">
-            <p className="text-eyebrow uppercase text-accent-3">Explore</p>
-            <ul className="mt-4 flex flex-col gap-2 text-body-sm">
+        {/* <sm: stacked accordion clusters in a single column. sm+: split into two grid columns. */}
+        <div className="sm:hidden">
+          <Accordion
+            summary="Explore"
+            defaultOpen
+            className="border-white/15 [&>summary]:text-accent-3"
+          >
+            <ul className="flex flex-col gap-2 text-body-sm">
               {explore.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -205,31 +166,62 @@ export function Footer({
                 </li>
               ))}
             </ul>
-            {contactEmail ? (
-              <div className="mt-8 border-t border-white/15 pt-6">
-                <p className="text-eyebrow uppercase text-accent-3">Contact</p>
-                <ul className="mt-4 flex flex-col gap-2 text-body-sm">
-                  <li>
-                    <a
-                      href={`mailto:${contactEmail}`}
-                      className="text-white transition-colors hover:text-accent-3"
-                    >
-                      Email us
-                    </a>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="text-white transition-colors hover:text-accent-3"
-                    >
-                      Contact
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            ) : null}
-          </div>
+          </Accordion>
+          {contactEmail ? (
+            <Accordion summary="Contact" className="border-white/15 [&>summary]:text-accent-3">
+              <ul className="flex flex-col gap-2 text-body-sm">
+                <li>
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="text-white transition-colors hover:text-accent-3"
+                  >
+                    Email us
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    href="/contact"
+                    className="text-white transition-colors hover:text-accent-3"
+                  >
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </Accordion>
+          ) : null}
         </div>
+        <div className="hidden sm:block">
+          <p className="text-eyebrow uppercase text-accent-3">Explore</p>
+          <ul className="mt-4 flex flex-col gap-2 text-body-sm lg:block lg:columns-2 lg:gap-x-12 lg:space-y-2">
+            {explore.map((link) => (
+              <li key={link.href} className="lg:break-inside-avoid">
+                <Link href={link.href} className="text-white transition-colors hover:text-accent-3">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {contactEmail ? (
+          <div className="hidden sm:block">
+            <p className="text-eyebrow uppercase text-accent-3">Contact</p>
+            <ul className="mt-4 flex flex-col gap-2 text-body-sm">
+              <li>
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-white transition-colors hover:text-accent-3"
+                >
+                  Email us
+                </a>
+              </li>
+              <li>
+                <Link href="/contact" className="text-white transition-colors hover:text-accent-3">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+        ) : null}
       </div>
       <div className="border-t border-white/15">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-2 px-4 py-5 text-meta text-white sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-3 sm:gap-y-2 sm:px-6 lg:px-[6%]">

@@ -44,24 +44,10 @@ describe("CTAFooterPanel", () => {
     expect(section?.className).toContain("text-ink");
   });
 
-  it("omits the HorizonLine motif by default", () => {
-    const { container } = render(<CTAFooterPanel {...props} />);
-    expect(container.querySelector('svg[viewBox="0 0 1440 120"]')).toBeNull();
-  });
-
-  it("renders the HorizonLine on top of a cream surface when withHorizonLine is set", () => {
-    const { container } = render(<CTAFooterPanel {...props} withHorizonLine />);
-    const horizon = container.querySelector('svg[viewBox="0 0 1440 120"]') as SVGElement | null;
-    expect(horizon).not.toBeNull();
-    // tone="on-cream" → SVG color resolves to var(--color-accent) (teal).
-    expect(horizon?.style.color).toMatch(/var\(--color-accent\)/);
-  });
-
-  it("renders the HorizonLine in on-teal tone when paired with tone='teal'", () => {
-    const { container } = render(<CTAFooterPanel {...props} tone="teal" withHorizonLine />);
-    const horizon = container.querySelector('svg[viewBox="0 0 1440 120"]') as SVGElement | null;
-    expect(horizon).not.toBeNull();
-    // tone="on-teal" forces the SVG color to white (jsdom normalizes #ffffff → rgb(255, 255, 255)).
-    expect(horizon?.style.color).toMatch(/rgb\(255,\s*255,\s*255\)|#ffffff/);
+  it("does not render the HorizonLine motif", () => {
+    const { container: cream } = render(<CTAFooterPanel {...props} />);
+    expect(cream.querySelector('svg[viewBox="0 0 1440 120"]')).toBeNull();
+    const { container: teal } = render(<CTAFooterPanel {...props} tone="teal" />);
+    expect(teal.querySelector('svg[viewBox="0 0 1440 120"]')).toBeNull();
   });
 });

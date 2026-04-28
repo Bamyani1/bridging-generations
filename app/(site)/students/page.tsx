@@ -80,7 +80,6 @@ export default async function StudentsPage() {
         ctaHref="/donate"
         tone="teal"
         titleId="students-cta-title"
-        withHorizonLine
       />
       <JsonLd id="ld-students-breadcrumb" data={ldBreadcrumb} />
       <JsonLd id="ld-students-collection" data={ldCollection} />

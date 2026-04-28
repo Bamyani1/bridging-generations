@@ -15,7 +15,6 @@ export function HomeTestimonialPanel({ testimonial }: HomeTestimonialPanelProps)
         id="testimonial"
         ctaLabel="Meet the students"
         ctaHref="/students"
-        withHorizonLine
       />
     </Reveal>
   );

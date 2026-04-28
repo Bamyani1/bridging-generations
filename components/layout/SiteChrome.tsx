@@ -18,7 +18,7 @@ export async function SiteChrome({ children }: { children: React.ReactNode }) {
       <header>
         <Nav contactEmail={siteSettings.contactEmail} />
       </header>
-      <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
+      <main id="main-content" tabIndex={-1} className="flex-1 pt-14 outline-none">
         {children}
       </main>
       <footer>
