@@ -1194,6 +1194,14 @@ p.dropcap::first-letter {
   }
 }
 
+/* R4.10 — focal point applied only at phone viewports. Desktop falls
+   back to default object-position (centered). Consumed by MobileImage. */
+@media (max-width: 640px) {
+  .mobile-fp > img {
+    object-position: var(--mobile-fp-x, 50%) var(--mobile-fp-y, 30%);
+  }
+}
+
 /* Print — long-form is the obvious print target. Hide chrome that doesn't
    serve the printed page; let the article body fill the sheet. !important is
    the canonical print-CSS pattern: the chrome elements carry class-level
