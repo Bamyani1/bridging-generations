@@ -22,7 +22,7 @@ test.describe("smoke", () => {
 
   test("/contact form surfaces validation errors on empty submit", async ({ page }) => {
     await page.goto("/contact");
-    await page.getByRole("button", { name: /send message/i }).click();
+    await page.getByRole("button", { name: /^send$/i }).click();
     await expect(page.getByRole("alert").first()).toBeVisible();
   });
 
