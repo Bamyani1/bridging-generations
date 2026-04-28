@@ -1,11 +1,11 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 type ProjectsHeroProps = {
-  activeCount: number;
+  count: number;
   totalRaised: number;
 };
 
-export function ProjectsHero({ activeCount, totalRaised }: ProjectsHeroProps) {
+export function ProjectsHero({ count, totalRaised }: ProjectsHeroProps) {
   return (
     <section
       aria-labelledby="projects-hero-title"
@@ -17,8 +17,8 @@ export function ProjectsHero({ activeCount, totalRaised }: ProjectsHeroProps) {
           Our projects.
         </h1>
         <p className="max-w-[28ch] text-balance text-heading-2 text-accent">
-          ${totalRaised.toLocaleString()} funded across {activeCount} active{" "}
-          {activeCount === 1 ? "project" : "projects"}.
+          ${totalRaised.toLocaleString()} funded across {count}{" "}
+          {count === 1 ? "project" : "projects"}.
         </p>
         <p className="max-w-[44ch] text-body-lg text-ink-2">
           Sponsorships keep children in the classroom; projects fund the things the classroom itself
