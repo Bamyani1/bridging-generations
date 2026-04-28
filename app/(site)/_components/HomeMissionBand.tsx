@@ -21,9 +21,10 @@ export function HomeMissionBand({ missionFull }: HomeMissionBandProps) {
         <Reveal stagger="up">
           <div className="flex max-w-[55ch] flex-col gap-5">
             <Eyebrow>Our mission</Eyebrow>
-            <h2 id="home-mission-title" className="text-balance text-heading-3 text-ink">
-              {missionFull}
+            <h2 id="home-mission-title" className="text-balance text-heading-2 text-ink">
+              [CONFIRM: short mission headline]
             </h2>
+            <p className="text-body-lg text-ink-2">{missionFull}</p>
           </div>
         </Reveal>
       </div>
