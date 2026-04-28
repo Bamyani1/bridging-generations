@@ -7,11 +7,16 @@ const missionFull =
   "Bridging Generations empowers underprivileged children in the Chittagong Hill Tracts through education sponsorship — tuition, books, meals, and the structural support that keeps students in the classroom instead of the workforce.";
 
 describe("HomeMissionBand", () => {
-  it("renders the full mission copy as the section h2", () => {
-    render(<HomeMissionBand missionFull={missionFull} />);
+  it("renders the section h2 separately from the mission body paragraph", () => {
+    const { container } = render(<HomeMissionBand missionFull={missionFull} />);
     const heading = screen.getByRole("heading", { level: 2 });
     expect(heading).toHaveAttribute("id", "home-mission-title");
-    expect(heading).toHaveTextContent(missionFull);
+    // The H2 is now a real headline, not the entire mission paragraph.
+    expect(heading).not.toHaveTextContent(missionFull);
+    // The full mission copy lives in a body <p> below the heading.
+    const paragraph = container.querySelector("p.text-body-lg");
+    expect(paragraph).not.toBeNull();
+    expect(paragraph).toHaveTextContent(missionFull);
   });
 
   it("wires the section landmark to the h2 via aria-labelledby", () => {

@@ -22,6 +22,8 @@ export type ContactActionState = {
   status: "idle" | "success" | "error";
   message: string;
   fieldErrors: Partial<Record<"name" | "email" | "message" | "audience", string>>;
+  /** Echoed back on success so the confirmation can show "Sent to: <email>". */
+  submittedEmail?: string;
 };
 
 export const initialContactState: ContactActionState = {

@@ -1,6 +1,7 @@
 import { Feature, Row } from "@/components/ui/editorial";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Reveal } from "@/components/ui/Reveal";
+import { isPlaceholder } from "@/lib/content/isPlaceholder";
 import type { Project } from "@/lib/content/projects";
 import { relativeTime } from "@/lib/dates/relativeTime";
 
@@ -113,7 +114,7 @@ function FeatureCard({ project, flags, ariaLabel }: CardProps) {
             {project.title}
           </Feature.Headline>
           <Feature.Lede>{project.summary}</Feature.Lede>
-          {project.body ? (
+          {project.body && !isPlaceholder(project.body) ? (
             <p className="max-w-[60ch] text-body text-ink-2">{project.body}</p>
           ) : null}
           <ProgressBar

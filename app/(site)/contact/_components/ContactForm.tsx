@@ -14,7 +14,7 @@ function SubmitButton({ pending }: { pending: boolean }) {
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="inline-flex min-h-[44px] items-center justify-center gap-2 bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50"
+      className="inline-flex min-h-[48px] items-center justify-center gap-2 bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50"
     >
       <span className="text-[19px] font-bold leading-none">{pending ? "Sending…" : "Send"}</span>
     </button>
@@ -32,6 +32,11 @@ export function ContactForm() {
       <div role="status" aria-live="polite" className="flex flex-col gap-3 bg-ground-2 p-8">
         <h2 className="text-heading-4 text-ink">Thank you.</h2>
         <p className="text-body text-ink-2">{state.message}</p>
+        {state.submittedEmail ? (
+          <p className="text-meta text-ink-2">
+            Reply will go to <span className="text-ink">{state.submittedEmail}</span>.
+          </p>
+        ) : null}
       </div>
     );
   }
@@ -68,6 +73,8 @@ export function ContactForm() {
             name="name"
             type="text"
             autoComplete="name"
+            autoCapitalize="words"
+            enterKeyHint="next"
             required
             maxLength={100}
           />
@@ -84,6 +91,7 @@ export function ContactForm() {
             inputMode="email"
             autoCorrect="off"
             autoCapitalize="off"
+            enterKeyHint="next"
             required
           />
         )}

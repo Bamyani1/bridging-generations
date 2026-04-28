@@ -52,12 +52,12 @@
   --text-display-2--letter-spacing: -0.02em;
   --text-display-2--font-weight: 700;
 
-  --text-heading-1: 48px;
+  --text-heading-1: clamp(1.75rem, 1rem + 3vw, 3rem); /* 28px @ 360px → 48px @ 1067px+ */
   --text-heading-1--line-height: 1.1;
   --text-heading-1--letter-spacing: -0.01em;
   --text-heading-1--font-weight: 700;
 
-  --text-heading-2: 40px;
+  --text-heading-2: clamp(1.5rem, 0.875rem + 2.5vw, 2.5rem); /* 24px @ 360px → 40px @ 1040px+ */
   --text-heading-2--line-height: 1.1;
   --text-heading-2--letter-spacing: normal;
   --text-heading-2--font-weight: 700;
@@ -170,6 +170,15 @@
   /* §1 Linen texture — diagonal crosshatch tile applied to teal panels via .teal-panel::before.
      Reads like book cloth instead of paper. Stroke-opacity baked at 0.4 in the SVG. */
   --bg-linen-texture: url("/textures/linen.svg");
+}
+
+/* iOS zoom guard — keeps inputs at the 16px threshold under any future
+   per-form font tweak. Without this, an input at < 16px triggers
+   automatic zoom on focus on iOS Safari. */
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
 }
 
 /* §1 Paper grain — unlayered rule with :where() (specificity 0). Unlayered CSS beats all
@@ -726,11 +735,10 @@
 }
 
 /* §2 Typography — mobile size overrides (<768px). Line-height, tracking, weight stay constant.
-   display-1 and display-2 are intentionally absent here — they fluid-scale via clamp(). */
+   display-1, display-2, heading-1, and heading-2 are intentionally absent here —
+   they fluid-scale via clamp(). */
 @media (max-width: 767px) {
   :root {
-    --text-heading-1: 40px;
-    --text-heading-2: 32px;
     --text-heading-3: 28px;
     --text-heading-4: 24px;
     --text-heading-5: 20px;
@@ -1166,6 +1174,31 @@ p.dropcap::first-letter {
   }
   .pullquote__cite {
     padding-left: 2rem;
+  }
+}
+
+/* R4.10 — mobile aspect ladder. Used by hero <Image> wrappers (via
+   MobileImage) where 16:9 desktop crops decapitate subjects on phone
+   aspect ratios. Snaps to 16:9 at sm:+ for desktop. */
+@utility mobile-aspect-portrait {
+  aspect-ratio: 4 / 5;
+  @media (min-width: 640px) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@utility mobile-aspect-square {
+  aspect-ratio: 1 / 1;
+  @media (min-width: 640px) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* R4.10 — focal point applied only at phone viewports. Desktop falls
+   back to default object-position (centered). Consumed by MobileImage. */
+@media (max-width: 640px) {
+  .mobile-fp > img {
+    object-position: var(--mobile-fp-x, 50%) var(--mobile-fp-y, 30%);
   }
 }
 

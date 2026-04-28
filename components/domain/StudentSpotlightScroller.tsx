@@ -67,7 +67,7 @@ export function StudentSpotlightScroller({
           {students.map((student) => (
             <li
               key={student.id}
-              className="flex w-[280px] flex-none snap-start sm:w-[320px] lg:w-[360px]"
+              className="flex w-[80vw] max-w-[320px] flex-none snap-start sm:w-[320px] lg:w-[360px]"
             >
               <StudentCard student={student} variant="spotlight" />
             </li>

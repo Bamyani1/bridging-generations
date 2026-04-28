@@ -39,7 +39,7 @@ export function AudienceTriage({
           <label
             key={option}
             title={AUDIENCE_HINTS[option]}
-            className="group inline-flex min-h-[44px] cursor-pointer items-center border border-hairline px-4 py-2 text-body text-ink-2 transition hover:border-accent has-[input:checked]:border-accent has-[input:checked]:bg-accent has-[input:checked]:text-white has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-[3px] has-[input:focus-visible]:outline-accent"
+            className="group inline-flex min-h-[48px] cursor-pointer items-center border border-hairline px-4 py-2 text-body text-ink-2 transition hover:border-accent has-[input:checked]:border-accent has-[input:checked]:bg-accent has-[input:checked]:text-white has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-[3px] has-[input:focus-visible]:outline-accent"
           >
             <input
               type="radio"
