@@ -172,6 +172,15 @@
   --bg-linen-texture: url("/textures/linen.svg");
 }
 
+/* iOS zoom guard — keeps inputs at the 16px threshold under any future
+   per-form font tweak. Without this, an input at < 16px triggers
+   automatic zoom on focus on iOS Safari. */
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+}
+
 /* §1 Paper grain — unlayered rule with :where() (specificity 0). Unlayered CSS beats all
    layered rules per cascade spec, so background-image lands; Tailwind's utility .bg-ground*
    only sets background-color, so the two stack without conflict. Teal panels use
