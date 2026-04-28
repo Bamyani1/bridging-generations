@@ -12,6 +12,8 @@ type AboutLeadershipProps = {
 export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
   if (boardMembers.length === 0) return null;
 
+  const isTriColumn = boardMembers.length >= 3;
+
   return (
     <section
       id="leadership"
@@ -28,11 +30,19 @@ export function AboutLeadership({ boardMembers }: AboutLeadershipProps) {
             Our board of directors.
           </h2>
         </div>
-        <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <ul
+          className={
+            isTriColumn
+              ? "grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+              : "grid grid-cols-1 gap-8 sm:max-w-[680px] sm:grid-cols-2"
+          }
+        >
           {boardMembers.map((member, index) => (
             <li
               key={member.id}
-              className={index === 0 ? "lg:-translate-x-4 lg:translate-y-4" : undefined}
+              className={
+                isTriColumn && index === 0 ? "lg:-translate-x-4 lg:translate-y-4" : undefined
+              }
             >
               <BoardMemberCard member={member} />
             </li>
