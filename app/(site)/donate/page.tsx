@@ -6,6 +6,7 @@ import { TestimonialPanel } from "@/components/domain/TestimonialPanel";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
+import { StickyCTA } from "@/components/ui/StickyCTA";
 import { getDonatePage } from "@/lib/content/donatePage";
 import { isPlaceholder } from "@/lib/content/isPlaceholder";
 import { getAllProjects } from "@/lib/content/projects";
@@ -15,7 +16,6 @@ import { breadcrumbList } from "@/lib/seo/jsonLd";
 import { SITE_URL } from "@/lib/seo/siteUrl";
 import { DonateAfterNote } from "./_components/DonateAfterNote";
 import { DonateHero } from "./_components/DonateHero";
-import { DonateMobileCtaBar } from "./_components/DonateMobileCtaBar";
 import { DonateProjectParam } from "./_components/DonateProjectParam";
 import { DonateTrustStrip } from "./_components/DonateTrustStrip";
 import { GivingOptionsStrip } from "./_components/GivingOptionsStrip";
@@ -80,7 +80,6 @@ export default async function DonatePage() {
                   : donatePage.givebutterCampaignId
               }
             />
-            <div id="donate-hero-amount-sentinel" aria-hidden="true" />
           </div>
         </div>
       </section>
@@ -121,11 +120,21 @@ export default async function DonatePage() {
         />
       ) : null}
       <DonateAfterNote note={afterNote} />
-      <DonateMobileCtaBar
-        amountSuggestion={donatePage.monthlySuggestion ?? 30}
-        href="#donate-hero-title"
-        heroSentinelId="donate-hero-amount-sentinel"
-      />
+      {/* Mobile-only sticky primary CTA — addresses the audit's #1 mobile
+          defect (the in-hero mailto sits ~1.5 viewports below the fold on
+          phones). Pinned at viewport bottom so a button-shaped action is
+          always reachable in the thumb zone. Kept aria-label="Donate" for
+          the existing r4-7-conversion smoke test selector. */}
+      <StickyCTA aria-label="Donate">
+        <a
+          href={`mailto:${siteSettings.contactEmail}?subject=I%27d%20like%20to%20donate`}
+          className="inline-flex min-h-[48px] w-full items-center justify-center bg-accent-2 px-6 text-[17px] font-bold text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+        >
+          {isGivebutter
+            ? `Sponsor a student — $${donatePage.monthlySuggestion ?? 30}/mo`
+            : "Email the board to give"}
+        </a>
+      </StickyCTA>
       <JsonLd id="ld-donate-breadcrumb" data={ldBreadcrumb} />
     </>
   );
