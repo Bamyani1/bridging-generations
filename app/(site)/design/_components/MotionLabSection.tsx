@@ -1,4 +1,3 @@
-import { CoralArc } from "@/components/motif/CoralArc";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionAct } from "@/components/ui/SectionAct";
 import { MotionDemo } from "./MotionDemo";
@@ -28,7 +27,7 @@ export function MotionLabSection() {
       <div className="mt-10 flex flex-col gap-2">
         <MotionDemo
           name="develop"
-          ref="components/ui/Reveal.tsx · kind=develop"
+          source="components/ui/Reveal.tsx · kind=develop"
           durationMs={900}
           easing={easeSmooth}
           easingToken="--ease-smooth"
@@ -58,7 +57,7 @@ export function MotionLabSection() {
 
         <MotionDemo
           name="kenburns"
-          ref="app/globals.css · .kenburns"
+          source="app/globals.css · .kenburns"
           durationMs={20000}
           easing={easeInOut}
           easingToken="ease-in-out (infinite alternate)"
@@ -90,7 +89,7 @@ export function MotionLabSection() {
 
         <MotionDemo
           name="horizon"
-          ref="components/ui/SectionAct.tsx"
+          source="components/ui/SectionAct.tsx"
           durationMs={400}
           easing={easeSmooth}
           easingToken="--ease-smooth"
@@ -122,7 +121,7 @@ export function MotionLabSection() {
 
         <MotionDemo
           name="settle"
-          ref="components/layout/Nav.tsx · ActiveMotif"
+          source="components/layout/Nav.tsx · ActiveMotif"
           durationMs={220}
           easing={easeSmooth}
           easingToken="--ease-smooth"
@@ -131,10 +130,9 @@ export function MotionLabSection() {
             <div className="flex h-32 items-center justify-center bg-accent">
               <span className="relative text-nav-link font-bold uppercase text-white">
                 Active page
-                <CoralArc
+                <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -top-2 left-1/2 h-2 w-10 -translate-x-1/2"
-                  tone="accent-2"
+                  className="pointer-events-none absolute -bottom-1.5 left-1/2 h-[2px] w-8 -translate-x-1/2 bg-accent-2-text"
                 />
               </span>
             </div>
@@ -143,10 +141,9 @@ export function MotionLabSection() {
           <div className="flex h-32 items-center justify-center bg-accent">
             <span className="relative text-nav-link font-bold uppercase text-white">
               Active page
-              <CoralArc
+              <span
                 aria-hidden="true"
-                className="nav-active-motif pointer-events-none absolute -top-2 left-1/2 h-2 w-10 -translate-x-1/2"
-                tone="accent-2"
+                className="nav-active-motif pointer-events-none absolute -bottom-1.5 left-1/2 h-[2px] w-8 -translate-x-1/2 bg-accent-2-text"
               />
             </span>
           </div>
@@ -154,7 +151,7 @@ export function MotionLabSection() {
 
         <MotionDemo
           name="page-fade"
-          ref="components/layout/ViewTransitionRoot.tsx · ::view-transition-old/new(root)"
+          source="components/layout/ViewTransitionRoot.tsx · ::view-transition-old/new(root)"
           durationMs={220}
           easing={easeSmooth}
           easingToken="--ease-smooth"
@@ -185,7 +182,7 @@ export function MotionLabSection() {
 
         <MotionDemo
           name="drawer-sheet"
-          ref="components/layout/Nav.tsx · mobile menu panel"
+          source="components/layout/Nav.tsx · mobile menu panel"
           durationMs={400}
           easing={easeSmooth}
           easingToken="--ease-smooth"

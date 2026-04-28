@@ -7,7 +7,7 @@ type MotionDemoProps = {
   /** Display name of the motion (lowercase token name). */
   name: string;
   /** Reference path to where the motion is defined. */
-  ref: string;
+  source: string;
   /** Duration in ms (used for the timing-diagram label). */
   durationMs: number;
   /** Cubic-bezier control points for the easing curve sketch. */
@@ -30,7 +30,7 @@ type MotionDemoProps = {
  */
 export function MotionDemo({
   name,
-  ref,
+  source,
   durationMs,
   easing,
   easingToken,
@@ -85,7 +85,7 @@ export function MotionDemo({
         </svg>
         <div className="min-w-0 flex-1">
           <p className="font-mono text-meta uppercase tracking-[0.1em]">
-            <span className="text-ink-2">{ref}</span>
+            <span className="text-ink-2">{source}</span>
             <span aria-hidden="true" className="text-hairline">
               {" "}
               ·{" "}

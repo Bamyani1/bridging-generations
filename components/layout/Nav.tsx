@@ -4,32 +4,19 @@ import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Link } from "next-view-transitions";
 import { useEffect, useId, useRef, useState } from "react";
-import { CoralArc } from "@/components/motif/CoralArc";
 import { donateCta, primaryNav } from "@/content/fixtures/navigation";
 
-// R4.9 active-state motif. Both variants ship in parallel; the refinement gate
-// before merge picks one and the loser branch is deleted. Settle motion
-// (entry: opacity + 4px Y) is shared via the .nav-active-motif CSS class.
-//   swash — small CoralArc above the active letterform.
-//   notch — 2px coral block under the active letterform.
-const ACTIVE_MOTIF: "swash" | "notch" = "swash";
-
-function ActiveMotif({ scale = "desktop" }: { scale?: "desktop" | "mobile" }) {
-  if (ACTIVE_MOTIF === "swash") {
-    const sizing = scale === "desktop" ? "-top-2 h-2 w-10" : "-top-3 h-3 w-14";
-    return (
-      <CoralArc
-        aria-hidden="true"
-        className={`nav-active-motif pointer-events-none absolute left-1/2 -translate-x-1/2 ${sizing}`}
-        tone="accent-2"
-      />
-    );
-  }
-  const notchSizing = scale === "desktop" ? "-bottom-1.5 h-[2px] w-8" : "-bottom-2 h-[3px] w-10";
+// R4.9 active-state motif. Both swash (CoralArc-derived) and notch (2px coral
+// block) were prototyped during the refinement gate; notch was chosen — the
+// CoralArc reads as a hand-drawn brand mark at hero scale (280×40 viewBox)
+// but its lenticular stroke loses weight at nav scale (40×8) and stops
+// reading as "you are here" pre-cognitively. The notch is a definite
+// typographic "you are here" punctuation.
+function ActiveMotif() {
   return (
     <span
       aria-hidden="true"
-      className={`nav-active-motif pointer-events-none absolute left-1/2 -translate-x-1/2 bg-accent-2-text ${notchSizing}`}
+      className="nav-active-motif pointer-events-none absolute -bottom-1.5 left-1/2 h-[2px] w-8 -translate-x-1/2 bg-accent-2-text"
     />
   );
 }
