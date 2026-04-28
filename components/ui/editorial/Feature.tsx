@@ -83,7 +83,7 @@ function FeatureImage({
         // DevTools LCP-discovery insight checks the img's fetchpriority — so
         // pair the two whenever the caller marks an image priority.
         fetchPriority={priority ? "high" : undefined}
-        sizes={sizes ?? "(min-width: 1024px) 50vw, 100vw"}
+        sizes={sizes ?? "(min-width: 1024px) 40vw, 100vw"}
         className="object-cover"
       />
     </div>

@@ -70,7 +70,7 @@ function RowImage({ src, alt, aspect = "3/2", sizes, priority }: RowImageProps) 
         fill
         priority={priority}
         fetchPriority={priority ? "high" : undefined}
-        sizes={sizes ?? "(min-width: 1024px) 33vw, (min-width: 640px) 33vw, 100vw"}
+        sizes={sizes ?? "(min-width: 640px) 25vw, 100vw"}
         className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-within:saturate-[1.04]"
       />
     </div>

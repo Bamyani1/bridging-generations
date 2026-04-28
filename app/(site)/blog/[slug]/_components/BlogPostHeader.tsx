@@ -28,7 +28,7 @@ export function BlogPostHeader({ post }: BlogPostHeaderProps) {
           mobileFocalPoint={mobileFocalPoint}
           priority
           fetchPriority="high"
-          sizes="(min-width: 1024px) 90ch, 100vw"
+          sizes="(min-width: 1280px) 1120px, 100vw"
         />
       </div>
     </header>
