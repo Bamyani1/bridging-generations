@@ -35,15 +35,21 @@ export function Nav({ contactEmail }: NavProps = {}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const isOnDonate = pathname?.startsWith("/donate") ?? false;
 
-  // Restore focus to the hamburger after the drawer closes — the SheetDrawer
-  // owns focus-trap while open, but doesn't know which button opened it.
-  // Run only when transitioning open → closed (track with a ref).
+  // Manage focus across drawer transitions. SheetDrawer owns the focus-trap
+  // while open but doesn't know which element opened or should land focus.
+  // We need preventScroll on both: native dialog showModal + autoFocus would
+  // scroll the page bringing the focused element "into view" even though
+  // the dialog is fixed-position.
   const wasOpenRef = useRef(false);
   useEffect(() => {
     if (open) {
       wasOpenRef.current = true;
+      queueMicrotask(() => {
+        closeButtonRef.current?.focus({ preventScroll: true });
+      });
     } else if (wasOpenRef.current) {
       hamburgerRef.current?.focus({ preventScroll: true });
       wasOpenRef.current = false;
@@ -132,6 +138,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
               </div>
               <button
                 type="button"
+                ref={closeButtonRef}
                 aria-label="Close menu"
                 onClick={closeDrawer}
                 className="-mr-2 flex size-12 shrink-0 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"

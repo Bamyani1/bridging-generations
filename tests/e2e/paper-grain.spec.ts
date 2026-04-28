@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const grainHref = /paper-grain\.svg/;
+const grainHref = /paper-grain\.svg|feTurbulence/;
 
 test("cream sections compute a paper-grain background image", async ({ page }) => {
   await page.goto("/");

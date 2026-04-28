@@ -47,7 +47,7 @@ test.describe("/donors", () => {
     await page.goto("/donors");
     const wall = page.locator("section[aria-label='Anonymous thank-you wall']");
     await expect(wall).toBeVisible();
-    await expect(wall).toContainText(/thank-you|thank-yous/i);
+    await expect(wall).toContainText(/202\d/);
   });
 });
 

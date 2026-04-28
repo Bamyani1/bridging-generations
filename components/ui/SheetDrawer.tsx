@@ -37,30 +37,32 @@ export function SheetDrawer({
 }: SheetDrawerProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Sync open/close with native dialog API.
+  // Body + html scroll lock + native dialog open/close as a single effect so
+  // the lock applies BEFORE showModal(): the dialog's modal-promotion can
+  // briefly nudge window.scrollY (Chromium scrolls the dialog into view
+  // even though it's fixed-positioned), which leaks scroll into the page.
+  // Locking first + restoring scroll position after showModal closes the gap.
+  // <html> is the scrolling element in standards mode, so we lock both.
   useEffect(() => {
     const el = dialogRef.current;
     if (!el) return;
-    if (open && !el.open) el.showModal();
+    if (open && !el.open) {
+      const html = document.documentElement;
+      const body = document.body;
+      const prevHtml = html.style.overflow;
+      const prevBody = body.style.overflow;
+      const prevScrollY = window.scrollY;
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+      el.showModal();
+      // showModal can shift scroll despite overflow:hidden — restore.
+      if (window.scrollY !== prevScrollY) window.scrollTo(0, prevScrollY);
+      return () => {
+        html.style.overflow = prevHtml;
+        body.style.overflow = prevBody;
+      };
+    }
     if (!open && el.open) el.close();
-  }, [open]);
-
-  // Body + html scroll lock while open. <html> is the scrolling element in
-  // standards mode, so locking only body leaves the page scrollable via wheel
-  // input. Lock both — restore both — so the drawer doesn't double as a
-  // wormhole that lets the underlying page scroll on tap.
-  useEffect(() => {
-    if (!open) return;
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtml = html.style.overflow;
-    const prevBody = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    return () => {
-      html.style.overflow = prevHtml;
-      body.style.overflow = prevBody;
-    };
   }, [open]);
 
   // ESC (native cancel event) + backdrop click.
