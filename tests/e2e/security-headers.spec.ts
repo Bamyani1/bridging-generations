@@ -9,7 +9,7 @@ test("security headers are served on the home route", async ({ request }) => {
   expect(headers["strict-transport-security"]).toContain("max-age=");
   expect(headers["permissions-policy"]).toContain("camera=()");
 
-  const csp = headers["content-security-policy-report-only"];
+  const csp = headers["content-security-policy"];
   expect(csp).toBeDefined();
   expect(csp).toContain("default-src 'self'");
   expect(csp).toContain("givebutter.com");
