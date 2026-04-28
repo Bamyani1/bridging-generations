@@ -69,11 +69,7 @@ export function ActivityFilter({ activities }: ActivityFilterProps) {
       {filtered.length === 0 ? (
         <p className="text-body text-ink-2">No activities match this filter yet.</p>
       ) : (
-        <TimelineRail
-          ariaLabel="Recent activities timeline"
-          className="flex flex-col"
-          aria-live="polite"
-        >
+        <TimelineRail ariaLabel="Recent activities timeline" className="flex flex-col">
           {filtered.flatMap((activity, index) => {
             const currentMonth = monthKey(activity.publishedAt);
             const previousMonth = index === 0 ? null : monthKey(filtered[index - 1].publishedAt);
