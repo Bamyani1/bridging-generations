@@ -22,8 +22,8 @@ const withPortrait: BoardMember = {
 
 const withoutPortrait: BoardMember = {
   ...withPortrait,
-  id: "anwar-mostafa",
-  name: "Anwar Mostafa",
+  id: "alex-morgan",
+  name: "Alex Morgan",
   portrait: { src: null, alt: "" },
 };
 
@@ -44,7 +44,7 @@ describe("BoardMemberCard", () => {
   it("renders an initials Avatar when no portrait is set", () => {
     const { container } = render(<BoardMemberCard member={withoutPortrait} />);
     expect(container.querySelector("img")).toBeNull();
-    expect(screen.getByLabelText("Anwar Mostafa")).toHaveTextContent("AM");
+    expect(screen.getByLabelText("Alex Morgan")).toHaveTextContent("AM");
   });
 
   it("respects headingLevel override", () => {
