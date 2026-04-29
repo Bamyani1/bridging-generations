@@ -8,7 +8,7 @@ export function SmoothScroll() {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) return;
 
-    const lenis = new Lenis();
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
     let raf = requestAnimationFrame(function tick(time) {
       lenis.raf(time);
       raf = requestAnimationFrame(tick);

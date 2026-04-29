@@ -1237,3 +1237,37 @@ p.dropcap::first-letter {
     color: #000 !important;
   }
 }
+
+/* Lenis smooth-scroll global rules. Required so native CSS smooth-scroll and
+   nested scroll containers don't fight the JS interpolation in
+   components/layout/SmoothScroll.tsx. */
+@layer base {
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    /* biome-ignore lint/complexity/noImportantStyles: Lenis must override native scroll-behavior:smooth to prevent stutter; this is the documented Lenis integration pattern */
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe:not([data-lenis-interactive]) {
+    /* biome-ignore lint/complexity/noImportantStyles: Lenis only blocks iframe pointer events DURING active scroll gestures (.lenis-scrolling is on <html> mid-scroll only). Clicks on the Givebutter widget at /donate work between gestures because the class is removed within ~300ms of the last input. */
+    pointer-events: none !important;
+  }
+}
+
+/* Tailwind v4 ships will-change-{auto,scroll,contents,transform} but not
+   will-change-opacity. Used by motion helpers (FadeIn, SectionTransition). */
+@utility will-change-opacity {
+  will-change: opacity;
+}

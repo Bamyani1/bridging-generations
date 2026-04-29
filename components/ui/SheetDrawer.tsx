@@ -100,7 +100,9 @@ export function SheetDrawer({
         "backdrop:bg-ink/40 backdrop:backdrop-blur-sm",
       ].join(" ")}
     >
-      <div className="h-full overflow-y-auto">{children}</div>
+      <div className="h-full overflow-y-auto" data-lenis-prevent>
+        {children}
+      </div>
     </dialog>
   );
 }

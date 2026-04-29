@@ -57,10 +57,12 @@ export function StudentSpotlightScroller({
         // biome-ignore lint/a11y/noNoninteractiveTabindex: scroll region needs keyboard focus so arrow keys scroll horizontally
         tabIndex={0}
         aria-label={ariaLabel}
+        data-lenis-prevent
         // touch-pan-x + overscroll-x-contain: tell the browser this is a horizontal-only
         // scroller. Without it, vertical swipes whose finger lands inside the scroller
         // get routed to the snap-mandatory horizontal scroll and the page scroll halts
         // mid-travel — visible as the "stuck mid page" bug on / and /students.
+        // data-lenis-prevent: opt this nested scroller out of Lenis wheel hijacking.
         className="touch-pan-x overflow-x-auto overscroll-x-contain scroll-smooth focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
       >
         <ul className="flex snap-x snap-mandatory gap-5 px-4 pb-6 sm:px-6 lg:px-[6%]">
