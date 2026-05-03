@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { Button } from "@/components/ui/Button";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { submitContactForm } from "../../../contact/actions";
@@ -61,14 +62,9 @@ export function SubscribeForm() {
           />
         </label>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        aria-busy={pending}
-        className="inline-flex min-h-[44px] items-center justify-center bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50"
-      >
-        <span className="text-body font-bold leading-none">{pending ? "Sending…" : "Send"}</span>
-      </button>
+      <Button type="submit" variant="primary" disabled={pending}>
+        {pending ? "Sending…" : "Send"}
+      </Button>
       {state.status === "error" && !state.fieldErrors?.email ? (
         <p role="alert" className="basis-full text-meta text-accent-2-text">
           {state.message}

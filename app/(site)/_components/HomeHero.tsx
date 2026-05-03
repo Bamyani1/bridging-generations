@@ -44,7 +44,7 @@ export function HomeHero({ stats }: HomeHeroProps) {
       aria-labelledby="home-hero-title"
       className="relative scroll-mt-20 overflow-hidden bg-ground"
     >
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-[6%] py-16 sm:py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:py-24">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-8 px-[6%] py-12 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:py-24">
         {/* LEFT — the image, nothing else */}
         <motion.div
           className="relative aspect-[3/2] w-full overflow-hidden bg-ground-3 lg:order-1 lg:aspect-[4/5]"
@@ -80,7 +80,7 @@ export function HomeHero({ stats }: HomeHeroProps) {
               </span>
             ))}
             <span className="inline-block max-w-full">
-              <span className="block whitespace-nowrap">{closingLine}</span>
+              <span className="block">{closingLine}</span>
               <motion.span
                 aria-hidden="true"
                 className="-mt-1 block"

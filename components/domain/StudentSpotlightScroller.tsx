@@ -79,7 +79,7 @@ export function StudentSpotlightScroller({
       {showHint && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute top-[40%] right-6 -translate-y-1/2 text-display-2 text-accent-2-text opacity-70 transition-opacity duration-500 lg:right-12"
+          className="pointer-events-none absolute top-[40%] right-2 -translate-y-1/2 text-display-2 text-accent-2-text opacity-70 transition-opacity duration-500 sm:right-6 lg:right-12"
         >
           →
         </span>
