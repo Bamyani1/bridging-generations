@@ -22,6 +22,25 @@ test.describe("R4.11 mobile completion gates", () => {
     await expect(hamburger).toBeFocused();
   });
 
+  // Real-touch tap test, runs against the mobile-safari Playwright project so we
+  // catch iPhone Safari <dialog>.showModal() top-layer timing regressions that
+  // synthetic clicks against desktop browsers miss. See playwright.config.ts.
+  test("mobile menu opens on touch (real touch event) @mobile-safari", async ({ page }) => {
+    await page.goto("/");
+    const hamburger = page.getByRole("button", { name: /open menu/i });
+    await hamburger.tap();
+    const dialog = page.getByRole("dialog", { name: /site navigation/i });
+    await expect(dialog).toBeVisible();
+    // Critical: assert COMPUTED visibility, not just the open attribute.
+    // The original iPhone Safari bug had el.open === true while the dialog
+    // was rendered at opacity 0 / display none.
+    const isVisible = await dialog.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return cs.display !== "none" && cs.visibility !== "hidden" && cs.opacity !== "0";
+    });
+    expect(isVisible).toBe(true);
+  });
+
   test("Footer Accordion toggles on / at 402", async ({ page }) => {
     await page.setViewportSize(IPHONE_17_PRO);
     await page.goto("/");

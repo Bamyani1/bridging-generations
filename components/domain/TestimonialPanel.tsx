@@ -77,7 +77,7 @@ export function TestimonialPanel({
           <footer className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex flex-col gap-1">
               <cite className="not-italic text-heading-5 text-white">{speakerName}</cite>
-              <HandDrawnUnderline className="testimonial-speaker-underline mt-1 h-3 w-[140px] text-white" />
+              <HandDrawnUnderline className="testimonial-speaker-underline mt-1 h-3 w-[clamp(96px,40%,140px)] text-white" />
               <span className="text-meta uppercase text-white/75">{role}</span>
             </div>
             <Button variant="primary" href={ctaHref}>

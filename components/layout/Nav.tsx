@@ -99,13 +99,16 @@ export function Nav({ contactEmail }: NavProps = {}) {
               </li>
             )}
           </ul>
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-3 lg:hidden">
             {!isOnDonate && (
-              // Mobile Donate shortcut chip — coral pill so phone donors don't
-              // need to open the drawer to convert. ≥48px tap target.
+              // Mobile Donate shortcut — coral chip (sharp corners per design
+              // system §4 Shape) so phone donors don't need to open the drawer
+              // to convert. Label is 19px bold to satisfy WCAG AA "large text"
+              // for white-on-accent-2 (3.09:1) — text-nav-link (13px semibold)
+              // failed contrast.
               <Link
                 href={donateCta.href}
-                className="inline-flex min-h-[48px] items-center rounded-full bg-accent-2 px-4 text-nav-link font-bold uppercase text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
+                className="inline-flex min-h-[48px] items-center bg-accent-2 px-4 text-[19px] font-bold uppercase leading-none text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
               >
                 {donateCta.label}
               </Link>
@@ -151,7 +154,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
             <Link
               href={donateCta.href}
               onClick={closeDrawer}
-              className="menu-item-in flex min-h-[48px] items-center justify-center rounded-md bg-accent-2 px-4 text-nav-link font-bold uppercase text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
+              className="menu-item-in flex min-h-[48px] items-center justify-center bg-accent-2 px-4 text-[19px] font-bold uppercase leading-none text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
             >
               {donateCta.label}
             </Link>
