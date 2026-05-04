@@ -25,12 +25,12 @@ export function HomeActivities({ activities }: HomeActivitiesProps) {
           </div>
           <Link
             href="/activities"
-            className="group inline-flex items-center gap-1 text-nav-link uppercase text-accent transition hover:text-accent-2-text"
+            className="group inline-flex min-h-[44px] items-center gap-1 py-2 text-nav-link uppercase text-accent transition hover:text-accent-2-text active:text-accent-2-text"
           >
             See all activities
             <span
               aria-hidden="true"
-              className="transition-transform motion-safe:group-hover:translate-x-1"
+              className="transition-transform motion-safe:group-hover:translate-x-1 motion-safe:group-active:translate-x-1"
             >
               →
             </span>

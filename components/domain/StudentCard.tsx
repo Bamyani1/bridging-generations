@@ -39,7 +39,7 @@ export function StudentCard({ student, variant = "default" }: StudentCardProps) 
                 ? "(min-width: 1024px) 360px, (min-width: 640px) 320px, 280px"
                 : "(min-width: 1024px) 25vw, 50vw"
             }
-            className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-within:saturate-[1.04]"
+            className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-within:saturate-[1.04] motion-safe:group-active:saturate-[1.04]"
           />
         ) : (
           <StudentPlaceholder />

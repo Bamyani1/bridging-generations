@@ -125,7 +125,7 @@ export function MotionDemo({
         </svg>
         <div className="min-w-0 flex-1">
           <p className="font-mono text-meta uppercase tracking-[0.1em]">
-            <span className="text-ink-2">{source}</span>
+            <span className="break-all text-ink-2">{source}</span>
             <span aria-hidden="true" className="text-hairline">
               {" "}
               ·{" "}

@@ -70,7 +70,7 @@ export function Footer({
                     href={form990Url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline underline-offset-[3px] transition-colors hover:text-accent-3 hover:no-underline"
+                    className="underline underline-offset-[3px] transition-colors hover:text-accent-3 hover:no-underline active:text-accent-3 active:no-underline"
                   >
                     Form 990
                   </a>
@@ -82,7 +82,7 @@ export function Footer({
                     href={candidProfileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline underline-offset-[3px] transition-colors hover:text-accent-3 hover:no-underline"
+                    className="underline underline-offset-[3px] transition-colors hover:text-accent-3 hover:no-underline active:text-accent-3 active:no-underline"
                   >
                     Candid profile
                   </a>
@@ -99,7 +99,7 @@ export function Footer({
                     href={socialLinks.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3"
+                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     <InstagramMark />
                   </a>
@@ -112,7 +112,7 @@ export function Footer({
                     href={socialLinks.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3"
+                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     <FacebookMark />
                   </a>
@@ -125,7 +125,7 @@ export function Footer({
                     href={socialLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3"
+                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     <LinkedInMark />
                   </a>
@@ -138,7 +138,7 @@ export function Footer({
                     href={socialLinks.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3"
+                    className="inline-flex size-11 items-center justify-center text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     <YouTubeMark />
                   </a>
@@ -159,7 +159,7 @@ export function Footer({
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white transition-colors hover:text-accent-3"
+                    className="text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     {link.label}
                   </Link>
@@ -173,7 +173,7 @@ export function Footer({
                 <li>
                   <a
                     href={`mailto:${contactEmail}`}
-                    className="text-white transition-colors hover:text-accent-3"
+                    className="text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     Email us
                   </a>
@@ -181,7 +181,7 @@ export function Footer({
                 <li>
                   <Link
                     href="/contact"
-                    className="text-white transition-colors hover:text-accent-3"
+                    className="text-white transition-colors hover:text-accent-3 active:text-accent-3"
                   >
                     Contact
                   </Link>
@@ -195,7 +195,10 @@ export function Footer({
           <ul className="mt-4 flex flex-col gap-2 text-body-sm lg:block lg:columns-2 lg:gap-x-12 lg:space-y-2">
             {explore.map((link) => (
               <li key={link.href} className="lg:break-inside-avoid">
-                <Link href={link.href} className="text-white transition-colors hover:text-accent-3">
+                <Link
+                  href={link.href}
+                  className="text-white transition-colors hover:text-accent-3 active:text-accent-3"
+                >
                   {link.label}
                 </Link>
               </li>
@@ -209,13 +212,16 @@ export function Footer({
               <li>
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="text-white transition-colors hover:text-accent-3"
+                  className="text-white transition-colors hover:text-accent-3 active:text-accent-3"
                 >
                   Email us
                 </a>
               </li>
               <li>
-                <Link href="/contact" className="text-white transition-colors hover:text-accent-3">
+                <Link
+                  href="/contact"
+                  className="text-white transition-colors hover:text-accent-3 active:text-accent-3"
+                >
                   Contact
                 </Link>
               </li>
@@ -234,7 +240,10 @@ export function Footer({
           <ul className="flex gap-3">
             {legalLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="transition-colors hover:text-accent-3">
+                <Link
+                  href={link.href}
+                  className="transition-colors hover:text-accent-3 active:text-accent-3"
+                >
                   {link.label}
                 </Link>
               </li>

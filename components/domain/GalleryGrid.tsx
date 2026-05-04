@@ -125,7 +125,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                             }
                             priority={globalIndex === 0}
                             fetchPriority={globalIndex === 0 ? "high" : undefined}
-                            className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-visible:saturate-[1.04]"
+                            className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-visible:saturate-[1.04] motion-safe:group-active:saturate-[1.04]"
                           />
                         </div>
                         <figcaption className="flex flex-col gap-1">

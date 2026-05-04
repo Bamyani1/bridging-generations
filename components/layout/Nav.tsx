@@ -64,7 +64,10 @@ export function Nav({ contactEmail }: NavProps = {}) {
         <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-[6%]">
           <Link
             href="/"
-            className="inline-flex min-h-[44px] items-center text-heading-6 font-bold tracking-[-0.005em] text-white transition-colors hover:text-accent-3"
+            // Brand text shrinks to text-body (16px) on the smallest iPhones
+            // so the row "brand + donate chip + hamburger" doesn't squeeze
+            // "Bridging Generations" onto two lines at 360–375px widths.
+            className="inline-flex min-h-[44px] items-center whitespace-nowrap text-body font-bold tracking-[-0.005em] text-white transition-colors hover:text-accent-3 active:text-accent-3 sm:text-heading-6"
           >
             Bridging Generations
           </Link>
@@ -79,7 +82,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
                     className={
                       active
                         ? "relative text-nav-link font-bold uppercase text-white transition-colors"
-                        : "text-nav-link uppercase text-white transition-colors hover:text-accent-3"
+                        : "text-nav-link uppercase text-white transition-colors hover:text-accent-3 active:text-accent-3"
                     }
                   >
                     {item.label}
@@ -92,7 +95,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
               <li>
                 <Link
                   href={donateCta.href}
-                  className="text-nav-link font-bold uppercase text-white transition-colors hover:text-accent-3"
+                  className="text-nav-link font-bold uppercase text-white transition-colors hover:text-accent-3 active:text-accent-3"
                 >
                   {donateCta.label}
                 </Link>
@@ -108,7 +111,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
               // failed contrast.
               <Link
                 href={donateCta.href}
-                className="inline-flex min-h-[48px] items-center bg-accent-2 px-4 text-[19px] font-bold uppercase leading-none text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
+                className="inline-flex min-h-[48px] items-center bg-accent-2 px-4 text-[19px] font-bold uppercase leading-none text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover active:bg-accent-2-hover"
               >
                 {donateCta.label}
               </Link>
@@ -120,7 +123,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
               aria-controls={open ? "mobile-menu" : undefined}
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((v) => !v)}
-              className="flex size-12 items-center justify-center text-white transition-colors hover:text-accent-3"
+              className="flex size-12 items-center justify-center text-white transition-colors hover:text-accent-3 active:text-accent-3"
             >
               {open ? (
                 <X className="size-5" aria-hidden="true" />
@@ -144,7 +147,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
                 ref={closeButtonRef}
                 aria-label="Close menu"
                 onClick={closeDrawer}
-                className="-mr-2 flex size-12 shrink-0 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
+                className="-mr-2 flex size-12 shrink-0 items-center justify-center text-ink transition-colors hover:text-accent active:text-accent focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>
@@ -154,7 +157,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
             <Link
               href={donateCta.href}
               onClick={closeDrawer}
-              className="menu-item-in flex min-h-[48px] items-center justify-center bg-accent-2 px-4 text-[19px] font-bold uppercase leading-none text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover"
+              className="menu-item-in flex min-h-[48px] items-center justify-center bg-accent-2 px-4 text-[19px] font-bold uppercase leading-none text-white shadow-[var(--shadow-cta)] transition-colors hover:bg-accent-2-hover active:bg-accent-2-hover"
             >
               {donateCta.label}
             </Link>
@@ -178,8 +181,8 @@ export function Nav({ contactEmail }: NavProps = {}) {
                           aria-current={active ? "page" : undefined}
                           className={
                             active
-                              ? "flex min-h-[44px] items-center text-heading-5 font-bold text-accent transition-colors"
-                              : "flex min-h-[44px] items-center text-heading-5 text-ink transition-colors"
+                              ? "-mx-3 flex min-h-[44px] items-center px-3 text-heading-5 font-bold text-accent transition-colors active:bg-ground-3"
+                              : "-mx-3 flex min-h-[44px] items-center px-3 text-heading-5 text-ink transition-colors active:bg-ground-3"
                           }
                         >
                           {item.label}
@@ -195,7 +198,7 @@ export function Nav({ contactEmail }: NavProps = {}) {
                 Questions?{" "}
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="text-accent underline underline-offset-[3px] transition-colors hover:no-underline"
+                  className="text-accent underline underline-offset-[3px] transition-colors hover:no-underline active:no-underline"
                 >
                   {contactEmail}
                 </a>
