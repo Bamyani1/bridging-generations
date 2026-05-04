@@ -48,7 +48,7 @@ export function GivebutterEmbed({ accountId, campaignId }: GivebutterEmbedProps)
   )}&p=other`;
 
   return (
-    <div className="relative min-h-[560px] bg-ground-2">
+    <div className="relative min-h-[480px] bg-ground-2 sm:min-h-[560px]">
       {!loaded ? (
         <div
           aria-hidden="true"

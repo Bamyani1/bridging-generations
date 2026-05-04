@@ -125,7 +125,7 @@ export function GalleryLightbox({
           type="button"
           onClick={onClose}
           aria-label="Close lightbox"
-          className="absolute top-4 right-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ground/90 text-ink transition-colors hover:bg-ground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="absolute top-4 right-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ground/90 text-ink transition-colors hover:bg-ground active:bg-ground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           <span aria-hidden="true" className="text-heading-5">
             ×
@@ -167,7 +167,7 @@ export function GalleryLightbox({
               type="button"
               onClick={handlePrev}
               aria-label="Previous photograph"
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ground/90 text-ink transition-colors hover:bg-ground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ground/90 text-ink transition-colors hover:bg-ground active:bg-ground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <span aria-hidden="true" className="text-heading-5">
                 ←
@@ -180,7 +180,7 @@ export function GalleryLightbox({
               type="button"
               onClick={handleNext}
               aria-label="Next photograph"
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ground/90 text-ink transition-colors hover:bg-ground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ground/90 text-ink transition-colors hover:bg-ground active:bg-ground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <span aria-hidden="true" className="text-heading-5">
                 →

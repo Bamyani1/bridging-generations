@@ -26,12 +26,14 @@ describe("SheetDrawer", () => {
     expect(dialog?.hasAttribute("open")).toBe(false);
   });
 
-  it("shows content when open", () => {
+  it("shows content when open", async () => {
     render(
       <SheetDrawer open={true} onClose={() => {}} ariaLabel="Test drawer">
         <p>drawer body</p>
       </SheetDrawer>,
     );
+    // showModal() runs in a microtask (iPhone Safari top-layer fix); await it.
+    await Promise.resolve();
     const dialog = document.querySelector("dialog");
     expect(dialog?.hasAttribute("open")).toBe(true);
     expect(screen.getByText("drawer body")).toBeInTheDocument();

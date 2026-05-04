@@ -45,6 +45,7 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  transpilePackages: ["motion"],
   async headers() {
     return [
       {

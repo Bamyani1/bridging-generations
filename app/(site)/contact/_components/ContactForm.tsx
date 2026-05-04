@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { Button } from "@/components/ui/Button";
 import { Field } from "@/components/ui/Field";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -10,14 +11,9 @@ import { AudienceTriage } from "./AudienceTriage";
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      aria-busy={pending}
-      className="inline-flex min-h-[48px] items-center justify-center gap-2 bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] transition hover:bg-accent-2-hover focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50"
-    >
-      <span className="text-[19px] font-bold leading-none">{pending ? "Sending…" : "Send"}</span>
-    </button>
+    <Button type="submit" variant="primary" disabled={pending} className="min-h-[48px]">
+      {pending ? "Sending…" : "Send"}
+    </Button>
   );
 }
 

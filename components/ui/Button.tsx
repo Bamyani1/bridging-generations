@@ -32,8 +32,8 @@ const variants: Record<Variant, string> = {
   primary:
     "min-h-[44px] justify-center gap-2 bg-accent-2 px-6 py-3 text-white shadow-[var(--shadow-cta)] hover:bg-accent-2-hover motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98]",
   secondary:
-    "min-h-[44px] justify-center gap-2 border border-accent bg-transparent px-6 py-3 text-accent hover:bg-accent hover:text-white",
-  tertiary: "gap-1 text-accent hover:text-accent-2-text",
+    "min-h-[44px] justify-center gap-2 border border-accent bg-transparent px-6 py-3 text-accent hover:bg-accent hover:text-white active:bg-accent active:text-white",
+  tertiary: "gap-1 text-accent hover:text-accent-2-text active:text-accent-2-text",
 };
 
 function Spinner() {
@@ -64,7 +64,7 @@ function ButtonInner({
       {variant === "tertiary" && !loading && (
         <span
           aria-hidden="true"
-          className="transition-transform motion-safe:group-hover:translate-x-1"
+          className="transition-transform motion-safe:group-hover:translate-x-1 motion-safe:group-active:translate-x-1"
         >
           →
         </span>

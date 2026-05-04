@@ -12,7 +12,7 @@ const colSpanClass: Record<Span, string> = {
   8: "col-span-12 md:col-span-8",
   6: "col-span-12 md:col-span-6",
   4: "col-span-12 md:col-span-4",
-  3: "col-span-6 md:col-span-3",
+  3: "col-span-12 sm:col-span-6 md:col-span-3",
 };
 
 const rowSpanClass: Record<RowSpan, string> = {

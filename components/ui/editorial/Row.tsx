@@ -71,7 +71,7 @@ function RowImage({ src, alt, aspect = "3/2", sizes, priority }: RowImageProps) 
         priority={priority}
         fetchPriority={priority ? "high" : undefined}
         sizes={sizes ?? "(min-width: 640px) 25vw, 100vw"}
-        className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-within:saturate-[1.04]"
+        className="object-cover transition-[filter] duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:saturate-[1.04] motion-safe:group-focus-within:saturate-[1.04] motion-safe:group-active:saturate-[1.04]"
       />
     </div>
   );
@@ -121,9 +121,9 @@ function RowHeadline({
     <Heading className="text-balance text-heading-4 text-ink">
       <Link
         href={href}
-        className={`group/link inline-block transition-colors duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-accent-2-text focus-visible:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent ${linkExtension}`.trim()}
+        className={`group/link inline-block transition-colors duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-accent-2-text focus-visible:text-accent-2-text active:text-accent-2-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent ${linkExtension}`.trim()}
       >
-        <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/link:bg-[length:100%_1px] group-focus-visible/link:bg-[length:100%_1px]">
+        <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/link:bg-[length:100%_1px] group-focus-visible/link:bg-[length:100%_1px] group-active/link:bg-[length:100%_1px]">
           {children}
         </span>
       </Link>

@@ -13,7 +13,7 @@ type MuseumWallProps = {
 // `break-inside-avoid` so a tier heading and its entries stay together.
 function MuseumWallRoot({ children, className, ariaLabel }: MuseumWallProps) {
   const base =
-    "columns-1 gap-x-12 md:columns-2 lg:columns-3 [&>*]:break-inside-avoid [&>*]:mb-8 lg:[&>*]:mb-10";
+    "columns-1 gap-x-0 md:columns-2 md:gap-x-12 lg:columns-3 [&>*]:break-inside-avoid [&>*]:mb-8 lg:[&>*]:mb-10";
   const merged = `${base} ${className ?? ""}`.trim();
   return (
     <section className={merged} aria-label={ariaLabel}>
